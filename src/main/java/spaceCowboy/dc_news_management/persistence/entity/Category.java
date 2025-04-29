@@ -1,15 +1,13 @@
 package spaceCowboy.dc_news_management.persistence.entity;
 
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
-import jakarta.persistence.JoinColumn;
-import jakarta.persistence.JoinTable;
 import jakarta.persistence.ManyToMany;
 import jakarta.persistence.OneToMany;
-import jakarta.persistence.OneToOne;
 import jakarta.persistence.Table;
 import jakarta.persistence.UniqueConstraint;
 import lombok.AllArgsConstructor;
@@ -18,7 +16,6 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import java.math.BigInteger;
-import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Set;
 
@@ -31,7 +28,7 @@ import java.util.Set;
 @NoArgsConstructor
 @Getter
 @Setter
-public class Category {
+public class Category extends BaseEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private BigInteger id;
@@ -41,17 +38,11 @@ public class Category {
     @Column(name = "category_code")
     private String categoryCode;
 
-    @Column(name = "created_at")
-    private LocalDateTime createdAt;
-
-    @Column(name = "modified_at")
-    private LocalDateTime modifiedAt;
-
-    @Column(name = "deleted_at")
-    private LocalDateTime deletedAt;
-
     @ManyToMany(mappedBy = "categoryList")
     private Set<Image> imageList;
+
+    @OneToMany(mappedBy = "image", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<ImageCategory> imageCategoryList;
 
     @OneToMany(mappedBy = "tag_id")
     private List<Tag> tagList;

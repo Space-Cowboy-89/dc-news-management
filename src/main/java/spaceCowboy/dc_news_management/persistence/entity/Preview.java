@@ -12,6 +12,7 @@ import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 import jakarta.persistence.UniqueConstraint;
+import jakarta.validation.constraints.Size;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -24,30 +25,19 @@ import java.util.List;
 @Entity
 @Table(name = "preview",
         uniqueConstraints = {
-        @UniqueConstraint(columnNames = "previews_code")})
+        @UniqueConstraint(columnNames = "preview_code")})
 @AllArgsConstructor
 @NoArgsConstructor
 @Getter
 @Setter
-public class Preview {
+public class Preview extends VtAndDtEntity{
         @Id
         @GeneratedValue(strategy = GenerationType.AUTO)
         private BigInteger id;
 
-        private String title;
-
-        private String summary;
-
-        private LocalDateTime date;
-
-        @Column(name = "created_at")
-        private LocalDateTime createdAt;
-
-        @Column(name = "modified_at")
-        private LocalDateTime modifiedAt;
-
-        @Column(name = "deleted_at")
-        private LocalDateTime deletedAt;
+        @Column(name = "preview_code")
+        @Size(min=20,max=20)
+        private String previewCode;
 
         @ManyToOne(fetch = FetchType.EAGER)
         @JoinColumn(name = "category_id")

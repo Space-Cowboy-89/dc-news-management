@@ -9,8 +9,12 @@ import jakarta.persistence.Id;
 import jakarta.persistence.JoinTable;
 import jakarta.persistence.ManyToMany;
 import jakarta.persistence.ManyToOne;
+import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 import jakarta.persistence.UniqueConstraint;
+import jakarta.validation.constraints.Max;
+import jakarta.validation.constraints.Min;
+import jakarta.validation.constraints.Size;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -19,6 +23,7 @@ import org.apache.catalina.User;
 
 import java.math.BigInteger;
 import java.time.LocalDateTime;
+import java.util.List;
 
 @Entity
 @Table(name = "review",
@@ -34,11 +39,18 @@ public class Review extends VtAndDtEntity{
     private BigInteger id;
 
     @Column(name = "review_code")
+    @Size(min = 20, max=20)
     private String reviewCode;
+
+    @Min(0)
+    @Max(10)
+    private double vote;
+
 
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinTable(name = "user_id")
     private User user;
+
 
     //TODO aggiustare
     @ManyToOne(fetch = FetchType.EAGER)
@@ -53,6 +65,9 @@ public class Review extends VtAndDtEntity{
     @JoinTable(name = "comment_id")
     private Comment comment;
 
-    @ManyToMany(mappedBy = )
-    tag
+    @ManyToMany(mappedBy = "reviewList")
+    private List<Tag> tagList;
+
+    @OneToMany(mappedBy = "review")
+    private List<ReviewText> reviewTextList;
 }

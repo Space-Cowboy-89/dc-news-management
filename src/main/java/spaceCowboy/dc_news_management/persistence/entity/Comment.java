@@ -7,6 +7,9 @@ import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Lob;
+import jakarta.persistence.UniqueConstraint;
+import jakarta.validation.constraints.Min;
+import jakarta.validation.constraints.Size;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -16,12 +19,13 @@ import java.math.BigInteger;
 import java.time.LocalDateTime;
 
 @Entity
-@Table(name = "comment")
+@Table(name = "comment",
+        uniqueConstraints = {@UniqueConstraint(columnNames = "comment_code")})
 @AllArgsConstructor
 @NoArgsConstructor
 @Getter
 @Setter
-public class Comment {
+public class Comment extends BaseEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private BigInteger id;
@@ -29,20 +33,18 @@ public class Comment {
     @Lob
     private String text;
 
-    @Column (name = "positive_vote")
+    @Column(name = "positive_vote")
+    @Min(0)
     private BigInteger positiveVote;
 
-    @Column (name = "negativeVote")
+
+    @Column(name = "negativeVote")
+    @Min(0)
     private BigInteger negativeVote;
 
-    @Column (name = "created_at")
-    private LocalDateTime createdAt;
-
-    @Column( name = "modified_at")
-    private LocalDateTime modifiedAt;
-
-    @Column( name = "deleted_at")
-    private LocalDateTime deletedAt;
+    @Column(name = "comment_code")
+    @Size(min = 20,max = 20)
+    private String commentCode;
 
     //TODO fare le diverse relazioni
 }

@@ -13,6 +13,7 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Lob;
 import jakarta.persistence.Column;
 import jakarta.persistence.UniqueConstraint;
+import jakarta.validation.constraints.Size;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -31,7 +32,7 @@ import java.util.List;
 @NoArgsConstructor
 @Getter
 @Setter
-public class Contest {
+public class Contest extends BaseEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private BigInteger id;
@@ -39,19 +40,11 @@ public class Contest {
     private String name;
 
     @Lob
-    private String text;
+    private String desc;
 
     @Column(name = "contest_code")
+    @Size(min=20,max=20)
     private String contestCode;
-
-    @Column(name = "created_at")
-    private LocalDateTime createdAt;
-
-    @Column(name = "modified_at")
-    private LocalDateTime modifiedAt;
-
-    @Column(name = "deleted_at")
-    private LocalDateTime deletedAt;
 
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "image_id")
@@ -59,6 +52,4 @@ public class Contest {
 
     @ManyToMany(mappedBy = "contestList")
     private List<PrizeArticle> prizeArticleList;
-
-
 }

@@ -8,6 +8,7 @@ import jakarta.persistence.Id;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 import jakarta.persistence.UniqueConstraint;
+import jakarta.validation.constraints.Size;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -27,7 +28,7 @@ import java.util.List;
 @NoArgsConstructor
 @Getter
 @Setter
-public class Employee {
+public class Employee extends BaseEntity{
 
     // --------   Fields   --------
 
@@ -36,16 +37,8 @@ public class Employee {
     private BigInteger id;
 
     @Column(name = "employee_code")
+    @Size(min = 20, max=20)
     private String employeeCode;
-
-    @Column(name = "created_at",nullable = false)
-    private LocalDateTime createdAt;
-
-    @Column(name = "modified_at")
-    private LocalDateTime modifiedAt;
-
-    @Column(name = "deleted_at")
-    private LocalDateTime deletedAt;
 
 
     // --------   Relations   --------

@@ -15,6 +15,8 @@ import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 import jakarta.persistence.UniqueConstraint;
+import jakarta.validation.constraints.Min;
+import jakarta.validation.constraints.Size;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -32,35 +34,14 @@ import java.util.List;
 @NoArgsConstructor
 @Getter
 @Setter
-public class News {
+public class News extends  VtAndDtEntity{
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private BigInteger id;
 
     @Column(name = "news_code")
+    @Size(min = 20, max = 20)
     private String newsCode;
-
-    private LocalDateTime date;
-
-    @Column(name = "positive_vote")
-    private BigInteger positiveVote;
-
-    @Column(name = "negative_vote")
-    private BigInteger negativeVote;
-
-    @Column(name = "created_at")
-    private LocalDateTime createdAt;
-
-    @Column(name = "modified_at")
-    private LocalDateTime modifiedAt;
-
-    @Column(name = "deleted_at")
-    private LocalDateTime deletedAt;
-
-    private String title;
-
-    @Lob
-    private String text;
 
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "employee_id")

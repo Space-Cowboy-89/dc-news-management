@@ -1,14 +1,13 @@
 package spaceCowboy.dc_news_management.persistence.entity;
 
 
-import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
-import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
+import jakarta.persistence.MapsId;
 import jakarta.persistence.Table;
 import jakarta.persistence.UniqueConstraint;
 import lombok.AllArgsConstructor;
@@ -19,27 +18,23 @@ import lombok.Setter;
 import java.math.BigInteger;
 
 @Entity
-@Table(name = "preview_text",
-        uniqueConstraints =
-                {@UniqueConstraint(columnNames = "preview_text_code"),
-                        @UniqueConstraint(columnNames = "preview_text_code")})
+@Table(name = "image_category",
+uniqueConstraints = {@UniqueConstraint(columnNames = "image_id"),
+        @UniqueConstraint(columnNames = "category_id")})
 @AllArgsConstructor
 @NoArgsConstructor
 @Getter
 @Setter
-public class PreviewText extends TextEntity {
+public class ImageCategory extends BaseEntity{
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private BigInteger id;
 
-    @Column(name = "preview_text_code")
-    private String previewTextCode;
-
     @ManyToOne(fetch = FetchType.EAGER)
-    @JoinColumn(name = "preview_id")
-    private Preview preview;
-
-    @ManyToOne(fetch = FetchType.EAGER)
-    @JoinColumn(name = "image_id")
+    @MapsId("image_id")
     private Image image;
+
+    @MapsId("category_id")
+    @ManyToOne(fetch = FetchType.EAGER)
+    private Category category;
 }

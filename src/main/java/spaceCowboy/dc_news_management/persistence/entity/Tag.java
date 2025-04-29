@@ -11,8 +11,10 @@ import jakarta.persistence.JoinColumn;
 import jakarta.persistence.JoinTable;
 import jakarta.persistence.ManyToMany;
 import jakarta.persistence.ManyToOne;
+import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 import jakarta.persistence.UniqueConstraint;
+import jakarta.validation.constraints.Size;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -20,6 +22,7 @@ import lombok.Setter;
 
 import java.math.BigInteger;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
 
 @Entity
@@ -36,7 +39,10 @@ public class Tag {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private BigInteger id;
 
+    @Size(min = 4, max = 25)
     private String name;
+
+    @Size(min = 20, max = 20)
     @Column(name = "tag_code")
     private String tagCode;
 
@@ -57,7 +63,6 @@ public class Tag {
     @ManyToMany(mappedBy = "news_id")
     private List<News> newsList;
 
-
     @ManyToMany
     @JoinTable(name = "preview_tag",
             joinColumns = @JoinColumn(name = "tag_id"),
@@ -69,4 +74,7 @@ public class Tag {
             joinColumns = @JoinColumn(name = "tag_id"),
             inverseJoinColumns = @JoinColumn(name = "review_id"))
     private List<Review> reviewList;
+
+    @OneToMany(mappedBy = "news")
+    private List<NewsTag> newsTagList = new ArrayList<>();
 }

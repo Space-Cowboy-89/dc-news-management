@@ -3,13 +3,14 @@ package spaceCowboy.dc_news_management.persistence.entity;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
+import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
-import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
+import jakarta.persistence.UniqueConstraint;
 import jakarta.validation.constraints.Size;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -17,32 +18,30 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import java.math.BigInteger;
-import java.util.ArrayList;
-import java.util.List;
 
 @Entity
-@Table(name = "news_text")
+@Table( name = "review_text",
+        uniqueConstraints = {@UniqueConstraint(columnNames = "review_text_code")}
+)
 @AllArgsConstructor
 @NoArgsConstructor
 @Getter
 @Setter
-public class NewsText extends TextEntity {
+public class ReviewText extends TextEntity{
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue(strategy = GenerationType.AUTO)
     private BigInteger id;
 
-    @Column(name = "news_text_code")
-    @Size(min=20, max=30)
-    private String newsTextCode;
+    @Column(name = "review_text_code")
+    @Size(min = 20, max= 20)
+    private String reviewTextCode;
 
-    @ManyToOne
-    @JoinColumn(name = "news_id")
-    private News news;
+    @ManyToOne(fetch = FetchType.EAGER)
+    @JoinColumn (name = "review_id")
+    private Review review;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "image_id")
     private Image image;
 
-    @OneToMany(mappedBy = "tag")
-    private List<NewsTag> newsTagList = new ArrayList<>();
 }

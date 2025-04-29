@@ -12,6 +12,7 @@ import jakarta.persistence.Lob;
 import jakarta.persistence.ManyToMany;
 import jakarta.persistence.Table;
 import jakarta.persistence.UniqueConstraint;
+import jakarta.validation.constraints.Size;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -23,7 +24,7 @@ import java.util.List;
 @Entity
 @Table(name = "prize_article",
         uniqueConstraints = {@UniqueConstraint(columnNames = "name"),
-                @UniqueConstraint(columnNames = "prize_code")})
+                @UniqueConstraint(columnNames = "prize_article_code")})
 @AllArgsConstructor
 @NoArgsConstructor
 @Getter
@@ -33,13 +34,15 @@ public class PrizeArticle extends BaseEntity {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private BigInteger id;
 
+    @Size(min = 30, max=30)
     private String name;
 
     @Lob
     private String desc;
 
-    @Column(name = "prize_code")
-    private String prizeCode;
+    @Column(name = "prize_article_code")
+    @Size(min = 20, max=20)
+    private String prizeArticleCode;
 
 
     @ManyToMany()
