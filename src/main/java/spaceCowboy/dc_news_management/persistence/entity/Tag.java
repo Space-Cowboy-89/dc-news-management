@@ -77,4 +77,13 @@ public class Tag {
 
     @OneToMany(mappedBy = "news")
     private List<NewsTag> newsTagList = new ArrayList<>();
+
+    @OneToMany(mappedBy = "tag")
+    private List<PreviewTag> previewTagList;
+
+    @OneToMany(mappedBy = "tag")
+    private List<ReviewTag> reviewTagList;
+
+    @OneToMany(mappedBy = "tag")
+    private List<UserTag> userTagList;
 }

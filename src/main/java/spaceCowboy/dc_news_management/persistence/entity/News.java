@@ -9,13 +9,12 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.JoinTable;
-import jakarta.persistence.Lob;
 import jakarta.persistence.ManyToMany;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 import jakarta.persistence.UniqueConstraint;
-import jakarta.validation.constraints.Min;
+import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -23,7 +22,6 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import java.math.BigInteger;
-import java.time.LocalDateTime;
 import java.util.List;
 
 @Entity
@@ -39,29 +37,33 @@ public class News extends  VtAndDtEntity{
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private BigInteger id;
 
-    @Column(name = "news_code")
+    @Column(name = "news_code", nullable = false)
+    @NotNull
     @Size(min = 20, max = 20)
     private String newsCode;
 
+    //private GeneralEnums.FPartNews type;
+
     @ManyToOne(fetch = FetchType.EAGER)
-    @JoinColumn(name = "employee_id")
+    @JoinColumn(name = "employee_id",nullable = false)
+    @NotNull
     private Employee employee;
 
     @ManyToOne(fetch = FetchType.EAGER)
-    @JoinColumn(name = "category_id")
+    @JoinColumn(name = "category_id",nullable = false)
+    @NotNull
     private Category category;
 
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "image_id")
     private Image image;
 
-
-    @ManyToMany
-    @JoinTable(name = "news_tag",
-            joinColumns = @JoinColumn(name = "news_id"),
-            inverseJoinColumns = @JoinColumn(name = "tag_id"))
-    private List<Tag> tagList;
-
     @OneToMany(mappedBy = "news")
     private List<NewsText> newsTextList;
+
+    @OneToMany(mappedBy = "news")
+    private List<Comment> commentList;
+
+    @OneToMany(mappedBy = "news")
+    private List<NewsTag> newsTagList;
 }

@@ -8,6 +8,7 @@ import jakarta.persistence.Id;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 import jakarta.persistence.UniqueConstraint;
+import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -36,8 +37,9 @@ public class Employee extends BaseEntity{
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private BigInteger id;
 
-    @Column(name = "employee_code")
+    @Column(name = "employee_code", nullable = false)
     @Size(min = 20, max=20)
+    @NotNull
     private String employeeCode;
 
 
@@ -45,4 +47,10 @@ public class Employee extends BaseEntity{
 
     @OneToMany(mappedBy = "employee")
     private List<Preview> previewList;
+
+    @OneToMany(mappedBy = "employee")
+    private List<News> newsList;
+
+    @OneToMany(mappedBy = "employee")
+    private List<Review> reviewList;
 }

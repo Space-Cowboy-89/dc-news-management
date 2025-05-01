@@ -10,8 +10,10 @@ import jakarta.persistence.JoinColumn;
 import jakarta.persistence.JoinTable;
 import jakarta.persistence.Lob;
 import jakarta.persistence.ManyToMany;
+import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 import jakarta.persistence.UniqueConstraint;
+import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -34,14 +36,19 @@ public class PrizeArticle extends BaseEntity {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private BigInteger id;
 
-    @Size(min = 30, max=30)
+    @Column(nullable = false)
+    @NotNull
+    @Size(min = 30, max = 30)
     private String name;
 
+    @Column(nullable = false)
+    @NotNull
     @Lob
     private String desc;
 
-    @Column(name = "prize_article_code")
-    @Size(min = 20, max=20)
+    @Column(name = "prize_article_code", nullable = false)
+    @NotNull
+    @Size(min = 20, max = 20)
     private String prizeArticleCode;
 
 
@@ -51,10 +58,9 @@ public class PrizeArticle extends BaseEntity {
             inverseJoinColumns = @JoinColumn(name = "contest_id"))
     private List<Contest> contestList;
 
-    @ManyToMany
-    @JoinTable(name = "prize_article_image",
-            joinColumns = @JoinColumn(name = "prize_id"),
-            inverseJoinColumns = @JoinColumn(name = "image_id"))
-    private List<Image> imageList;
+    @OneToMany(mappedBy = "prizeArticle")
+    private List<PrizeArticleContest> prizeArticleContestList;
+
+
 
 }

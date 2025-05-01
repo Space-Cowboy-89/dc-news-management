@@ -7,8 +7,8 @@ import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
-import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
+import jakarta.persistence.MapsId;
 import jakarta.persistence.Table;
 import jakarta.persistence.UniqueConstraint;
 import jakarta.validation.constraints.NotNull;
@@ -21,30 +21,27 @@ import lombok.Setter;
 import java.math.BigInteger;
 
 @Entity
-@Table(name = "preview_text",
-        uniqueConstraints =
-                {@UniqueConstraint(columnNames = "preview_text_code"),
-                        @UniqueConstraint(columnNames = "preview_text_code")})
+@Table(name = "prize_article_contest",
+        uniqueConstraints = {@UniqueConstraint(columnNames = "prize_article_contest_code"),})
 @AllArgsConstructor
 @NoArgsConstructor
 @Getter
 @Setter
-public class PreviewText extends TextEntity {
+public class PrizeArticleContest extends BaseEntity{
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private BigInteger id;
 
-    @Size(min = 20, max = 20)
-    @Column(name = "preview_text_code",nullable = false)
+    @Column(name = "prize_article_contest_code", nullable = false)
     @NotNull
-    private String previewTextCode;
+    @Size(min = 20, max =20)
+    private String prizeArticleContestCode;
 
-    @ManyToOne(fetch = FetchType.EAGER)
-    @JoinColumn(name = "preview_id", nullable = false)
-    @NotNull
-    private Preview preview;
+    @ManyToOne(fetch= FetchType.EAGER)
+    @MapsId("contest_id")
+    private Contest contest;
 
-    @ManyToOne(fetch = FetchType.EAGER)
-    @JoinColumn(name = "image_id")
-    private Image image;
+    @ManyToOne(fetch= FetchType.EAGER)
+    @MapsId("prize_article_id")
+    private PrizeArticle prizeArticle;
 }

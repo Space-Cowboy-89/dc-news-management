@@ -13,6 +13,7 @@ import jakarta.persistence.ManyToMany;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 import jakarta.persistence.UniqueConstraint;
+import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -28,7 +29,8 @@ import java.util.Set;
 @Entity
 @Table(name = "image",
         uniqueConstraints = {
-                @UniqueConstraint(columnNames = "image_code")
+                @UniqueConstraint(columnNames = "image_code"),
+                @UniqueConstraint(columnNames = "name")
         })
 @AllArgsConstructor
 @NoArgsConstructor
@@ -39,15 +41,25 @@ public class Image extends BaseEntity{
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private BigInteger id;
 
+    @Column(nullable = false)
+    @NotNull
+    private String name;
+
     @Lob
+    @Column(nullable = false)
+    @NotNull
     private byte[] content;
 
     @Lob
     private String desc;
 
-    @Column(name = "image_code")
+    @Column(name = "image_code", nullable = false)
+    @NotNull
     @Size(min = 30, max=30)
     private String imageCode;
+
+    @OneToMany(mappedBy = "image")
+    private List<News> newsList;
 
     @ManyToMany
     @JoinTable(name = "image_category",
@@ -69,4 +81,7 @@ public class Image extends BaseEntity{
 
     @OneToMany(mappedBy = "image")
     private List<ReviewText> reviewTextList;
+
+    @OneToMany(mappedBy = "image")
+    private List<Review> reviewList;
 }

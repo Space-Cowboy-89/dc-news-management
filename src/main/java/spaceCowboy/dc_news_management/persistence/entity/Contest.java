@@ -6,6 +6,7 @@ import jakarta.persistence.FetchType;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToMany;
 import jakarta.persistence.ManyToOne;
+import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 import jakarta.persistence.Id;
 import jakarta.persistence.GeneratedValue;
@@ -13,6 +14,7 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Lob;
 import jakarta.persistence.Column;
 import jakarta.persistence.UniqueConstraint;
+import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -37,12 +39,17 @@ public class Contest extends BaseEntity {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private BigInteger id;
 
+    @Column(nullable = false)
+    @NotNull
     private String name;
 
     @Lob
+    @Column(nullable = false)
+    @NotNull
     private String desc;
 
-    @Column(name = "contest_code")
+    @Column(name = "contest_code",nullable = false)
+    @NotNull
     @Size(min=20,max=20)
     private String contestCode;
 
@@ -50,6 +57,6 @@ public class Contest extends BaseEntity {
     @JoinColumn(name = "image_id")
     private Image image;
 
-    @ManyToMany(mappedBy = "contestList")
-    private List<PrizeArticle> prizeArticleList;
+    @OneToMany(mappedBy = "contest")
+    private List<PrizeArticleContest> prizeArticleContestList;
 }

@@ -11,6 +11,7 @@ import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
 import jakarta.persistence.UniqueConstraint;
+import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -32,9 +33,12 @@ public class ReviewText extends TextEntity{
     @GeneratedValue(strategy = GenerationType.AUTO)
     private BigInteger id;
 
-    @Column(name = "review_text_code")
+    @Column(name = "review_text_code", nullable = false)
+    @NotNull
     @Size(min = 20, max= 20)
     private String reviewTextCode;
+
+    //TODO ripartire da qui
 
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn (name = "review_id")

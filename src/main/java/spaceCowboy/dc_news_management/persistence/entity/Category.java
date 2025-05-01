@@ -6,10 +6,13 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToMany;
+import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 import jakarta.persistence.UniqueConstraint;
+import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -35,7 +38,8 @@ public class Category extends BaseEntity {
 
     private String name;
 
-    @Column(name = "category_code")
+    @Column(name = "category_code", nullable = false)
+    @NotNull
     private String categoryCode;
 
     @ManyToMany(mappedBy = "categoryList")
@@ -50,9 +54,10 @@ public class Category extends BaseEntity {
     @OneToMany(mappedBy = "category")
     private List<Preview> previewList;
 
-    //@ManyToMany
-    //@JoinTable(name = "image_category",
-    //      joinColumns = @JoinColumn(name = "image_id"),
-    //      inverseJoinColumns = @JoinColumn(name = "category_id"))
+    @ManyToOne
+    @JoinColumn(name = "category_id")
+    private Category category;
 
+    @OneToMany(mappedBy = "category")
+    private List<News> newsList;
 }

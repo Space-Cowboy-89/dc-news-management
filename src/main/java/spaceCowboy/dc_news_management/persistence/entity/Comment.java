@@ -1,6 +1,9 @@
 package spaceCowboy.dc_news_management.persistence.entity;
 
 import jakarta.persistence.Entity;
+import jakarta.persistence.FetchType;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
 import jakarta.persistence.Id;
 import jakarta.persistence.GeneratedValue;
@@ -9,6 +12,7 @@ import jakarta.persistence.Column;
 import jakarta.persistence.Lob;
 import jakarta.persistence.UniqueConstraint;
 import jakarta.validation.constraints.Min;
+import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -30,21 +34,50 @@ public class Comment extends BaseEntity {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private BigInteger id;
 
+    @Column(nullable = false)
+    @NotNull
     @Lob
     private String text;
 
-    @Column(name = "positive_vote")
+    @Column(name = "positive_vote", nullable = false)
+    @NotNull
     @Min(0)
-    private BigInteger positiveVote;
+    private BigInteger positiveVote = BigInteger.ZERO;
 
+    @Column(nullable = false)
+    @NotNull
+    private LocalDateTime date = LocalDateTime.now();
 
-    @Column(name = "negativeVote")
+    @Column(name = "negativeVote", nullable = false)
+    @NotNull
     @Min(0)
-    private BigInteger negativeVote;
+    private BigInteger negativeVote = BigInteger.ZERO;
 
-    @Column(name = "comment_code")
-    @Size(min = 20,max = 20)
+    @Column(name = "comment_code", nullable = false)
+    @NotNull
+    @Size(min = 20, max = 20)
     private String commentCode;
 
     //TODO fare le diverse relazioni
+
+    @ManyToOne
+    @JoinColumn(name = "comment_id")
+    private Comment comment;
+
+    @ManyToOne(fetch = FetchType.EAGER)
+    @JoinColumn(name = "news_id")
+    private News news;
+
+    @ManyToOne(fetch = FetchType.EAGER)
+    @JoinColumn(name = "user_id", nullable = false)
+    @NotNull
+    private User user;
+
+    @ManyToOne(fetch = FetchType.EAGER)
+    @JoinColumn(name = "review_id")
+    private Review review;
+
+    @ManyToOne(fetch = FetchType.EAGER)
+    @JoinColumn(name = "preview_id")
+    private Preview preview;
 }

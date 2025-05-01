@@ -4,6 +4,7 @@ import jakarta.persistence.Column;
 import jakarta.persistence.Lob;
 import jakarta.persistence.MappedSuperclass;
 import jakarta.validation.constraints.Min;
+import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -20,19 +21,27 @@ import java.time.LocalDateTime;
 @NoArgsConstructor
 public class VtAndDtEntity extends BaseEntity {
 
-    @Size(min=15,max=30)
+    @Size(min = 30, max = 30)
+    @Column(nullable = false)
+    @NotNull
     private String title;
 
     @Lob
+    @Column(nullable = false)
+    @NotNull
     private String summary;
 
+    @Column(nullable = false)
+    @NotNull
     private LocalDateTime date = LocalDateTime.now();
 
-    @Column(name = "positive_vote")
+    @Column(name = "positive_vote", nullable = false)
+    @NotNull
     @Min(0)
     private BigInteger positiveVote = BigInteger.ZERO;
 
+    @Column(name = "negative_vote",nullable = false)
+    @NotNull
     @Min(0)
-    @Column(name = "negative_vote")
-    private BigInteger negativeVote= BigInteger.ZERO;
+    private BigInteger negativeVote = BigInteger.ZERO;
 }
