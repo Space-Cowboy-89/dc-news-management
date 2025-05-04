@@ -18,8 +18,6 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-import java.math.BigInteger;
-
 @Entity
 @Table(name = "preview_text",
         uniqueConstraints =
@@ -32,7 +30,7 @@ import java.math.BigInteger;
 public class PreviewText extends TextEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    private BigInteger id;
+    private Long id;
 
     @Size(min = 20, max = 20)
     @Column(name = "preview_text_code",nullable = false)

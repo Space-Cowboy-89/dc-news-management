@@ -15,8 +15,6 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-import java.math.BigInteger;
-import java.time.LocalDateTime;
 import java.util.List;
 
 
@@ -35,7 +33,7 @@ public class Employee extends BaseEntity{
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private BigInteger id;
+    private Long id;
 
     @Column(name = "employee_code", nullable = false)
     @Size(min = 20, max=20)

@@ -1,15 +1,16 @@
 package spaceCowboy.dc_news_management.persistence.entity;
 
+import com.mysql.cj.jdbc.Clob;
+import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.FetchType;
-import jakarta.persistence.JoinColumn;
-import jakarta.persistence.ManyToOne;
-import jakarta.persistence.Table;
-import jakarta.persistence.Id;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
-import jakarta.persistence.Column;
+import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
 import jakarta.persistence.Lob;
+import jakarta.persistence.ManyToOne;
+import jakarta.persistence.Table;
 import jakarta.persistence.UniqueConstraint;
 import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotNull;
@@ -19,7 +20,6 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-import java.math.BigInteger;
 import java.time.LocalDateTime;
 
 @Entity
@@ -32,17 +32,16 @@ import java.time.LocalDateTime;
 public class Comment extends BaseEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private BigInteger id;
+    private Long id;
 
-    @Column(nullable = false)
+    @Column(nullable = false, columnDefinition = "TEXT")
     @NotNull
-    @Lob
     private String text;
 
     @Column(name = "positive_vote", nullable = false)
     @NotNull
     @Min(0)
-    private BigInteger positiveVote = BigInteger.ZERO;
+    private long positiveVote = 0l;
 
     @Column(nullable = false)
     @NotNull
@@ -51,7 +50,7 @@ public class Comment extends BaseEntity {
     @Column(name = "negativeVote", nullable = false)
     @NotNull
     @Min(0)
-    private BigInteger negativeVote = BigInteger.ZERO;
+    private long negativeVote = 0l;
 
     @Column(name = "comment_code", nullable = false)
     @NotNull

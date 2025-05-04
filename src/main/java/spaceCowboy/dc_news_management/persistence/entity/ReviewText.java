@@ -18,34 +18,30 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-import java.math.BigInteger;
-
 @Entity
-@Table( name = "review_text",
+@Table(name = "review_text",
         uniqueConstraints = {@UniqueConstraint(columnNames = "review_text_code")}
 )
 @AllArgsConstructor
 @NoArgsConstructor
 @Getter
 @Setter
-public class ReviewText extends TextEntity{
+public class ReviewText extends TextEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    private BigInteger id;
+    private Long id;
 
     @Column(name = "review_text_code", nullable = false)
     @NotNull
-    @Size(min = 20, max= 20)
+    @Size(min = 20, max = 20)
     private String reviewTextCode;
 
-    //TODO ripartire da qui
-
     @ManyToOne(fetch = FetchType.EAGER)
-    @JoinColumn (name = "review_id")
+    @JoinColumn(name = "review_id", nullable = false)
+    @NotNull
     private Review review;
 
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "image_id")
     private Image image;
-
 }

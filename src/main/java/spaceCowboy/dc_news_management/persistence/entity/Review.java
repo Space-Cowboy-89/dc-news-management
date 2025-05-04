@@ -7,8 +7,6 @@ import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
-import jakarta.persistence.JoinTable;
-import jakarta.persistence.ManyToMany;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
@@ -22,7 +20,6 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-import java.math.BigInteger;
 import java.util.List;
 
 @Entity
@@ -36,7 +33,7 @@ uniqueConstraints = {
 public class Review extends VtAndDtEntity{
     @Id
     @GeneratedValue (strategy = GenerationType.AUTO)
-    private BigInteger id;
+    private Long id;
 
     @Column(name = "review_code", nullable = false)
     @NotNull
@@ -66,11 +63,6 @@ public class Review extends VtAndDtEntity{
 
     @OneToMany(mappedBy = "review")
     private List<Comment> commentList;
-
-    //guardare
-
-    @ManyToMany(mappedBy = "reviewList")
-    private List<Tag> tagList;
 
     @OneToMany(mappedBy = "review")
     private List<ReviewText> reviewTextList;

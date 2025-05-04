@@ -7,17 +7,16 @@ import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
-import jakarta.persistence.MapsId;
 import jakarta.persistence.Table;
 import jakarta.persistence.UniqueConstraint;
+import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-
-import java.math.BigInteger;
 
 @Entity
 @Table(name = "user_tag",
@@ -29,17 +28,18 @@ import java.math.BigInteger;
 public class UserTag extends BaseEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    private BigInteger id;
+    private Long id;
 
-    @Column(name = "user_tag_code")
+    @Column(name = "user_tag_code", nullable = false)
+    @NotNull
     @Size(min = 20, max = 20)
     private String userTagCode;
 
     @ManyToOne(fetch = FetchType.EAGER)
-    @MapsId("user_id")
+    @JoinColumn(name = "user_id")
     private User user;
 
     @ManyToOne(fetch = FetchType.EAGER)
-    @MapsId("tag_id")
+    @JoinColumn(name = "tag_id")
     private Tag tag;
 }

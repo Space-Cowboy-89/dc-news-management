@@ -26,8 +26,7 @@ public class VtAndDtEntity extends BaseEntity {
     @NotNull
     private String title;
 
-    @Lob
-    @Column(nullable = false)
+    @Column(nullable = false, columnDefinition ="TEXT")
     @NotNull
     private String summary;
 
@@ -38,10 +37,10 @@ public class VtAndDtEntity extends BaseEntity {
     @Column(name = "positive_vote", nullable = false)
     @NotNull
     @Min(0)
-    private BigInteger positiveVote = BigInteger.ZERO;
+    private long positiveVote = 0l;
 
-    @Column(name = "negative_vote",nullable = false)
+    @Column(name = "negative_vote", nullable = false)
     @NotNull
     @Min(0)
-    private BigInteger negativeVote = BigInteger.ZERO;
+    private long negativeVote = 0l;
 }
