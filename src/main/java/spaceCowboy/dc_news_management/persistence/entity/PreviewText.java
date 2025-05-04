@@ -29,7 +29,7 @@ import lombok.Setter;
 @Setter
 public class PreviewText extends TextEntity {
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     @Size(min = 20, max = 20)

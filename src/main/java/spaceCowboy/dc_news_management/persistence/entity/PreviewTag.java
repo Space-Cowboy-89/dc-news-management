@@ -29,7 +29,7 @@ import java.time.LocalDateTime;
 @Setter
 public class PreviewTag {
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     @Column(name = "preview_tag_code", nullable = false)

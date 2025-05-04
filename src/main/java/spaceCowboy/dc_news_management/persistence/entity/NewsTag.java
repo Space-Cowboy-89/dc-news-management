@@ -21,7 +21,7 @@ import java.time.LocalDateTime;
 
 
 @Entity
-@Table(name = "user_tag",
+@Table(name = "news_tag",
         uniqueConstraints = {@UniqueConstraint(columnNames = "news_tag_code")})
 @AllArgsConstructor
 @NoArgsConstructor
@@ -30,7 +30,7 @@ import java.time.LocalDateTime;
 public class NewsTag {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     @Column(name = "news_tag_code", nullable = false)

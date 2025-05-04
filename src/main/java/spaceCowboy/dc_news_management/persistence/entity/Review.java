@@ -32,7 +32,7 @@ uniqueConstraints = {
 @Setter
 public class Review extends VtAndDtEntity{
     @Id
-    @GeneratedValue (strategy = GenerationType.AUTO)
+    @GeneratedValue (strategy = GenerationType.IDENTITY)
     private Long id;
 
     @Column(name = "review_code", nullable = false)

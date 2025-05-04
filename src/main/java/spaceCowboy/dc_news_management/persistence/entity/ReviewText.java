@@ -28,7 +28,7 @@ import lombok.Setter;
 @Setter
 public class ReviewText extends TextEntity {
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     @Column(name = "review_text_code", nullable = false)

@@ -27,7 +27,7 @@ import lombok.Setter;
 @Setter
 public class UserTag extends BaseEntity {
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     @Column(name = "user_tag_code", nullable = false)
