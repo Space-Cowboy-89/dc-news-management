@@ -12,13 +12,5 @@ public class DigitalChroniclesNewsManagementApiApplication {
 	public static void main(String[] args) {
 		SpringApplication.run(DigitalChroniclesNewsManagementApiApplication.class, args);
 	}
-
-
-	public static void main(){
-
-	}
-
-	public static void main(){
-
-	}
+	asdsadas
 }
