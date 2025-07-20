@@ -21,7 +21,7 @@ import lombok.Setter;
 //TODO aggiungere in NewsText la constraint "news_text_check_1" in dbeaver
 @Entity
 @Table(name = "news_text",
-uniqueConstraints = {@UniqueConstraint( columnNames = "news_text_code")})
+        uniqueConstraints = {@UniqueConstraint(columnNames = "news_text_code")})
 @AllArgsConstructor
 @NoArgsConstructor
 @Getter
@@ -33,7 +33,7 @@ public class NewsText extends TextEntity {
 
     @Column(name = "news_text_code", nullable = false)
     @NotNull
-    @Size(min=20, max=20)
+    @Size(min = 20, max = 20)
     private String newsTextCode;
 
     @ManyToOne
