@@ -1,6 +1,7 @@
 package com.spacecowboy89.dc.newsmanagement.persistence.repository;
 
 import com.spacecowboy89.dc.newsmanagement.persistence.entity.News;
+import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
 
@@ -8,7 +9,7 @@ import java.util.List;
 import java.util.Optional;
 
 @Repository
-public interface NewsRepository {
+public interface NewsRepository extends JpaRepository<News,Long> {
 
     @Query(value = """
             select *
@@ -18,4 +19,5 @@ public interface NewsRepository {
             """, nativeQuery = true)
     public Optional<List<News>> findLast15News();
 
+    public Optional<News> findByNewsCode(String newsCode);
 }

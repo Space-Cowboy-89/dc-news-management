@@ -1,0 +1,23 @@
+package com.spacecowboy89.dc.newsmanagement.dto;
+
+import jakarta.validation.constraints.NotNull;
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+
+@AllArgsConstructor
+@NoArgsConstructor
+@Data
+public class EmployeeDto {
+    @NotNull
+    private String name;
+
+    @NotNull
+    private String surname;
+
+    @NotNull
+    private String email;
+
+    @NotNull
+    private String password;
+}

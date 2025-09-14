@@ -40,6 +40,21 @@ public class Employee extends BaseEntity{
     @NotNull
     private String employeeCode;
 
+    @Column(nullable = false)
+    @NotNull
+    private String name;
+
+    @Column(nullable = false)
+    @NotNull
+    private String surname;
+
+    @Column(nullable = false)
+    @NotNull
+    private String email;
+
+    @Column(nullable = false)
+    @NotNull
+    private String password;
 
     // --------   Relations   --------
 
