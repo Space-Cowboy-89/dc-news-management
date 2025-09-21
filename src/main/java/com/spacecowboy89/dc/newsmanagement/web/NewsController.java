@@ -1,5 +1,6 @@
 package com.spacecowboy89.dc.newsmanagement.web;
 
+import com.spacecowboy89.dc.newsmanagement.dto.NewsDto;
 import com.spacecowboy89.dc.newsmanagement.dto.NewsInfoDto;
 import com.spacecowboy89.dc.newsmanagement.service.NewsService;
 import io.swagger.v3.oas.annotations.Operation;
@@ -11,6 +12,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
@@ -27,9 +29,6 @@ public class NewsController {
         this.newsService = newsService;
     }
 
-
-
-
     @Operation(
             summary = "Retrieve last 15 main information about the news.",
             description= "Retrieve last 15 main information about the news.")
@@ -41,11 +40,22 @@ public class NewsController {
     })
     @GetMapping(value = "/lastMainInfoNews")
     public ResponseEntity<List<NewsInfoDto>> getLastMainInfoNews(){
-        log.info("Endpoint 'lastMainInfoNews' started.");
+        log.info("Endpoint 'lastMainInfoNews' called.");
         return ResponseEntity
                 .ok()
                 .header("Header", "Retrieve main info news!")
                 .body(newsService.retrieveLast15NewsInfo());
+    }
+
+
+    @GetMapping(value = "/newsByNewsCode")
+    public ResponseEntity<NewsDto> getNewsByNewsCode(@RequestParam String newsCode){
+        log.info("Endpoint 'getNewsByNewsCode' called.");
+
+        return ResponseEntity
+                .ok()
+                .header("Header","Retrieve news By newsCode!")
+                .body(newsService.retrieveByNewsCode(newsCode));
     }
 
 }

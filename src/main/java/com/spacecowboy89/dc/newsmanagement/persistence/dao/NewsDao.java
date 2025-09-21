@@ -21,7 +21,7 @@ public class NewsDao {
         return newsRepo.findLast15News();
     }
 
-    public Optional<News> findNewsById(String newsCode){
+    public Optional<News> findNewsByNewsCode(String newsCode){
         return newsRepo.findByNewsCode(newsCode);
     }
 

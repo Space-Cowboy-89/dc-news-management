@@ -29,6 +29,6 @@ public class CommentDto {
     private LocalDateTime date;
 
     // if it's a value, the comment is of another comment
-    private long commentId;
+    private long commentCode;
 
 }

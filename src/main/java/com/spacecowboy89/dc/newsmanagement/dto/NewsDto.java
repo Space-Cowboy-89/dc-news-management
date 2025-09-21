@@ -12,13 +12,13 @@ import java.util.List;
 @NoArgsConstructor
 @Data
 public class NewsDto extends NewsInfoDto{
-    private CommentDto commentDto;
+    private List<CommentDto> commentsDto;
 
     @NotNull
     private EmployeeDto employeeDto;
 
     @NotNull
-    private List<NewsTextDto> testi;
+    private List<NewsTextDto> texts;
 
     @NotNull
     private String categoryName;
@@ -39,15 +39,17 @@ public class NewsDto extends NewsInfoDto{
     @AllArgsConstructor
     @NoArgsConstructor
     @Data
-    public class NewsTextDto{
+    public static class NewsTextDto{
         @NotNull
         private String newsTextCode;
         @NotNull
-        private List<String> text;
+        private String text;
         @NotNull
         private short orderNum;
         @NotNull
         private char type;
+        @NotNull
+        private byte[] imageContent;
     }
 
 }
