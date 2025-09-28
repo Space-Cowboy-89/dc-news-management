@@ -6,7 +6,6 @@ import com.spacecowboy89.dc.newsmanagement.persistence.entity.News;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 import org.mapstruct.factory.Mappers;
-import org.springframework.stereotype.Component;
 
 import java.util.List;
 
@@ -15,7 +14,6 @@ import java.util.List;
                 EmployeeMapper.class,
                 CommentMapper.class,
                 NewsTextMapper.class})
-@Component
 public interface NewsMapper {
     NewsMapper INSTANCE = Mappers.getMapper(NewsMapper.class);
 

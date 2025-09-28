@@ -5,6 +5,8 @@ import com.spacecowboy89.dc.newsmanagement.persistence.repository.UserRepository
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
+import java.util.Optional;
+
 @Component
 public class UserDao {
     private UserRepository userRepo;
@@ -14,7 +16,16 @@ public class UserDao {
         this.userRepo = userRepo;
     }
 
-    public void persistUser(User user){
-        User newUser = userRepo.save(user);
+    public Optional<User> persistUser(User user){
+       return Optional.of(userRepo.save(user)) ;
+    }
+
+
+    public Optional<User> findUserByUserCode(String userCode){
+        return userRepo.findByUserCode(userCode);
+    }
+
+    public Optional<Boolean> existByUserCode(String userCode){
+        return Optional.of(userRepo.existUserByUserCode(userCode));
     }
 }
