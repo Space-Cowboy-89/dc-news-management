@@ -30,11 +30,11 @@ public class NewsController {
     }
 
     @Operation(
-            summary = "Retrieve last 15 main information about the news.",
-            description= "Retrieve last 15 main information about the news.")
+            summary = "Retrieve main information of last 15 news.",
+            description="Retrieve main information of last 15 news.")
     @ApiResponses({
-            @ApiResponse(responseCode = "200", description = "Retrieve last 15 main news information with success."),
-            @ApiResponse(responseCode = "404", description = "Main news information not found."),
+            @ApiResponse(responseCode = "200", description = "Retrieve main information of last 15 news succesfully."),
+            @ApiResponse(responseCode = "404", description = "News doesn't find."),
             @ApiResponse(responseCode = "400", description = "Error 400.")
 
     })
@@ -48,6 +48,15 @@ public class NewsController {
     }
 
 
+    @Operation(
+            summary = "Retrieve news by a specific newsCode.",
+            description = "Retrieve news by a specific newsCode."
+    )
+    @ApiResponses({
+            @ApiResponse(responseCode = "200", description = "News retrieves successfuly"),
+            @ApiResponse(responseCode = "404", description =" News doesnt' present."),
+            @ApiResponse(responseCode = "400", description = "")
+    })
     @GetMapping(value = "/newsByNewsCode")
     public ResponseEntity<NewsDto> getNewsByNewsCode(@RequestParam String newsCode){
         log.info("Endpoint 'getNewsByNewsCode' called.");
@@ -58,5 +67,23 @@ public class NewsController {
                 .body(newsService.retrieveByNewsCode(newsCode));
     }
 
+
+
+    @Operation(
+            summary="Retrevies last 15 news.",
+            description ="Retrevies last 15 news."
+    )
+    @ApiResponses({
+            @ApiResponse(responseCode = "200", description= "Retrieve last 15 news successfuly"),
+            @ApiResponse(responseCode = "404", description="last 15 news doesn't found!"),
+            @ApiResponse(responseCode = "400", description="")
+    })
+    @GetMapping("/last15News")
+    public ResponseEntity<List<NewsDto>> getLast15News(){
+        return ResponseEntity
+                .ok()
+                .header("Header","Retrieve last 15 news!")
+                .body(newsService.retrieveLast15Info());
+    }
 }
 

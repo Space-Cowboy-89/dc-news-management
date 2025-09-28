@@ -30,6 +30,35 @@ public class User extends BaseEntity {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    @NotNull
+    @Size(max=20)
+    @Column(nullable = false)
+    private String name;
+
+    @NotNull
+    @Size(max=20)
+    @Column( nullable = false)
+    private String surname;
+
+
+    @NotNull
+    @Size(max=20)
+    @Column( nullable = false)
+    private String username;
+
+
+    @NotNull
+    @Size(max=20)
+    @Column( nullable = false)
+    private String password;
+
+    @NotNull
+    @Size(max=20)
+    @Column( nullable = false)
+    private String email;
+
+
+
     @Column(name = "user_code", nullable = false)
     @NotNull
     @Size(min = 20, max = 20)

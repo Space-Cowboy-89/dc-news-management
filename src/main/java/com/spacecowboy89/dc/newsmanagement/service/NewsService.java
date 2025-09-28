@@ -44,5 +44,10 @@ public class NewsService {
                         .orElseThrow(NoResFoundInDBException::new));
     }
 
+    public List<NewsDto> retrieveLast15Info(){
+      return  NewsMapper.INSTANCE.toNewsDtoList(
+                newsDao.findLast15News()
+                        .orElseThrow(NoResFoundInDBException::new));
+    }
 
 }
