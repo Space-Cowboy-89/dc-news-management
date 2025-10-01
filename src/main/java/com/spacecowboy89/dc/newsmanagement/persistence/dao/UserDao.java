@@ -26,6 +26,6 @@ public class UserDao {
     }
 
     public Optional<Boolean> existByUserCode(String userCode){
-        return Optional.of(userRepo.existUserByUserCode(userCode));
+        return Optional.of(userRepo.existsByUserCode(userCode));
     }
 }

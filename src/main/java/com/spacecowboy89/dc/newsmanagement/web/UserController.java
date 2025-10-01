@@ -28,6 +28,7 @@ public class UserController {
     }
 
 
+
     @Operation(
             summary = "Retrieve user by userCode!",
             description =  "the endpoint return a user by an user code"
@@ -47,6 +48,7 @@ public class UserController {
     }
 
 
+
     @Operation(
             summary = "Add user in db",
             description = "Add user in db"
@@ -64,6 +66,8 @@ public class UserController {
                 .body(userService.saveUser(userDto));
     }
 
+
+
     //TODO creare endpoint existUserByUserCode
-    //TODO creare chiamata per getUserByUserCode
+    //TODO mergiare develop in feature/newsService
 }
