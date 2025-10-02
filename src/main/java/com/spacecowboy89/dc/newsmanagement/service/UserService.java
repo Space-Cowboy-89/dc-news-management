@@ -22,6 +22,7 @@ public class UserService {
         this.userDao = userDao;
     }
 
+
     public UserDto saveUser(UserDto userDto) {
         User user = UserMapper.INSTANCE.toUser(userDto);
         user = userDao.persistUser(user).orElseThrow();
@@ -39,10 +40,9 @@ public class UserService {
     }
 
 
-    public String existUserByUserCode(String userCode){
-        boolean existUser =userDao.existByUserCode(userCode)
+    public Boolean existUserByUserCode(String userCode){
+        return userDao.existByUserCode(userCode)
                 .orElseThrow(NoResFoundInDBException::new) ;
-        return existUser ? "Exist!" : "Not exsist!";
     }
 
 

@@ -28,10 +28,9 @@ public class UserController {
     }
 
 
-
     @Operation(
             summary = "Retrieve user by userCode!",
-            description =  "the endpoint return a user by an user code"
+            description = "the endpoint return a user by an user code"
     )
     @ApiResponses({
             @ApiResponse(responseCode = "200", description = "User retrieves successfuly"),
@@ -48,17 +47,16 @@ public class UserController {
     }
 
 
-
     @Operation(
             summary = "Add user in db",
             description = "Add user in db"
     )
     @ApiResponses({
-            @ApiResponse(responseCode = "200",description="add user successfuly"),
-            @ApiResponse(responseCode = "400",description="")
+            @ApiResponse(responseCode = "200", description = "add user successfuly"),
+            @ApiResponse(responseCode = "400", description = "")
     })
     @PostMapping("/user")
-    public ResponseEntity<UserDto> addUser(@RequestBody UserDto userDto){
+    public ResponseEntity<UserDto> addUser(@RequestBody UserDto userDto) {
         log.info("Add user in execution!");
         return ResponseEntity
                 .ok()
@@ -67,7 +65,24 @@ public class UserController {
     }
 
 
+    @Operation(
+            summary = "Exist user by userCode! ",
+            description = "Service try to find a user by user code!"
+    )
+    @ApiResponses({
+           @ApiResponse(responseCode = "200", description ="User exists by user Code!" ),
+            @ApiResponse(responseCode = "400", description ="" ),
+            @ApiResponse(responseCode = "404", description ="" ),
+    })
+    @GetMapping("/existsUserByUserCode")
+    public ResponseEntity<Boolean> existUserByUserCode(@RequestParam String userCode) {
+        log.info("existUserByUserCode in execution!");
+        return ResponseEntity
+                .ok()
+                .header("Header", "User exists!")
+                .body(userService.existUserByUserCode(userCode));
+    }
 
-    //TODO creare endpoint existUserByUserCode
+
     //TODO mergiare develop in feature/newsService
 }
