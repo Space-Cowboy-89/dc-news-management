@@ -5,6 +5,7 @@ import com.spacecowboy89.dc.newsmanagement.persistence.repository.NewsRepository
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
 
@@ -25,5 +26,8 @@ public class NewsDao {
         return newsRepo.findByNewsCode(newsCode);
     }
 
+    public Optional<List<News>> findByBeetwen2PublicationDate (LocalDateTime firstPublicationDate, LocalDateTime secondPublicationDate){
+        return newsRepo.findByBeetwen2PublicationDate(firstPublicationDate,secondPublicationDate);
+    }
 
 }

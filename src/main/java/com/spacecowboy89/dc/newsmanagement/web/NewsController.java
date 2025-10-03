@@ -9,12 +9,14 @@ import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.time.LocalDateTime;
 import java.util.List;
 
 @RestController
@@ -106,7 +108,18 @@ public class NewsController {
                 .body(newsService.retrieveByCategory(categoryCode));
     }
 
-    //TODO Terminare findByBeetwenTwoDate
-    //TODO riparare metodo in NewsRepository
+
+    @GetMapping("/beetwenTwoPublicationDate")
+    public ResponseEntity<List<NewsDto>> beetwen2PublicationDate (@RequestParam @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME) LocalDateTime firstPublicationDate,
+                                                                  @RequestParam @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME) LocalDateTime secondPublicationDate){
+        log.info("beetwen2PublicationDate in execution!");
+
+        return ResponseEntity
+                .ok()
+                .header("Header!", "beetwen2PublicationDate")
+                .body(newsService.retrieveByBeetwen2PublicationDate(firstPublicationDate,secondPublicationDate));
+    }
+
+    //TODO creare chiamata beetwen2PublicationDate
 }
 

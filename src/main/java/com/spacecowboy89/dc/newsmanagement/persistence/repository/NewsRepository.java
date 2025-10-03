@@ -27,7 +27,7 @@ public interface NewsRepository extends JpaRepository<News,Long> {
     @Query(value = """
             select *
             from news
-            where publication_date beetwen :firstDate AND :secondDate
+            where publicationDate beetwen :firstPublicationDate AND :secondPublicationDate
             """, nativeQuery = true)
     public Optional<List<News>> findByBeetwen2PublicationDate(LocalDateTime firstPublicationDate, LocalDateTime secondPublicationDate);
 

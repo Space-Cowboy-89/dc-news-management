@@ -6,11 +6,13 @@ import com.spacecowboy89.dc.newsmanagement.exception.NoResFoundInDBException;
 import com.spacecowboy89.dc.newsmanagement.persistence.dao.CategoryDao;
 import com.spacecowboy89.dc.newsmanagement.persistence.dao.NewsDao;
 import com.spacecowboy89.dc.newsmanagement.persistence.entity.Category;
+import com.spacecowboy89.dc.newsmanagement.persistence.entity.News;
 import com.spacecowboy89.dc.newsmanagement.utility.mapper.NewsMapper;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDateTime;
 import java.util.List;
 
 @Service
@@ -57,5 +59,11 @@ public class NewsService {
 
         List<NewsDto> newsDtoList = NewsMapper.INSTANCE.toNewsDtoList(category.getNewsList());
         return newsDtoList;
+    }
+
+    public List<NewsDto> retrieveByBeetwen2PublicationDate (LocalDateTime firstPublicationDate, LocalDateTime secondPublicationDate){
+        List<News> newsList = newsDao.findByBeetwen2PublicationDate(firstPublicationDate,secondPublicationDate)
+                .orElseThrow(NoResFoundInDBException::new);
+        return NewsMapper.INSTANCE.toNewsDtoList(newsList);
     }
 }
