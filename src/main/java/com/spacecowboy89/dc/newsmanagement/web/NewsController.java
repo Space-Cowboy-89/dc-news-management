@@ -85,5 +85,28 @@ public class NewsController {
                 .header("Header","Retrieve last 15 news!")
                 .body(newsService.retrieveLast15Info());
     }
+
+
+    @Operation(
+            summary="Retrevies news by categorylast 15 news.",
+            description ="Retrevies news by categorylast 15 news."
+    )
+    @ApiResponses({
+            @ApiResponse(responseCode = "200", description= "Retrieve last 15 news successfuly"),
+            @ApiResponse(responseCode = "404", description="last 15 news doesn't found!"),
+            @ApiResponse(responseCode = "400", description="")
+    })
+    @GetMapping("/newsByCategory")
+    public ResponseEntity<List<NewsDto>> getNewsByCategory(@RequestParam String categoryCode){
+        log.info("getNewsByCategory in Execution!");
+
+        return ResponseEntity
+                .ok()
+                .header("")
+                .body(newsService.retrieveByCategory(categoryCode));
+    }
+
+    //TODO Terminare findByBeetwenTwoDate
+    //TODO riparare metodo in NewsRepository
 }
 

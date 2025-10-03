@@ -5,6 +5,7 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
 
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
 
@@ -20,4 +21,14 @@ public interface NewsRepository extends JpaRepository<News,Long> {
     public Optional<List<News>> findLast15News();
 
     public Optional<News> findByNewsCode(String newsCode);
+
+
+
+    @Query(value = """
+            select *
+            from news
+            where publication_date beetwen :firstDate AND :secondDate
+            """, nativeQuery = true)
+    public Optional<List<News>> findByBeetwen2PublicationDate(LocalDateTime firstPublicationDate, LocalDateTime secondPublicationDate);
+
 }

@@ -28,9 +28,9 @@ public class VtAndDtEntity extends BaseEntity {
     @NotNull
     private String summary;
 
-    @Column(nullable = false)
+    @Column(name = "publication_date", nullable = false)
     @NotNull
-    private LocalDateTime date = LocalDateTime.now();
+    private LocalDateTime publicationDate = LocalDateTime.now();
 
     @Column(name = "positive_vote", nullable = false)
     @NotNull
