@@ -26,8 +26,8 @@ public class NewsDao {
         return newsRepo.findByNewsCode(newsCode);
     }
 
-    public Optional<List<News>> findByBeetwen2PublicationDate (LocalDateTime firstPublicationDate, LocalDateTime secondPublicationDate){
-        return newsRepo.findByBeetwen2PublicationDate(firstPublicationDate,secondPublicationDate);
+    public Optional<List<News>> findByBetween2PublicationDate (LocalDateTime firstPublicationDate, LocalDateTime secondPublicationDate){
+        return newsRepo.findByBetween2PublicationDate(firstPublicationDate,secondPublicationDate);
     }
 
 }

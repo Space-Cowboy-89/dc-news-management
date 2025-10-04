@@ -120,6 +120,5 @@ public class NewsController {
                 .body(newsService.retrieveByBeetwen2PublicationDate(firstPublicationDate,secondPublicationDate));
     }
 
-    //TODO creare chiamata beetwen2PublicationDate
 }
 

@@ -62,7 +62,7 @@ public class NewsService {
     }
 
     public List<NewsDto> retrieveByBeetwen2PublicationDate (LocalDateTime firstPublicationDate, LocalDateTime secondPublicationDate){
-        List<News> newsList = newsDao.findByBeetwen2PublicationDate(firstPublicationDate,secondPublicationDate)
+        List<News> newsList = newsDao.findByBetween2PublicationDate(firstPublicationDate,secondPublicationDate)
                 .orElseThrow(NoResFoundInDBException::new);
         return NewsMapper.INSTANCE.toNewsDtoList(newsList);
     }
