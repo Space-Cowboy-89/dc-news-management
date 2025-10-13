@@ -6,4 +6,6 @@ public abstract class GeneralEnum {
     public enum FPartPreRev {T, P, F};
 
     public enum FPartNews  {T, P};
+
+    public static enum TypeEmployee {j,e};
 }

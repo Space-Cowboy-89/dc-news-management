@@ -1,7 +1,5 @@
 package com.spacecowboy89.dc.newsmanagement.persistence.entity;
 
-
-import jakarta.persistence.Column;
 import jakarta.persistence.MappedSuperclass;
 import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
@@ -9,23 +7,24 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-import java.time.LocalDateTime;
-
-
-
 @MappedSuperclass
 @Getter
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-public class BaseEntity {
-    @Column(name = "created_at", nullable = false)
+public class CredentialEntity extends BaseEntity{
     @NotNull
-    private LocalDateTime createdAt = LocalDateTime.now();
+    private String name;
 
-    @Column(name = "modified_at")
-    private LocalDateTime modifiedAt;
+    @NotNull
+    private String surname;
 
-    @Column(name = "deleted_at")
-    private LocalDateTime deletedAt;
+    @NotNull
+    private String email;
+
+    @NotNull
+    private String username;
+
+    @NotNull
+    private String password;
 }

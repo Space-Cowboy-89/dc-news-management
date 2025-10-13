@@ -44,9 +44,9 @@ public class Preview extends VtAndDtEntity {
     private Category category;
 
     @ManyToOne(fetch = FetchType.EAGER)
-    @JoinColumn(name = "employee_id",nullable = false)
+    @JoinColumn(name = "journalist_code",nullable = false)
     @NotNull
-    private Employee employee;
+    private Journalist journalist;
 
     @OneToMany(mappedBy = "preview")
     private List<PreviewTag> previewTagList;

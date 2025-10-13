@@ -5,9 +5,12 @@ import com.spacecowboy89.dc.newsmanagement.service.UserService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.Size;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -18,8 +21,9 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 @RequestMapping("/user")
 @Slf4j
+@Validated
 public class UserController {
-    private UserService userService;
+    private final UserService userService;
 
 
     @Autowired
@@ -38,7 +42,7 @@ public class UserController {
             @ApiResponse(responseCode = "404", description = "User doesn't present.")
     })
     @GetMapping("/userByUserCode")
-    public ResponseEntity<UserDto> getUserByUserCode(@RequestParam String userCode) {
+    public ResponseEntity<UserDto> getUserByUserCode(@RequestParam @NotBlank @Size(min = 20,max=20) String userCode) {
         log.info("getUserByUserCode in execution!");
         return ResponseEntity
                 .ok()
@@ -75,7 +79,7 @@ public class UserController {
             @ApiResponse(responseCode = "404", description ="" ),
     })
     @GetMapping("/existsUserByUserCode")
-    public ResponseEntity<Boolean> existUserByUserCode(@RequestParam String userCode) {
+    public ResponseEntity<Boolean> existUserByUserCode(@RequestParam @NotBlank @Size(max=20) String userCode) {
         log.info("existUserByUserCode in execution!");
         return ResponseEntity
                 .ok()

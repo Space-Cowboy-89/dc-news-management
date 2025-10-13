@@ -40,9 +40,9 @@ public class News extends  VtAndDtEntity{
     private String newsCode;
 
     @ManyToOne(fetch = FetchType.EAGER)
-    @JoinColumn(name = "employee_id",nullable = false)
+    @JoinColumn(name = "journalist_code",nullable = false)
     @NotNull
-    private Employee employee;
+    private Journalist journalist;
 
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "category_id",nullable = false)

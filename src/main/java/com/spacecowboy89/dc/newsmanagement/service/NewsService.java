@@ -3,9 +3,9 @@ package com.spacecowboy89.dc.newsmanagement.service;
 import com.spacecowboy89.dc.newsmanagement.dto.NewsDto;
 import com.spacecowboy89.dc.newsmanagement.dto.NewsInfoDto;
 import com.spacecowboy89.dc.newsmanagement.exception.NoResFoundInDBException;
-import com.spacecowboy89.dc.newsmanagement.persistence.dao.CategoryDao;
 import com.spacecowboy89.dc.newsmanagement.persistence.dao.NewsDao;
 import com.spacecowboy89.dc.newsmanagement.persistence.entity.Category;
+import com.spacecowboy89.dc.newsmanagement.persistence.entity.Journalist;
 import com.spacecowboy89.dc.newsmanagement.persistence.entity.News;
 import com.spacecowboy89.dc.newsmanagement.utility.mapper.NewsMapper;
 import lombok.extern.slf4j.Slf4j;
@@ -18,15 +18,19 @@ import java.util.List;
 @Service
 @Slf4j
 public class NewsService {
-    private NewsDao newsDao;
-    private CategoryDao categoryDao;
+    private final NewsDao newsDao;
+    private final CategoryService categoryService;
+    private final JournalistService journalistService;
 
 
     @Autowired
-    public NewsService(NewsDao newsDao, CategoryDao categoryDao) {
+    public NewsService(CategoryService categoryService,  JournalistService journalistService, NewsDao newsDao) {
+        this.categoryService = categoryService;
+        this.journalistService = journalistService;
         this.newsDao = newsDao;
-        this.categoryDao = categoryDao;
     }
+
+
 
     /**
      * Method return last fifteen news in db
@@ -54,8 +58,7 @@ public class NewsService {
 
 
     public List<NewsDto> retrieveByCategory(String categoryCode) {
-        Category category = categoryDao.findByCategoryCode(categoryCode)
-                .orElseThrow(NoResFoundInDBException::new);
+        Category category = categoryService.retrieveByCategoryCode(categoryCode);
 
         List<NewsDto> newsDtoList = NewsMapper.INSTANCE.toNewsDtoList(category.getNewsList());
         return newsDtoList;
@@ -65,5 +68,11 @@ public class NewsService {
         List<News> newsList = newsDao.findByBetween2PublicationDate(firstPublicationDate,secondPublicationDate)
                 .orElseThrow(NoResFoundInDBException::new);
         return NewsMapper.INSTANCE.toNewsDtoList(newsList);
+    }
+
+
+    public List<News> retrieveByJournalist (String journalistCode){
+        Journalist journalist = journalistService.retrieveById(journalistCode);
+        return journalist.getNewsList();
     }
 }

@@ -53,9 +53,9 @@ public class Review extends VtAndDtEntity{
     private Category category;
 
     @ManyToOne(fetch = FetchType.EAGER)
-    @JoinColumn(name = "employee_id",nullable = false)
+    @JoinColumn(name = "journalist_code",nullable = false)
     @NotNull
-    private Employee employee;
+    private Journalist journalist;
 
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "image_id")

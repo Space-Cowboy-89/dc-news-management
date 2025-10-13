@@ -1,5 +1,6 @@
 package com.spacecowboy89.dc.newsmanagement.persistence.entity;
 
+import com.spacecowboy89.dc.newsmanagement.utility.enums.GeneralEnum;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -27,7 +28,7 @@ import java.util.List;
 @NoArgsConstructor
 @Getter
 @Setter
-public class Employee extends BaseEntity{
+public class Employee extends CredentialEntity{
 
     // --------   Fields   --------
 
@@ -40,30 +41,6 @@ public class Employee extends BaseEntity{
     @NotNull
     private String employeeCode;
 
-    @Column(nullable = false)
-    @NotNull
-    private String name;
-
-    @Column(nullable = false)
-    @NotNull
-    private String surname;
-
-    @Column(nullable = false)
-    @NotNull
-    private String email;
-
-    @Column(nullable = false)
-    @NotNull
-    private String password;
-
-    // --------   Relations   --------
-
-    @OneToMany(mappedBy = "employee")
-    private List<Preview> previewList;
-
-    @OneToMany(mappedBy = "employee")
-    private List<News> newsList;
-
-    @OneToMany(mappedBy = "employee")
-    private List<Review> reviewList;
 }
+
+
