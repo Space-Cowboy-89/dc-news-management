@@ -2,6 +2,7 @@ package com.spacecowboy89.dc.newsmanagement.web;
 
 import com.spacecowboy89.dc.newsmanagement.dto.NewsDto;
 import com.spacecowboy89.dc.newsmanagement.dto.NewsInfoDto;
+import com.spacecowboy89.dc.newsmanagement.exception.NoResFoundInDBException;
 import com.spacecowboy89.dc.newsmanagement.persistence.entity.News;
 import com.spacecowboy89.dc.newsmanagement.service.NewsService;
 import com.spacecowboy89.dc.newsmanagement.utility.mapper.NewsMapper;
@@ -16,6 +17,8 @@ import jakarta.validation.constraints.Size;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.format.annotation.DateTimeFormat;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -39,6 +42,7 @@ public class NewsController {
         this.newsService = newsService;
     }
 
+
     @Operation(
             summary = "Retrieve main information of last 15 news.",
             description = "Retrieve main information of last 15 news.")
@@ -51,10 +55,13 @@ public class NewsController {
     @GetMapping(value = "/lastMainInfoNews")
     public ResponseEntity<List<NewsInfoDto>> getLastMainInfoNews() {
         log.info("Endpoint 'lastMainInfoNews' called.");
+
+        List<NewsInfoDto> newsInfoDtoList = NewsMapper.INSTANCE.toNewsInfoDtoList(
+                newsService.retrieveLast15NewsInfo());
         return ResponseEntity
                 .ok()
                 .header("Header", "Retrieve main info news!")
-                .body(newsService.retrieveLast15NewsInfo());
+                .body(newsInfoDtoList);
     }
 
 
@@ -71,10 +78,12 @@ public class NewsController {
     public ResponseEntity<NewsDto> getNewsByNewsCode(@RequestParam @NotBlank @Size(min = 20, max = 20) String newsCode) {
         log.info("Endpoint 'getNewsByNewsCode' called.");
 
+        NewsDto newsDto = NewsMapper.INSTANCE.toNewsDto(newsService.retrieveByNewsCode(newsCode));
+
         return ResponseEntity
                 .ok()
                 .header("Header", "Retrieve news By newsCode!")
-                .body(newsService.retrieveByNewsCode(newsCode));
+                .body(newsDto);
     }
 
 
@@ -89,10 +98,12 @@ public class NewsController {
     })
     @GetMapping("/last15News")
     public ResponseEntity<List<NewsDto>> getLast15News() {
+
+        List<NewsDto> newsDtoList = NewsMapper.INSTANCE.toNewsDtoList(newsService.retrieveLast15Info());
         return ResponseEntity
                 .ok()
                 .header("Header", "Retrieve last 15 news!")
-                .body(newsService.retrieveLast15Info());
+                .body(newsDtoList);
     }
 
 
@@ -106,13 +117,14 @@ public class NewsController {
             @ApiResponse(responseCode = "400", description = "")
     })
     @GetMapping("/newsByCategory")
-    public ResponseEntity<List<NewsDto>> getNewsByCategory(@RequestParam @NotBlank @Size(min = 30, max = 30) String categoryCode) {
+    public ResponseEntity<List<NewsDto>> getNewsByCategory(@RequestParam @NotBlank @Size(min = 20, max = 20) String categoryCode) {
         log.info("getNewsByCategory in Execution!");
 
+        List<NewsDto> newsDtoList = NewsMapper.INSTANCE.toNewsDtoList(newsService.retrieveByCategory(categoryCode));
         return ResponseEntity
                 .ok()
                 .header("")
-                .body(newsService.retrieveByCategory(categoryCode));
+                .body(newsDtoList);
     }
 
 
@@ -121,10 +133,12 @@ public class NewsController {
                                                                  @RequestParam @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME) @NotNull LocalDateTime secondPublicationDate) {
         log.info("beetwen2PublicationDate in execution!");
 
+
+        List<NewsDto> newsDtoList = NewsMapper.INSTANCE.toNewsDtoList(newsService.retrieveByBeetwen2PublicationDate(firstPublicationDate, secondPublicationDate));
         return ResponseEntity
                 .ok()
                 .header("Header!", "beetwen2PublicationDate")
-                .body(newsService.retrieveByBeetwen2PublicationDate(firstPublicationDate, secondPublicationDate));
+                .body(newsDtoList);
     }
 
 

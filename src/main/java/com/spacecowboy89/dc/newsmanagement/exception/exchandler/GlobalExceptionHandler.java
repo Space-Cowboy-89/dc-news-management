@@ -3,6 +3,7 @@ package com.spacecowboy89.dc.newsmanagement.exception.exchandler;
 import com.spacecowboy89.dc.newsmanagement.exception.InvalidInputException;
 import com.spacecowboy89.dc.newsmanagement.exception.NoResFoundInDBException;
 import jakarta.validation.ConstraintViolationException;
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -23,6 +24,17 @@ public class GlobalExceptionHandler {
                 HttpStatus.NOT_FOUND);
     }
 
+    @ExceptionHandler(DataIntegrityViolationException.class)
+    public ResponseEntity<String> dataIntegrityViolationExcCatcher(){
+        return internalServerError();
+    }
+
+    public ResponseEntity<String> internalServerError(){
+        return ResponseEntity
+                .internalServerError()
+                .header("Heeader", "new Header()")
+                .body("Errore!");
+    }
 
     @ExceptionHandler(InvalidInputException.class)
     public ResponseEntity<String> invalistResponseEntityCatcher() {

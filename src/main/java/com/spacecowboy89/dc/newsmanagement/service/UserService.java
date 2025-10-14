@@ -23,27 +23,25 @@ public class UserService {
     }
 
 
-    public UserDto saveUser(UserDto userDto) {
-        User user = UserMapper.INSTANCE.toUser(userDto);
-        user = userDao.persistUser(user).orElseThrow();
-
-        return UserMapper.INSTANCE.toUserDto(user);
+    public User saveUser(User user) {
+        user = userDao.persistUser(user).
+                orElseThrow(NoResFoundInDBException::new);
+        return user;
 
     }
 
 
-    public UserDto retrieveUserByUserCode(String userCode) {
-        Optional<User> userOpt = userDao.findUserByUserCode(userCode);
+    public User retrieveUserByUserCode(String userCode) {
+        User user = userDao.findUserByUserCode(userCode).orElseThrow(NoResFoundInDBException::new);
 
-        return UserMapper.INSTANCE.toUserDto(
-                userOpt.orElseThrow(NoResFoundInDBException::new));
+        return user;
     }
 
 
-    public Boolean existUserByUserCode(String userCode){
-        return userDao.existByUserCode(userCode)
-                .orElseThrow(NoResFoundInDBException::new) ;
+    public Boolean existUserByUserCode(String userCode) {
+        Boolean userExist = userDao.existByUserCode(userCode)
+                .orElseThrow(NoResFoundInDBException::new);
+        return userExist;
     }
-
 
 }

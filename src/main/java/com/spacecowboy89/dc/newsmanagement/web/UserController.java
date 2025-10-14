@@ -1,7 +1,9 @@
 package com.spacecowboy89.dc.newsmanagement.web;
 
 import com.spacecowboy89.dc.newsmanagement.dto.UserDto;
+import com.spacecowboy89.dc.newsmanagement.persistence.entity.User;
 import com.spacecowboy89.dc.newsmanagement.service.UserService;
+import com.spacecowboy89.dc.newsmanagement.utility.mapper.UserMapper;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
@@ -44,10 +46,13 @@ public class UserController {
     @GetMapping("/userByUserCode")
     public ResponseEntity<UserDto> getUserByUserCode(@RequestParam @NotBlank @Size(min = 20,max=20) String userCode) {
         log.info("getUserByUserCode in execution!");
+
+        UserDto userDto = UserMapper.INSTANCE.toUserDto(userService.retrieveUserByUserCode(userCode));
+
         return ResponseEntity
                 .ok()
                 .header("Header", "User by userCode!")
-                .body(userService.retrieveUserByUserCode(userCode));
+                .body(userDto);
     }
 
 
@@ -62,10 +67,12 @@ public class UserController {
     @PostMapping("/user")
     public ResponseEntity<UserDto> addUser(@RequestBody UserDto userDto) {
         log.info("Add user in execution!");
+
+        User user = userService.saveUser(UserMapper.INSTANCE.toUser(userDto) );
         return ResponseEntity
                 .ok()
                 .header("Header", "Add user!")
-                .body(userService.saveUser(userDto));
+                .body(UserMapper.INSTANCE.toUserDto(user));
     }
 
 
