@@ -4,6 +4,7 @@ import com.spacecowboy89.dc.newsmanagement.dto.NewsDto;
 import com.spacecowboy89.dc.newsmanagement.dto.NewsInfoDto;
 import com.spacecowboy89.dc.newsmanagement.persistence.entity.News;
 import com.spacecowboy89.dc.newsmanagement.service.NewsService;
+import com.spacecowboy89.dc.newsmanagement.utility.mapper.NewsMapper;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
@@ -67,7 +68,7 @@ public class NewsController {
             @ApiResponse(responseCode = "400", description = "")
     })
     @GetMapping(value = "/newsByNewsCode")
-    public ResponseEntity<NewsDto> getNewsByNewsCode(@RequestParam @NotBlank @Size(min=20,max=20) String newsCode) {
+    public ResponseEntity<NewsDto> getNewsByNewsCode(@RequestParam @NotBlank @Size(min = 20, max = 20) String newsCode) {
         log.info("Endpoint 'getNewsByNewsCode' called.");
 
         return ResponseEntity
@@ -105,7 +106,7 @@ public class NewsController {
             @ApiResponse(responseCode = "400", description = "")
     })
     @GetMapping("/newsByCategory")
-    public ResponseEntity<List<NewsDto>> getNewsByCategory(@RequestParam @NotBlank @Size(min = 30,max = 30) String categoryCode) {
+    public ResponseEntity<List<NewsDto>> getNewsByCategory(@RequestParam @NotBlank @Size(min = 30, max = 30) String categoryCode) {
         log.info("getNewsByCategory in Execution!");
 
         return ResponseEntity
@@ -127,15 +128,17 @@ public class NewsController {
     }
 
 
-    @GetMapping("/journalist")
-    public ResponseEntity<List<News>> getByJournalist(@RequestParam @NotBlank @Size (min=20,max =30) String journalistCode) {
+    @GetMapping("/byJournalist")
+    public ResponseEntity<List<NewsDto>> getByJournalist(@RequestParam @NotBlank @Size(min = 20, max = 30) String journalistCode) {
         log.info("getByJournalist in execution!");
 
-        List<News> newsList = newsService.retrieveByJournalist(journalistCode);
+        List<NewsDto> newsDtoList = NewsMapper.INSTANCE.toNewsDtoList(
+                newsService.retrieveByJournalist(journalistCode));
+
         return ResponseEntity
                 .ok()
                 .header("Header", "an header!")
-                .body(newsList);
+                .body(newsDtoList);
     }
 
 }

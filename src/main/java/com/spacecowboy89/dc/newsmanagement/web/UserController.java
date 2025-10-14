@@ -79,7 +79,7 @@ public class UserController {
             @ApiResponse(responseCode = "404", description ="" ),
     })
     @GetMapping("/existsUserByUserCode")
-    public ResponseEntity<Boolean> existUserByUserCode(@RequestParam @NotBlank @Size(max=20) String userCode) {
+    public ResponseEntity<Boolean> existUserByUserCode(@RequestParam @NotBlank @Size(min = 20,max=20) String userCode) {
         log.info("existUserByUserCode in execution!");
         return ResponseEntity
                 .ok()
@@ -88,5 +88,4 @@ public class UserController {
     }
 
 
-    //TODO mergiare develop in feature/newsService
 }

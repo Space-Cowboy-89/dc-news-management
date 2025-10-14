@@ -55,7 +55,6 @@ public class Comment extends BaseEntity {
     @Size(min = 20, max = 20)
     private String commentCode;
 
-    //TODO fare le diverse relazioni
 
     @ManyToOne
     @JoinColumn(name = "comment_id")

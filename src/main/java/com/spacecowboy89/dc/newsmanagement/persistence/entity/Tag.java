@@ -62,7 +62,6 @@ public class Tag extends BaseEntity {
     @OneToMany(mappedBy = "tag")
     private List<UserTag> userTagList;
 
-    //TODO utilizzare eccezione adatta
     public void checkCategory() {
         if (category != null &&
                 category.getId() != null && category.getId().intValue() == 0)
