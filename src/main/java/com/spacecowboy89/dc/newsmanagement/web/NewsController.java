@@ -2,23 +2,18 @@ package com.spacecowboy89.dc.newsmanagement.web;
 
 import com.spacecowboy89.dc.newsmanagement.dto.NewsDto;
 import com.spacecowboy89.dc.newsmanagement.dto.NewsInfoDto;
-import com.spacecowboy89.dc.newsmanagement.exception.NoResFoundInDBException;
-import com.spacecowboy89.dc.newsmanagement.persistence.entity.News;
 import com.spacecowboy89.dc.newsmanagement.service.NewsService;
 import com.spacecowboy89.dc.newsmanagement.utility.mapper.NewsMapper;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.tags.Tag;
-import jakarta.validation.constraints.Max;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.format.annotation.DateTimeFormat;
-import org.springframework.http.HttpHeaders;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -48,9 +43,8 @@ public class NewsController {
             description = "Retrieve main information of last 15 news.")
     @ApiResponses({
             @ApiResponse(responseCode = "200", description = "Retrieve main information of last 15 news succesfully."),
-            @ApiResponse(responseCode = "404", description = "News doesn't find."),
-            @ApiResponse(responseCode = "400", description = "Error 400.")
-
+            @ApiResponse(responseCode = "400", description = "Error 400."),
+            @ApiResponse(responseCode = "404", description = "News doesn't find.")
     })
     @GetMapping(value = "/lastMainInfoNews")
     public ResponseEntity<List<NewsInfoDto>> getLastMainInfoNews() {
@@ -67,12 +61,11 @@ public class NewsController {
 
     @Operation(
             summary = "Retrieve news by a specific newsCode.",
-            description = "Retrieve news by a specific newsCode."
-    )
+            description = "Retrieve news by a specific newsCode.")
     @ApiResponses({
             @ApiResponse(responseCode = "200", description = "News retrieves successfuly"),
-            @ApiResponse(responseCode = "404", description = " News doesnt' present."),
-            @ApiResponse(responseCode = "400", description = "")
+            @ApiResponse(responseCode = "400", description = ""),
+            @ApiResponse(responseCode = "404", description = " News doesnt' present.")
     })
     @GetMapping(value = "/newsByNewsCode")
     public ResponseEntity<NewsDto> getNewsByNewsCode(@RequestParam @NotBlank @Size(min = 20, max = 20) String newsCode) {
@@ -89,12 +82,11 @@ public class NewsController {
 
     @Operation(
             summary = "Retrevies last 15 news.",
-            description = "Retrevies last 15 news."
-    )
+            description = "Retrevies last 15 news.")
     @ApiResponses({
             @ApiResponse(responseCode = "200", description = "Retrieve last 15 news successfuly"),
-            @ApiResponse(responseCode = "404", description = "last 15 news doesn't found!"),
-            @ApiResponse(responseCode = "400", description = "")
+            @ApiResponse(responseCode = "400", description = ""),
+            @ApiResponse(responseCode = "404", description = "last 15 news doesn't found!")
     })
     @GetMapping("/last15News")
     public ResponseEntity<List<NewsDto>> getLast15News() {
@@ -109,12 +101,11 @@ public class NewsController {
 
     @Operation(
             summary = "Retrevies news by categorylast 15 news.",
-            description = "Retrevies news by categorylast 15 news."
-    )
+            description = "Retrevies news by categorylast 15 news.")
     @ApiResponses({
             @ApiResponse(responseCode = "200", description = "Retrieve last 15 news successfuly"),
-            @ApiResponse(responseCode = "404", description = "last 15 news doesn't found!"),
-            @ApiResponse(responseCode = "400", description = "")
+            @ApiResponse(responseCode = "400", description = ""),
+            @ApiResponse(responseCode = "404", description = "last 15 news doesn't found!")
     })
     @GetMapping("/newsByCategory")
     public ResponseEntity<List<NewsDto>> getNewsByCategory(@RequestParam @NotBlank @Size(min = 20, max = 20) String categoryCode) {
@@ -128,8 +119,16 @@ public class NewsController {
     }
 
 
+    @Operation(
+            summary = "Retrevies news between two date!.",
+            description = "Retrevies news between two date!")
+    @ApiResponses({
+            @ApiResponse(responseCode = "200", description = "Retrieve news between two date with success!"),
+            @ApiResponse(responseCode = "400", description = ""),
+            @ApiResponse(responseCode = "404", description = "last 15 news doesn't found!")
+    })
     @GetMapping("/beetwenTwoPublicationDate")
-    public ResponseEntity<List<NewsDto>> beetwen2PublicationDate(@RequestParam @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME) @NotNull LocalDateTime firstPublicationDate,
+    public ResponseEntity<List<NewsDto>> between2PublicationDate(@RequestParam @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME) @NotNull LocalDateTime firstPublicationDate,
                                                                  @RequestParam @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME) @NotNull LocalDateTime secondPublicationDate) {
         log.info("beetwen2PublicationDate in execution!");
 
@@ -142,6 +141,14 @@ public class NewsController {
     }
 
 
+    @Operation(
+            summary = "Retrevies news by a journalist!.",
+            description = "Retrevies news by a journalist. He's rappresented by journalist_code!")
+    @ApiResponses({
+            @ApiResponse(responseCode = "200", description = "Retrieve news by a journalist with success!"),
+            @ApiResponse(responseCode = "400", description = ""),
+            @ApiResponse(responseCode = "404", description = "There aren't news of this journalist!")
+    })
     @GetMapping("/byJournalist")
     public ResponseEntity<List<NewsDto>> getByJournalist(@RequestParam @NotBlank @Size(min = 20, max = 30) String journalistCode) {
         log.info("getByJournalist in execution!");

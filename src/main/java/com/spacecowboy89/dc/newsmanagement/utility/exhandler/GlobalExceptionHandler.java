@@ -1,4 +1,4 @@
-package com.spacecowboy89.dc.newsmanagement.exception.exchandler;
+package com.spacecowboy89.dc.newsmanagement.utility.exhandler;
 
 import com.spacecowboy89.dc.newsmanagement.exception.InvalidInputException;
 import com.spacecowboy89.dc.newsmanagement.exception.NoResFoundInDBException;

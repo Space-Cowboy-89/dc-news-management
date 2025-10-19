@@ -1,13 +1,9 @@
 package com.spacecowboy89.dc.newsmanagement.service;
 
-import com.spacecowboy89.dc.newsmanagement.dto.NewsDto;
-import com.spacecowboy89.dc.newsmanagement.dto.NewsInfoDto;
 import com.spacecowboy89.dc.newsmanagement.exception.NoResFoundInDBException;
 import com.spacecowboy89.dc.newsmanagement.persistence.dao.NewsDao;
 import com.spacecowboy89.dc.newsmanagement.persistence.entity.Category;
-import com.spacecowboy89.dc.newsmanagement.persistence.entity.Journalist;
 import com.spacecowboy89.dc.newsmanagement.persistence.entity.News;
-import com.spacecowboy89.dc.newsmanagement.utility.mapper.NewsMapper;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -42,6 +38,8 @@ public class NewsService {
         List<News> newsList = newsDao.findLast15News().get();
         if(newsList.isEmpty())
             throw new NoResFoundInDBException();
+
+        log.info("retrieveLast15NewsInfo of NewsService executed!");
         return newsList;
     }
 

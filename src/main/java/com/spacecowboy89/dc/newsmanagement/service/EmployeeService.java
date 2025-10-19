@@ -1,6 +1,5 @@
 package com.spacecowboy89.dc.newsmanagement.service;
 
-import com.spacecowboy89.dc.newsmanagement.dto.EmployeeDto;
 import com.spacecowboy89.dc.newsmanagement.exception.NoResFoundInDBException;
 import com.spacecowboy89.dc.newsmanagement.persistence.dao.EmployeeDao;
 import com.spacecowboy89.dc.newsmanagement.persistence.entity.Employee;

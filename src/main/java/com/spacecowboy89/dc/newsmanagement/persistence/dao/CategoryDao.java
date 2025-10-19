@@ -5,6 +5,7 @@ import com.spacecowboy89.dc.newsmanagement.persistence.repository.CategoryReposi
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
+import java.util.List;
 import java.util.Optional;
 
 @Component
@@ -18,5 +19,9 @@ public class CategoryDao {
 
     public Optional<Category> findByCategoryCode (String categoryCode){
         return categoryRepo.findByCategoryCode(categoryCode);
+    }
+
+    public Optional<List<Category>> findByCategoryId(int categoryId){
+        return categoryRepo.findByCategoryId(categoryId);
     }
 }

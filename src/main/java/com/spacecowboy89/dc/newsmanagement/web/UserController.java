@@ -1,10 +1,14 @@
 package com.spacecowboy89.dc.newsmanagement.web;
 
+import com.spacecowboy89.dc.newsmanagement.dto.ErrorResponse;
 import com.spacecowboy89.dc.newsmanagement.dto.UserDto;
 import com.spacecowboy89.dc.newsmanagement.persistence.entity.User;
 import com.spacecowboy89.dc.newsmanagement.service.UserService;
 import com.spacecowboy89.dc.newsmanagement.utility.mapper.UserMapper;
 import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.Parameter;
+import io.swagger.v3.oas.annotations.media.Content;
+import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import jakarta.validation.constraints.NotBlank;
@@ -36,15 +40,26 @@ public class UserController {
 
     @Operation(
             summary = "Retrieve user by userCode!",
-            description = "the endpoint return a user by an user code"
+            description = "the endpoint return a user by an user code",
+            parameters = @Parameter(name = "userCode", description = "user code value of a user!")
     )
     @ApiResponses({
             @ApiResponse(responseCode = "200", description = "User retrieves successfuly"),
-            @ApiResponse(responseCode = "400", description = ""),
-            @ApiResponse(responseCode = "404", description = "User doesn't present.")
+            @ApiResponse(
+                    responseCode = "400",
+                    description = "Input not valid!",
+                    content = @Content(schema = @Schema(implementation = ErrorResponse.class))),
+            @ApiResponse(
+                    responseCode = "404",
+                    description = "User doesn't present.",
+                    content = @Content(schema = @Schema(implementation = ErrorResponse.class))),
+            @ApiResponse(
+                    responseCode = "500",
+                    description = "Software error!",
+                    content = @Content(schema = @Schema(implementation = ErrorResponse.class)))
     })
     @GetMapping("/userByUserCode")
-    public ResponseEntity<UserDto> getUserByUserCode(@RequestParam @NotBlank @Size(min = 20,max=20) String userCode) {
+    public ResponseEntity<UserDto> getUserByUserCode(@RequestParam @NotBlank @Size(min = 20, max = 20) String userCode) {
         log.info("getUserByUserCode in execution!");
 
         UserDto userDto = UserMapper.INSTANCE.toUserDto(userService.retrieveUserByUserCode(userCode));
@@ -68,7 +83,7 @@ public class UserController {
     public ResponseEntity<UserDto> addUser(@RequestBody UserDto userDto) {
         log.info("Add user in execution!");
 
-        User user = userService.saveUser(UserMapper.INSTANCE.toUser(userDto) );
+        User user = userService.saveUser(UserMapper.INSTANCE.toUser(userDto));
         return ResponseEntity
                 .ok()
                 .header("Header", "Add user!")
@@ -81,12 +96,12 @@ public class UserController {
             description = "Service try to find a user by user code!"
     )
     @ApiResponses({
-           @ApiResponse(responseCode = "200", description ="User exists by user Code!" ),
-            @ApiResponse(responseCode = "400", description ="" ),
-            @ApiResponse(responseCode = "404", description ="" ),
+            @ApiResponse(responseCode = "200", description = "User exists by user Code!"),
+            @ApiResponse(responseCode = "400", description = ""),
+            @ApiResponse(responseCode = "404", description = ""),
     })
     @GetMapping("/existsUserByUserCode")
-    public ResponseEntity<Boolean> existUserByUserCode(@RequestParam @NotBlank @Size(min = 20,max=20) String userCode) {
+    public ResponseEntity<Boolean> existUserByUserCode(@RequestParam @NotBlank @Size(min = 20, max = 20) String userCode) {
         log.info("existUserByUserCode in execution!");
         return ResponseEntity
                 .ok()

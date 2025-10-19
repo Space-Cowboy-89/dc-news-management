@@ -1,7 +1,8 @@
 package com.spacecowboy89.dc.newsmanagement.dto;
 
 
-import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.Size;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -10,11 +11,12 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 public class NewsInfoDto {
-    @NotNull
+    @NotBlank
+    @Size(max = 25)
     private String title;
-    @NotNull
+    @NotBlank
     private String summary;
-    @NotNull
+
     private byte[] contentImage;
 }
 

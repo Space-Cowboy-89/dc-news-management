@@ -11,11 +11,15 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @Data
 public class EmployeeDto {
-    @NotNull
+    @NotBlank
     @Size(max=20)
     private String name;
 
-    @NotNull
+    @NotBlank
+    @Size(min = 20, max=20)
+    private String employeeCode;
+
+    @NotBlank
     @Size(max=20)
     private String surname;
 
@@ -23,7 +27,10 @@ public class EmployeeDto {
     @Size(max = 20)
     private String email;
 
-    @NotNull
+    @NotBlank
+    private String username;
+
+    @NotBlank
     @Size(max = 30)
     private String password;
 }

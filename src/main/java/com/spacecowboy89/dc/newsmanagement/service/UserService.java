@@ -1,16 +1,12 @@
 package com.spacecowboy89.dc.newsmanagement.service;
 
 
-import com.spacecowboy89.dc.newsmanagement.dto.UserDto;
 import com.spacecowboy89.dc.newsmanagement.exception.NoResFoundInDBException;
 import com.spacecowboy89.dc.newsmanagement.persistence.dao.UserDao;
 import com.spacecowboy89.dc.newsmanagement.persistence.entity.User;
-import com.spacecowboy89.dc.newsmanagement.utility.mapper.UserMapper;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-
-import java.util.Optional;
 
 @Service
 @Slf4j

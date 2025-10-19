@@ -5,7 +5,7 @@ import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 
-//TODO validazione dto
+//TODO completare swagger in UserController e NewsController
 
 @SpringBootApplication
 public class DigitalChroniclesNewsManagementApiApplication {

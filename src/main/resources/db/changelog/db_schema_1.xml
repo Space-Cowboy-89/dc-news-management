@@ -1,0 +1,216 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog
+        xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="
+          http://www.liquibase.org/xml/ns/dbchangelog
+          http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-4.17.xsd">
+
+
+    <!--Tabelle già create:
+        - review
+        - employee
+        - contest
+        - comment
+        - category
+     -->
+
+    <changeSet id="category_table" author="space-cowboy-89">
+        <createTable tableName="Category">
+            <column name="id" type="BIGINT" autoIncrement="true">
+                <constraints primaryKey="true"/>
+            </column>
+            <column name="name" type="VARCHAR(25)">
+                <constraints nullable="false" unique="true"/>
+            </column>
+            <column name="category_code" type="VARCHAR(29)">
+                <constraints nullable="false" unique="true"/>
+            </column>
+            <column name="created_at" defaultValueComputed="CURRENT_TIMESTAMP" type="datetime"/>
+            <column name="modified_at" type="datetime"/>
+            <column name="deleted_at" type="datetime"/>
+
+            <column name="category_id" type="BIGINT"/>
+        </createTable>
+
+        <addForeignKeyConstraint baseColumnNames="category_id"
+                                 baseTableName="Category"
+                                 constraintName="fk_category"
+                                 referencedColumnNames="id"
+                                 referencedTableName="Category"/>
+    </changeSet>
+
+    <changeSet id="comment_table_building" author="space_cowboy_89">
+        <createTable tableName="comment">
+            <column name="id" type="BIGINT" autoIncrement="true">
+                <constraints primaryKey="true"/>
+            </column>
+            <column name="text" type="text">
+                <constraints nullable="false"/>
+            </column>
+            <column name="comment_code" type="VARCHAR(20)">
+                <constraints nullable="false" unique="true"/>
+            </column>
+            <column name="positive_code" type="long">
+                <constraints nullable="false"/>
+            </column>
+            <column name="negative_vote" type="long">
+                <constraints nullable="false"/>
+            </column>
+            <column name="date" type="datetime"/>
+            <column name="user_id" type="BIGINT">
+                <constraints nullable="false"/>
+            </column>
+            <column name="review_id" type="BIGINT"/>
+            <column name="news_id" type="BIGINT"/>
+            <column name="preview_id" type="BIGINT"/>
+            <column name="comment_id" type="BIGINT"/>
+            <column name="created_at" defaultValueComputed="CURRENT_TIMESTAMP" type="datetime"/>
+            <column name="modified_at" type="datetime"/>
+            <column name="deleted_at" type="datetime"/>
+        </createTable>
+
+        <addForeignKeyConstraint baseColumnNames="user_id"
+                                 baseTableName="comment"
+                                 constraintName="fk_comment__user"
+                                 referencedColumnNames="id"
+                                 referencedTableName="Category"/>
+
+        <addForeignKeyConstraint baseColumnNames="review_id"
+                                 baseTableName="comment"
+                                 constraintName="fk_comment__review"
+                                 referencedColumnNames="id"
+                                 referencedTableName="review"/>
+
+
+        <addForeignKeyConstraint baseColumnNames="news_id"
+                                 baseTableName="comment"
+                                 constraintName="fk_comment__news"
+                                 referencedColumnNames="id"
+                                 referencedTableName="news"/>
+
+        <addForeignKeyConstraint baseColumnNames="preview_id"
+                                 baseTableName="comment"
+                                 constraintName="fk_comment__preview"
+                                 referencedColumnNames="id"
+                                 referencedTableName="preview"/>
+
+
+        <addForeignKeyConstraint baseColumnNames="comment_id"
+                                 baseTableName="comment"
+                                 constraintName="fk_comment_comment"
+                                 referencedColumnNames="id"
+                                 referencedTableName="comment"/>
+    </changeSet>
+
+
+
+    <changeSet id="tables creation 3" author="space_cowboy_89">
+        <createTable tableName="contest">
+            <column name="id" type="BIGINT" autoIncrement="true">
+                <constraints primaryKey="true"/>
+            </column>
+            <column name="name" type="varchar(30)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="desc" type="text">
+                <constraints nullable="false"/>
+            </column>
+            <column name="contest_code" type="varchar(20)">
+                <constraints nullable="false" unique="true"/>
+            </column>
+            <column name="image_id" type="bigint"/>
+            <column name="created_at" defaultValueComputed="CURRENT_TIMESTAMP" type="datetime"/>
+            <column name="modified_at" type="datetime"/>
+            <column name="deleted_at" type="datetime"/>
+        </createTable>
+
+        <addForeignKeyConstraint baseColumnNames="image_id"
+                                 baseTableName="contest"
+                                 constraintName="fk_contest__image"
+                                 referencedColumnNames="id"
+                                 referencedTableName="image"/>
+
+        <createTable tableName="employee">
+            <column name="id" type="BIGINT" autoIncrement="true">
+                <constraints primaryKey="true"/>
+            </column>
+            <column name="employee_code" type="varchar(20)">
+                <constraints nullable="false" unique="true"/>
+            </column>
+            <column name="name" type="varchar(20)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="surname" type="varchar(20)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="email" type="varchar(20)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="password" type="varchar(20)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="username" type="varchar(20)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="created_at" defaultValueComputed="CURRENT_TIMESTAMP" type="datetime"/>
+            <column name="modified_at" type="datetime"/>
+            <column name="deleted_at" type="datetime"/>
+        </createTable>
+        
+        <createTable tableName="review">
+            <column name="id" type="BIGINT" autoIncrement="true">
+                <constraints primaryKey="true"/>
+            </column>
+            <column name="review_code" type="varchar(20)">
+                <constraints nullable="false" unique="true"/>
+            </column>
+            <column name="pubblication_date" type="datetime">
+                <constraints nullable="false" unique="true"/>
+            </column>
+            <column name="positive_vode" type="bigint">
+                <constraints nullable="false"/>
+            </column>
+            <column name="negative_vote" type="bigint">
+                <constraints nullable="false"/>
+            </column>
+            <column name="category_id" type="bigint">
+                <constraints nullable="false"/>
+            </column>
+            <column name="created_at" defaultValueComputed="CURRENT_TIMESTAMP" type="datetime"/>
+            <column name="modified_at" type="datetime"/>
+            <column name="deleted_at" type="datetime"/>
+            <column name="vote" type="float">
+                <constraints nullable="false"/>
+            </column>
+            <column name="image_id" type ="bigint"/>
+            <column name="title" type="varchar(30)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="summary" type="text">
+                <constraints nullable="false"/>
+            </column>
+            <column name="journalist_code" type="varchar(100)">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+
+        <addForeignKeyConstraint baseColumnNames="category_id"
+                                 baseTableName="review"
+                                 constraintName="fk_review__category"
+                                 referencedColumnNames="id"
+                                 referencedTableName="category"/>
+        <addForeignKeyConstraint baseColumnNames="image_id"
+                                 baseTableName="review"
+                                 constraintName="fk_review__image"
+                                 referencedColumnNames="id"
+                                 referencedTableName="image"/>
+        <addForeignKeyConstraint baseColumnNames="journalist_code"
+                                 baseTableName="review"
+                                 constraintName="fk_review__image"
+                                 referencedColumnNames="journalist_code"
+                                 referencedTableName="journalist"/>
+    </changeSet>
+
+
+</databaseChangeLog>
