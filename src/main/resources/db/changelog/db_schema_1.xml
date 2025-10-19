@@ -8,14 +8,15 @@
 
 
     <!--Tabelle già create:
-        - review
-        - employee
-        - contest
-        - comment
-        - category
-     -->
+           - review
+           - employee
+           - contest
+           - comment
+           - category
+           - image
+    -->
 
-    <changeSet id="category_table" author="space-cowboy-89">
+    <changeSet id="creation_table_1" author="space-cowboy-89">
         <createTable tableName="Category">
             <column name="id" type="BIGINT" autoIncrement="true">
                 <constraints primaryKey="true"/>
@@ -40,7 +41,8 @@
                                  referencedTableName="Category"/>
     </changeSet>
 
-    <changeSet id="comment_table_building" author="space_cowboy_89">
+
+    <changeSet id="creation_table_2" author="space_cowboy_89">
         <createTable tableName="comment">
             <column name="id" type="BIGINT" autoIncrement="true">
                 <constraints primaryKey="true"/>
@@ -104,8 +106,7 @@
     </changeSet>
 
 
-
-    <changeSet id="tables creation 3" author="space_cowboy_89">
+    <changeSet id="tables_creation_3" author="space_cowboy_89">
         <createTable tableName="contest">
             <column name="id" type="BIGINT" autoIncrement="true">
                 <constraints primaryKey="true"/>
@@ -157,7 +158,7 @@
             <column name="modified_at" type="datetime"/>
             <column name="deleted_at" type="datetime"/>
         </createTable>
-        
+
         <createTable tableName="review">
             <column name="id" type="BIGINT" autoIncrement="true">
                 <constraints primaryKey="true"/>
@@ -183,7 +184,7 @@
             <column name="vote" type="float">
                 <constraints nullable="false"/>
             </column>
-            <column name="image_id" type ="bigint"/>
+            <column name="image_id" type="bigint"/>
             <column name="title" type="varchar(30)">
                 <constraints nullable="false"/>
             </column>
@@ -210,6 +211,26 @@
                                  constraintName="fk_review__image"
                                  referencedColumnNames="journalist_code"
                                  referencedTableName="journalist"/>
+    </changeSet>
+
+    <changeSet id="creation_table_4" author="space-cowboy-89">
+        <createTable tableName="image">
+            <column name="id" type="BIGINT" autoIncrement="true">
+                <constraints primaryKey="true"/>
+            </column>
+            <column name="content" type="BLOB">
+                <constraints nullable="false"/>
+            </column>
+            <column name="image_code" type="varchar(25)">
+                <constraints nullable="false" unique="true"/>
+            </column>
+            <column name="name" type="varchar(30)">
+                <constraints nullable="false" unique="true"/>
+            </column>
+            <column name="created_at" defaultValueComputed="CURRENT_TIMESTAMP" type="datetime"/>
+            <column name="modified_at" type="datetime"/>
+            <column name="deleted_at" type="datetime"/>
+        </createTable>
     </changeSet>
 
 

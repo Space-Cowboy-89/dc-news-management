@@ -1,10 +1,14 @@
 package com.spacecowboy89.dc.newsmanagement.web;
 
+import com.spacecowboy89.dc.newsmanagement.dto.ErrorResponse;
 import com.spacecowboy89.dc.newsmanagement.dto.NewsDto;
 import com.spacecowboy89.dc.newsmanagement.dto.NewsInfoDto;
 import com.spacecowboy89.dc.newsmanagement.service.NewsService;
 import com.spacecowboy89.dc.newsmanagement.utility.mapper.NewsMapper;
 import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.Parameter;
+import io.swagger.v3.oas.annotations.media.Content;
+import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.tags.Tag;
@@ -42,10 +46,21 @@ public class NewsController {
             summary = "Retrieve main information of last 15 news.",
             description = "Retrieve main information of last 15 news.")
     @ApiResponses({
-            @ApiResponse(responseCode = "200", description = "Retrieve main information of last 15 news succesfully."),
-            @ApiResponse(responseCode = "400", description = "Error 400."),
-            @ApiResponse(responseCode = "404", description = "News doesn't find.")
-    })
+            @ApiResponse(
+                    responseCode = "200",
+                    description = "Retrieve main information of last 15 news succesfully."),
+            @ApiResponse(
+                    responseCode = "400",
+                    description = "Input not valid",
+                    content = @Content(schema = @Schema(implementation = ErrorResponse.class))),
+            @ApiResponse(
+                    responseCode = "404",
+                    description = "News not found.",
+                    content = @Content(schema = @Schema(implementation = ErrorResponse.class))),
+            @ApiResponse(
+                    responseCode = "500",
+                    description = "Software internal error.",
+                    content = @Content(schema = @Schema(implementation = ErrorResponse.class)))})
     @GetMapping(value = "/lastMainInfoNews")
     public ResponseEntity<List<NewsInfoDto>> getLastMainInfoNews() {
         log.info("Endpoint 'lastMainInfoNews' called.");
@@ -60,13 +75,26 @@ public class NewsController {
 
 
     @Operation(
-            summary = "Retrieve news by a specific newsCode.",
-            description = "Retrieve news by a specific newsCode.")
+            summary = "It Retrieves a specific news.",
+            description = "It Retrieves news by a specific newsCode.",
+            parameters = @Parameter(name = "newsCode", description = "It's a univoque code value of a news.")
+    )
     @ApiResponses({
-            @ApiResponse(responseCode = "200", description = "News retrieves successfuly"),
-            @ApiResponse(responseCode = "400", description = ""),
-            @ApiResponse(responseCode = "404", description = " News doesnt' present.")
-    })
+            @ApiResponse(
+                    responseCode = "200",
+                    description = "News retrieved with success."),
+            @ApiResponse(
+                    responseCode = "400",
+                    description = "Inputs are not valid.",
+                    content = @Content(schema = @Schema(implementation = ErrorResponse.class))),
+            @ApiResponse(
+                    responseCode = "404",
+                    description = " News doesn't found.",
+                    content = @Content(schema = @Schema(implementation = ErrorResponse.class))),
+            @ApiResponse(
+                    responseCode = "500",
+                    description = "Software internal error.",
+                    content = @Content(schema = @Schema(implementation = ErrorResponse.class)))})
     @GetMapping(value = "/newsByNewsCode")
     public ResponseEntity<NewsDto> getNewsByNewsCode(@RequestParam @NotBlank @Size(min = 20, max = 20) String newsCode) {
         log.info("Endpoint 'getNewsByNewsCode' called.");
@@ -84,9 +112,21 @@ public class NewsController {
             summary = "Retrevies last 15 news.",
             description = "Retrevies last 15 news.")
     @ApiResponses({
-            @ApiResponse(responseCode = "200", description = "Retrieve last 15 news successfuly"),
-            @ApiResponse(responseCode = "400", description = ""),
-            @ApiResponse(responseCode = "404", description = "last 15 news doesn't found!")
+            @ApiResponse(
+                    responseCode = "200",
+                    description = "Retrieve last 15 news successfuly"),
+            @ApiResponse(
+                    responseCode = "400",
+                    description = "Something went wrong.",
+                    content = @Content(schema = @Schema(implementation = ErrorResponse.class))),
+            @ApiResponse(
+                    responseCode = "404",
+                    description = "last 15 news doesn't found!",
+                    content = @Content(schema = @Schema(implementation = ErrorResponse.class))),
+            @ApiResponse(
+                    responseCode = "500",
+                    description = "Software internal error!",
+                    content = @Content(schema = @Schema(implementation = ErrorResponse.class)))
     })
     @GetMapping("/last15News")
     public ResponseEntity<List<NewsDto>> getLast15News() {

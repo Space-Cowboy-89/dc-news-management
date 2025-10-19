@@ -11,6 +11,7 @@ import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Size;
 import lombok.extern.slf4j.Slf4j;
@@ -28,6 +29,7 @@ import org.springframework.web.bind.annotation.RestController;
 @RequestMapping("/user")
 @Slf4j
 @Validated
+@Tag(name = "User", description = "It offers services about user!")
 public class UserController {
     private final UserService userService;
 
@@ -72,12 +74,24 @@ public class UserController {
 
 
     @Operation(
-            summary = "Add user in db",
-            description = "Add user in db"
+            summary = "Add new user in db.",
+            description = "Add new user in in digital_chronicles.",
+            parameters = @Parameter(name = "userDto", description = "this dto allow to add new user in db.")
     )
     @ApiResponses({
-            @ApiResponse(responseCode = "200", description = "add user successfuly"),
-            @ApiResponse(responseCode = "400", description = "")
+            @ApiResponse(responseCode = "200", description = "add user successfuly."),
+            @ApiResponse(
+                    responseCode = "400",
+                    description = "Input not valid.",
+                    content = @Content(schema = @Schema(implementation = ErrorResponse.class))),
+            @ApiResponse(
+                    responseCode = "404",
+                    description = "Value not found.",
+                    content = @Content(schema = @Schema(implementation = ErrorResponse.class))),
+            @ApiResponse(
+                    responseCode = "500",
+                    description = "Api internal error..",
+                    content = @Content(schema = @Schema(implementation = ErrorResponse.class)))
     })
     @PostMapping("/user")
     public ResponseEntity<UserDto> addUser(@RequestBody UserDto userDto) {
@@ -93,13 +107,24 @@ public class UserController {
 
     @Operation(
             summary = "Exist user by userCode! ",
-            description = "Service try to find a user by user code!"
+            description = "Service try to find a user by user code!",
+            parameters = @Parameter(name = "userCode", description = "It's specific user code of a user.")
     )
     @ApiResponses({
             @ApiResponse(responseCode = "200", description = "User exists by user Code!"),
-            @ApiResponse(responseCode = "400", description = ""),
-            @ApiResponse(responseCode = "404", description = ""),
-    })
+            @ApiResponse(
+                    responseCode = "400",
+                    description = "Input not valid.",
+                    content = @Content(schema = @Schema(implementation = ErrorResponse.class))),
+            @ApiResponse(
+                    responseCode = "404",
+                    description = "Value not found.",
+                    content = @Content(schema = @Schema(implementation = ErrorResponse.class))),
+            @ApiResponse(
+                    responseCode = "500",
+                    description = "software internal error.",
+                    content = @Content(schema = @Schema(implementation = ErrorResponse.class))
+            ),})
     @GetMapping("/existsUserByUserCode")
     public ResponseEntity<Boolean> existUserByUserCode(@RequestParam @NotBlank @Size(min = 20, max = 20) String userCode) {
         log.info("existUserByUserCode in execution!");
