@@ -124,7 +124,7 @@ public class UserController {
                     responseCode = "500",
                     description = "software internal error.",
                     content = @Content(schema = @Schema(implementation = ErrorResponse.class))
-            ),})
+            )})
     @GetMapping("/existsUserByUserCode")
     public ResponseEntity<Boolean> existUserByUserCode(@RequestParam @NotBlank @Size(min = 20, max = 20) String userCode) {
         log.info("existUserByUserCode in execution!");
