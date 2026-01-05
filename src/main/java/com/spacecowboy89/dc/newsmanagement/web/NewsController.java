@@ -61,7 +61,7 @@ public class NewsController {
                     responseCode = "500",
                     description = "Software internal error.",
                     content = @Content(schema = @Schema(implementation = ErrorResponse.class)))})
-    @GetMapping(value = "/lastMainInfoNews")
+    @GetMapping(value = "/last-15-main-Info-News")
     public ResponseEntity<List<NewsInfoDto>> getLastMainInfoNews() {
         log.info("Endpoint 'lastMainInfoNews' called.");
 
@@ -95,8 +95,8 @@ public class NewsController {
                     responseCode = "500",
                     description = "Software internal error.",
                     content = @Content(schema = @Schema(implementation = ErrorResponse.class)))})
-    @GetMapping(value = "/newsByNewsCode")
-    public ResponseEntity<NewsDto> getNewsByNewsCode(@RequestParam @NotBlank @Size(min = 20, max = 20) String newsCode) {
+    @GetMapping(params = "news-code")
+    public ResponseEntity<NewsDto> getNewsByNewsCode(@RequestParam(value= "news-code") @NotBlank @Size(min = 20, max = 20) String newsCode) {
         log.info("Endpoint 'getNewsByNewsCode' called.");
 
         NewsDto newsDto = NewsMapper.INSTANCE.toNewsDto(newsService.retrieveByNewsCode(newsCode));
@@ -128,7 +128,7 @@ public class NewsController {
                     description = "Software internal error!",
                     content = @Content(schema = @Schema(implementation = ErrorResponse.class)))
     })
-    @GetMapping("/last15News")
+    @GetMapping("/last-15-news")
     public ResponseEntity<List<NewsDto>> getLast15News() {
 
         List<NewsDto> newsDtoList = NewsMapper.INSTANCE.toNewsDtoList(newsService.retrieveLast15Info());
@@ -147,8 +147,8 @@ public class NewsController {
             @ApiResponse(responseCode = "400", description = ""),
             @ApiResponse(responseCode = "404", description = "last 15 news doesn't found!")
     })
-    @GetMapping("/newsByCategory")
-    public ResponseEntity<List<NewsDto>> getNewsByCategory(@RequestParam @NotBlank @Size(min = 20, max = 20) String categoryCode) {
+    @GetMapping(params="category-code")
+    public ResponseEntity<List<NewsDto>> getNewsByCategory(@RequestParam("category-code") @NotBlank @Size(min = 20, max = 20) String categoryCode) {
         log.info("getNewsByCategory in Execution!");
 
         List<NewsDto> newsDtoList = NewsMapper.INSTANCE.toNewsDtoList(newsService.retrieveByCategory(categoryCode));
@@ -167,9 +167,9 @@ public class NewsController {
             @ApiResponse(responseCode = "400", description = ""),
             @ApiResponse(responseCode = "404", description = "last 15 news doesn't found!")
     })
-    @GetMapping("/beetwenTwoPublicationDate")
-    public ResponseEntity<List<NewsDto>> between2PublicationDate(@RequestParam @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME) @NotNull LocalDateTime firstPublicationDate,
-                                                                 @RequestParam @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME) @NotNull LocalDateTime secondPublicationDate) {
+    @GetMapping(params = {"first-publication-date","second-publication-date"})
+    public ResponseEntity<List<NewsDto>> between2PublicationDate(@RequestParam(value = "first-publication-date") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME) @NotNull LocalDateTime firstPublicationDate,
+                                                                 @RequestParam(value = "second-publication-date") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME) @NotNull LocalDateTime secondPublicationDate) {
         log.info("beetwen2PublicationDate in execution!");
 
 
@@ -189,8 +189,8 @@ public class NewsController {
             @ApiResponse(responseCode = "400", description = ""),
             @ApiResponse(responseCode = "404", description = "There aren't news of this journalist!")
     })
-    @GetMapping("/byJournalist")
-    public ResponseEntity<List<NewsDto>> getByJournalist(@RequestParam @NotBlank @Size(min = 20, max = 30) String journalistCode) {
+    @GetMapping(params ="journalist-code")
+    public ResponseEntity<List<NewsDto>> getByJournalist(@RequestParam(value = "journalist-code") @NotBlank @Size(min = 20, max = 30) String journalistCode) {
         log.info("getByJournalist in execution!");
 
         List<NewsDto> newsDtoList = NewsMapper.INSTANCE.toNewsDtoList(

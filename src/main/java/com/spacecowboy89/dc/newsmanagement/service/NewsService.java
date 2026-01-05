@@ -34,7 +34,6 @@ public class NewsService {
      */
     public List<News> retrieveLast15NewsInfo() {
         log.info("retrieveLast15NewsInfo of NewsService in execution!");
-
         List<News> newsList = newsDao.findLast15News().get();
         if(newsList.isEmpty())
             throw new NoResFoundInDBException();

@@ -60,8 +60,8 @@ public class UserController {
                     description = "Software error!",
                     content = @Content(schema = @Schema(implementation = ErrorResponse.class)))
     })
-    @GetMapping("/userByUserCode")
-    public ResponseEntity<UserDto> getUserByUserCode(@RequestParam @NotBlank @Size(min = 20, max = 20) String userCode) {
+    @GetMapping()
+    public ResponseEntity<UserDto> getUserByUserCode(@RequestParam(value ="user-code") @NotBlank @Size(min = 20, max = 20) String userCode) {
         log.info("getUserByUserCode in execution!");
 
         UserDto userDto = UserMapper.INSTANCE.toUserDto(userService.retrieveUserByUserCode(userCode));
@@ -93,7 +93,7 @@ public class UserController {
                     description = "Api internal error..",
                     content = @Content(schema = @Schema(implementation = ErrorResponse.class)))
     })
-    @PostMapping("/user")
+    @PostMapping()
     public ResponseEntity<UserDto> addUser(@RequestBody UserDto userDto) {
         log.info("Add user in execution!");
 
@@ -125,8 +125,8 @@ public class UserController {
                     description = "software internal error.",
                     content = @Content(schema = @Schema(implementation = ErrorResponse.class))
             )})
-    @GetMapping("/existsUserByUserCode")
-    public ResponseEntity<Boolean> existUserByUserCode(@RequestParam @NotBlank @Size(min = 20, max = 20) String userCode) {
+    @GetMapping("/exists")
+    public ResponseEntity<Boolean> existUserByUserCode(@RequestParam(value = "user-code") @NotBlank @Size(min = 20, max = 20) String userCode) {
         log.info("existUserByUserCode in execution!");
         return ResponseEntity
                 .ok()
