@@ -63,10 +63,12 @@ public class NewsController {
                     content = @Content(schema = @Schema(implementation = ErrorResponse.class)))})
     @GetMapping(value = "/last-15-main-Info-News")
     public ResponseEntity<List<NewsInfoDto>> getLastMainInfoNews() {
-        log.info("Endpoint 'lastMainInfoNews' called.");
+        log.info("lastMainInfoNews endpoint in execution!");
 
         List<NewsInfoDto> newsInfoDtoList = NewsMapper.INSTANCE.toNewsInfoDtoList(
                 newsService.retrieveLast15NewsInfo());
+
+        log.info("lastMainInfoNews endpoint executed successfully!");
         return ResponseEntity
                 .ok()
                 .header("Header", "Retrieve main info news!")
@@ -97,10 +99,11 @@ public class NewsController {
                     content = @Content(schema = @Schema(implementation = ErrorResponse.class)))})
     @GetMapping(params = "news-code")
     public ResponseEntity<NewsDto> getNewsByNewsCode(@RequestParam(value= "news-code") @NotBlank @Size(min = 20, max = 20) String newsCode) {
-        log.info("Endpoint 'getNewsByNewsCode' called.");
+        log.info("getNewsByNewsCode endpoint in execution!");
 
         NewsDto newsDto = NewsMapper.INSTANCE.toNewsDto(newsService.retrieveByNewsCode(newsCode));
 
+        log.info("getNewsByNewsCode endpoint executed successfully!");
         return ResponseEntity
                 .ok()
                 .header("Header", "Retrieve news By newsCode!")
@@ -130,8 +133,10 @@ public class NewsController {
     })
     @GetMapping("/last-15-news")
     public ResponseEntity<List<NewsDto>> getLast15News() {
-
+        log.info("getLast15News endpoint in execution!");
         List<NewsDto> newsDtoList = NewsMapper.INSTANCE.toNewsDtoList(newsService.retrieveLast15Info());
+
+        log.info("getLast15News endpoint executed successfully!");
         return ResponseEntity
                 .ok()
                 .header("Header", "Retrieve last 15 news!")
@@ -149,9 +154,11 @@ public class NewsController {
     })
     @GetMapping(params="category-code")
     public ResponseEntity<List<NewsDto>> getNewsByCategory(@RequestParam("category-code") @NotBlank @Size(min = 20, max = 20) String categoryCode) {
-        log.info("getNewsByCategory in Execution!");
+        log.info("getNewsByCategory endpoint in execution!");
 
         List<NewsDto> newsDtoList = NewsMapper.INSTANCE.toNewsDtoList(newsService.retrieveByCategory(categoryCode));
+
+        log.info("getNewsByCategory endpoint executed successfully!");
         return ResponseEntity
                 .ok()
                 .header("")
@@ -170,10 +177,11 @@ public class NewsController {
     @GetMapping(params = {"first-publication-date","second-publication-date"})
     public ResponseEntity<List<NewsDto>> between2PublicationDate(@RequestParam(value = "first-publication-date") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME) @NotNull LocalDateTime firstPublicationDate,
                                                                  @RequestParam(value = "second-publication-date") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME) @NotNull LocalDateTime secondPublicationDate) {
-        log.info("beetwen2PublicationDate in execution!");
-
+        log.info("between2PublicationDate endpoint in execution!");
 
         List<NewsDto> newsDtoList = NewsMapper.INSTANCE.toNewsDtoList(newsService.retrieveByBeetwen2PublicationDate(firstPublicationDate, secondPublicationDate));
+
+        log.info("between2PublicationDate endpoint executed successfully!");
         return ResponseEntity
                 .ok()
                 .header("Header!", "beetwen2PublicationDate")
@@ -191,16 +199,16 @@ public class NewsController {
     })
     @GetMapping(params ="journalist-code")
     public ResponseEntity<List<NewsDto>> getByJournalist(@RequestParam(value = "journalist-code") @NotBlank @Size(min = 20, max = 30) String journalistCode) {
-        log.info("getByJournalist in execution!");
+        log.info("getByJournalist endpoint in execution!");
 
         List<NewsDto> newsDtoList = NewsMapper.INSTANCE.toNewsDtoList(
                 newsService.retrieveByJournalist(journalistCode));
 
+        log.info("getByJournalist endpoint executed successfully!");
         return ResponseEntity
                 .ok()
                 .header("Header", "an header!")
                 .body(newsDtoList);
     }
-
 }
 

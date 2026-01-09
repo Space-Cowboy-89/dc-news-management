@@ -19,7 +19,11 @@ public class JournalistService {
     }
 
     public Journalist retrieveById(String journalistCode){
-        return journalistDao.findById(journalistCode)
+        log.info("retrieveById function in execution!");
+        Journalist journalist = journalistDao.findById(journalistCode)
                 .orElseThrow(NoResFoundInDBException::new);
+
+        log.info("retrieveById function executed successfully!");
+        return journalist;
     }
 }

@@ -12,15 +12,17 @@ import org.springframework.stereotype.Service;
 public class EmployeeService {
     private final EmployeeDao employeeDao;
 
-
     @Autowired
     public EmployeeService(EmployeeDao employeeDao) {
         this.employeeDao = employeeDao;
     }
 
     public Employee retrieveByEmployeeCode(String employeeCode){
+        log.info("retrieveByEmployeeCode function in execution!");
         Employee employee = employeeDao.findByEmployeeCode(employeeCode)
                 .orElseThrow(NoResFoundInDBException::new);
+
+        log.info("retrieveByEmployeeCode function executed successfully");
         return employee;
     }
 }

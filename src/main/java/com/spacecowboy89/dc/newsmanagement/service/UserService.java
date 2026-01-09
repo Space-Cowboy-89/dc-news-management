@@ -20,23 +20,30 @@ public class UserService {
 
 
     public User saveUser(User user) {
+        log.info("saveUser function in execution!");
         user = userDao.persistUser(user).
                 orElseThrow(NoResFoundInDBException::new);
-        return user;
 
+        log.info("saveUser function executed successfully!");
+        return user;
     }
 
 
     public User retrieveUserByUserCode(String userCode) {
+        log.info("retrieveUserByUserCode function in execution!");
         User user = userDao.findUserByUserCode(userCode).orElseThrow(NoResFoundInDBException::new);
 
+        log.info("retrieveUserByUserCode function executed successfully!");
         return user;
     }
 
 
     public Boolean existUserByUserCode(String userCode) {
+        log.info("existUserByUserCode function in execution!");
         Boolean userExist = userDao.existByUserCode(userCode)
                 .orElseThrow(NoResFoundInDBException::new);
+
+        log.info("existUserByUserCode function executed successfully!");
         return userExist;
     }
 

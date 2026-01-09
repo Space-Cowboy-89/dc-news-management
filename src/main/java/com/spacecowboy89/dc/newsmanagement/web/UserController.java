@@ -62,10 +62,11 @@ public class UserController {
     })
     @GetMapping()
     public ResponseEntity<UserDto> getUserByUserCode(@RequestParam(value ="user-code") @NotBlank @Size(min = 20, max = 20) String userCode) {
-        log.info("getUserByUserCode in execution!");
+        log.info("getUserByUserCode endpoint in execution!");
 
         UserDto userDto = UserMapper.INSTANCE.toUserDto(userService.retrieveUserByUserCode(userCode));
 
+        log.info("getUserByUserCode endpoint executed successfully!");
         return ResponseEntity
                 .ok()
                 .header("Header", "User by userCode!")
@@ -95,9 +96,11 @@ public class UserController {
     })
     @PostMapping()
     public ResponseEntity<UserDto> addUser(@RequestBody UserDto userDto) {
-        log.info("Add user in execution!");
+        log.info("addUser endpoint in execution!");
 
         User user = userService.saveUser(UserMapper.INSTANCE.toUser(userDto));
+
+        log.info("addUser endpoint executed successfully!");
         return ResponseEntity
                 .ok()
                 .header("Header", "Add user!")
@@ -127,7 +130,9 @@ public class UserController {
             )})
     @GetMapping("/exists")
     public ResponseEntity<Boolean> existUserByUserCode(@RequestParam(value = "user-code") @NotBlank @Size(min = 20, max = 20) String userCode) {
-        log.info("existUserByUserCode in execution!");
+        log.info("existUserByUserCode endpoint in execution!");
+
+        log.info("existUserByUserCode endpoint executed successfully!");
         return ResponseEntity
                 .ok()
                 .header("Header", "User exists!")

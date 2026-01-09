@@ -64,52 +64,14 @@ public class CategoryController {
 
     @GetMapping("/subcategories")
     public ResponseEntity<List<CategoryDto>> getSubcategoriesByCategory(@RequestParam(value = "category-id") @NotNull @Min(0) int categoryId) {
-        log.info("getSubcategoriesByCategory in execution!");
+        log.info("getSubcategoriesByCategory endpoint in execution!");
         List<CategoryDto> categoryDtoList = CategoryMapper.INSTANCE.toCategoryDtoList(
                 categoryService.retrieveByCategoryId(categoryId));
 
-        log.info("getSubcategoriesByCategory executed with success!");
+        log.info("getSubcategoriesByCategory endpoint executed successfully!");
         return ResponseEntity
                 .ok()
                 .header("Header", "header")
                 .body(categoryDtoList);
     }
-
-
-    /*
-    @Operation(
-            summary = "Retrieve subcategory of a specific category!",
-            description = "Retrieve subcategory of a specific category by id.",
-            parameters = @Parameter(name = "categoryId", description = "category id of a category."))
-    @ApiResponses({
-            @ApiResponse(
-                    responseCode = "200",
-                    description = "Retrieve subcategories with success."),
-            @ApiResponse(
-                    responseCode = "400",
-                    description = "Parameter not valid.",
-                    content = @Content(schema = @Schema(implementation = ErrorResponse.class))),
-            @ApiResponse(
-                    responseCode = "404",
-                    description = "Subcategories not found",
-                    content = @Content(schema = @Schema(implementation = ErrorResponse.class))),
-            @ApiResponse(
-                    responseCode = "500",
-                    description = "software error!",
-                    content = @Content(schema = @Schema(implementation = ErrorResponse.class)))
-    })
-
-    @GetMapping("/subcategoriesById")
-    public ResponseEntity<List<CategoryDto>> getSubcategoriesByCate2gory(@RequestParam @NotNull @Min(0) int categoryId) {
-        log.info("getSubcategoriesByCategory in execution!");
-        List<CategoryDto> categoryDtoList = CategoryMapper.INSTANCE.toCategoryDtoList(
-                categoryService.retrieveByCategoryId(categoryId));
-
-        log.info("getSubcategoriesByCategory executed with success!");
-        return ResponseEntity
-                .ok()
-                .header("Header", "header")
-                .body(categoryDtoList);
-    }
-    */
 }

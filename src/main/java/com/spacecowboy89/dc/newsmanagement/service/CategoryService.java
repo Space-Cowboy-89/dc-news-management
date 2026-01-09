@@ -25,10 +25,12 @@ public class CategoryService {
     }
 
     public List<Category> retrieveByCategoryId(int categoryId) {
+        log.info("retrieveByCategoryId function in execution!");
         List<Category> categoryList = categoryDao.findByCategoryId(categoryId).get();
         if (categoryList.isEmpty())
             throw new NoResFoundInDBException();
 
+        log.info("retrieveByCategoryId function executed successfully!");
         return categoryList;
     }
 
