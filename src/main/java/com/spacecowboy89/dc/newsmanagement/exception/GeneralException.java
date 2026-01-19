@@ -6,10 +6,10 @@ import lombok.NoArgsConstructor;
 
 import java.time.LocalDateTime;
 
-
-
-public class InvalidInputException extends GeneralException{
-    public InvalidInputException(String message, LocalDateTime dateTime){
-        super(message,dateTime);
-    }
+@Data
+@NoArgsConstructor
+@AllArgsConstructor
+public class GeneralException  extends RuntimeException{
+    private String message;
+    private LocalDateTime dateTime;
 }

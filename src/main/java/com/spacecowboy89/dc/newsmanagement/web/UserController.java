@@ -41,23 +41,26 @@ public class UserController {
 
 
     @Operation(
-            summary = "Retrieve user by userCode!",
-            description = "the endpoint return a user by an user code",
-            parameters = @Parameter(name = "userCode", description = "user code value of a user!")
+            summary = "Retrieve user by an userCode!",
+            description = "It returns a user by a specific user code!",
+            parameters = @Parameter(
+                    name = "userCode",
+                    description = "An user code.")
     )
     @ApiResponses({
-            @ApiResponse(responseCode = "200", description = "User retrieves successfuly"),
+            @ApiResponse(responseCode = "200",
+                    description = "User retrieved successfully."),
             @ApiResponse(
                     responseCode = "400",
-                    description = "Input not valid!",
+                    description = "Input user code not valid.",
                     content = @Content(schema = @Schema(implementation = ErrorResponse.class))),
             @ApiResponse(
                     responseCode = "404",
-                    description = "User doesn't present.",
+                    description = "User not present.",
                     content = @Content(schema = @Schema(implementation = ErrorResponse.class))),
             @ApiResponse(
                     responseCode = "500",
-                    description = "Software error!",
+                    description = "Internal software error.",
                     content = @Content(schema = @Schema(implementation = ErrorResponse.class)))
     })
     @GetMapping()
@@ -75,15 +78,19 @@ public class UserController {
 
 
     @Operation(
-            summary = "Add new user in db.",
-            description = "Add new user in in digital_chronicles.",
-            parameters = @Parameter(name = "userDto", description = "this dto allow to add new user in db.")
+            summary = "Add new user in the system.",
+            description = "It adds new user in the system.",
+            parameters = @Parameter(
+                    name = "userDto",
+                    description = "Parameter allows to insert a User from his values.")
     )
     @ApiResponses({
-            @ApiResponse(responseCode = "200", description = "add user successfuly."),
+            @ApiResponse(
+                    responseCode = "200",
+                    description = "add user successfully."),
             @ApiResponse(
                     responseCode = "400",
-                    description = "Input not valid.",
+                    description = "Dto parameter not valid.",
                     content = @Content(schema = @Schema(implementation = ErrorResponse.class))),
             @ApiResponse(
                     responseCode = "404",
@@ -91,7 +98,7 @@ public class UserController {
                     content = @Content(schema = @Schema(implementation = ErrorResponse.class))),
             @ApiResponse(
                     responseCode = "500",
-                    description = "Api internal error..",
+                    description = "Internal Server error.",
                     content = @Content(schema = @Schema(implementation = ErrorResponse.class)))
     })
     @PostMapping()
@@ -99,17 +106,18 @@ public class UserController {
         log.info("addUser endpoint in execution!");
 
         User user = userService.saveUser(UserMapper.INSTANCE.toUser(userDto));
+        userDto = UserMapper.INSTANCE.toUserDto(user);
 
         log.info("addUser endpoint executed successfully!");
         return ResponseEntity
                 .ok()
                 .header("Header", "Add user!")
-                .body(UserMapper.INSTANCE.toUserDto(user));
+                .body(userDto);
     }
 
 
     @Operation(
-            summary = "Exist user by userCode! ",
+            summary = "Exist an user by an user code. ",
             description = "Service try to find a user by user code!",
             parameters = @Parameter(name = "userCode", description = "It's specific user code of a user.")
     )
@@ -132,11 +140,12 @@ public class UserController {
     public ResponseEntity<Boolean> existUserByUserCode(@RequestParam(value = "user-code") @NotBlank @Size(min = 20, max = 20) String userCode) {
         log.info("existUserByUserCode endpoint in execution!");
 
+        boolean ifExist= userService.existUserByUserCode(userCode);
         log.info("existUserByUserCode endpoint executed successfully!");
         return ResponseEntity
                 .ok()
                 .header("Header", "User exists!")
-                .body(userService.existUserByUserCode(userCode));
+                .body(ifExist);
     }
 
 

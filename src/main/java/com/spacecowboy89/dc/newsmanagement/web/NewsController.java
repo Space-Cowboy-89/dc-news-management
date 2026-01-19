@@ -66,7 +66,7 @@ public class NewsController {
         log.info("lastMainInfoNews endpoint in execution!");
 
         List<NewsInfoDto> newsInfoDtoList = NewsMapper.INSTANCE.toNewsInfoDtoList(
-                newsService.retrieveLast15NewsInfo());
+                newsService.retrieveLast15News());
 
         log.info("lastMainInfoNews endpoint executed successfully!");
         return ResponseEntity
@@ -134,7 +134,7 @@ public class NewsController {
     @GetMapping("/last-15-news")
     public ResponseEntity<List<NewsDto>> getLast15News() {
         log.info("getLast15News endpoint in execution!");
-        List<NewsDto> newsDtoList = NewsMapper.INSTANCE.toNewsDtoList(newsService.retrieveLast15Info());
+        List<NewsDto> newsDtoList = NewsMapper.INSTANCE.toNewsDtoList(newsService.retrieveLast15News());
 
         log.info("getLast15News endpoint executed successfully!");
         return ResponseEntity
