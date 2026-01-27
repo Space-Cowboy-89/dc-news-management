@@ -18,7 +18,7 @@ import java.time.LocalDateTime;
 public class GlobalExceptionHandler {
 
     @ExceptionHandler(NoResFoundInDBException.class)
-    public ResponseEntity<ErrorResponse> NoResFoundInDbCatcher(NoResFoundInDBException ex) {
+    public ResponseEntity<ErrorResponse> NoResFoundExHandler(NoResFoundInDBException ex) {
 
         ErrorResponse errorResponse = new ErrorResponse(ex.getMessage(), ex.getDateTime());
         return new ResponseEntity(
@@ -28,12 +28,12 @@ public class GlobalExceptionHandler {
     }
 
     @ExceptionHandler(DataIntegrityViolationException.class)
-    public ResponseEntity<ErrorResponse> dataIntegrityViolationExcCatcher(){
+    public ResponseEntity<ErrorResponse> dataIntegyViolExHandler(){
         return internalServerError(new ErrorResponse("InternalServerError",LocalDateTime.now()));
     }
 
     @ExceptionHandler(PersistenceDataException.class)
-    public ResponseEntity<ErrorResponse> PersistDataExcHandler(PersistenceDataException exc){
+    public ResponseEntity<ErrorResponse> PersistDataExHandler(PersistenceDataException exc){
         return internalServerError(new ErrorResponse(exc.getMessage(),exc.getDateTime()));
     }
 
@@ -46,29 +46,27 @@ public class GlobalExceptionHandler {
     }
 
 
-
-
     @ExceptionHandler(InvalidInputException.class)
-    public ResponseEntity<String> invalistResponseEntityCatcher() {
-        return badRequest();
+    public ResponseEntity<ErrorResponse> invalidInputExHandler(InvalidInputException ex) {
+                return badRequest(new ErrorResponse(ex.getMessage(),ex.getDateTime()));
     }
 
 
     @ExceptionHandler(MethodArgumentNotValidException.class)
-    public ResponseEntity<String> methodArgNotValidExcCatcher() {
-        return badRequest();
+    public ResponseEntity<ErrorResponse> metArgNoValExHandler() {
+                return badRequest(new ErrorResponse("Error",LocalDateTime.now()));
     }
 
     @ExceptionHandler(ConstraintViolationException.class)
-    public ResponseEntity<String> constraintViolExcCatcher() {
-        return badRequest();
+    public ResponseEntity<ErrorResponse> constrViolExHandler() {
+        return badRequest(new ErrorResponse("Error", LocalDateTime.now()));
     }
 
 
-    public ResponseEntity<String> badRequest() {
+    public ResponseEntity<ErrorResponse> badRequest(ErrorResponse errorResponse) {
         return ResponseEntity
                 .badRequest()
                 .header("Errore", "Errore")
-                .body("Input invalid!");
+                .body(errorResponse);
     }
 }
