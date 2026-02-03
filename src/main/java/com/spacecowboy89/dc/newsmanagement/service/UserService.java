@@ -10,6 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
+import java.util.List;
 
 @Service
 @Slf4j
@@ -61,5 +62,17 @@ public class UserService {
 
         log.info("existUserByUserCode function executed successfully!");
         return userExist;
+    }
+
+    public List<User> retrieveUserDeleted(){
+        log.info("retrieveUserDeleted function in execution.");
+
+        List<User> users = userDao.findByDeletedAtIsNotNull().get();
+        if(users.isEmpty())
+            throw new NoResFoundInDBException("User deleted not present.",
+                    LocalDateTime.now());
+
+        log.info("retrieveUserDeleted function executed successfully.");
+        return users;
     }
 }

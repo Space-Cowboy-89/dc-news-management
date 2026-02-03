@@ -12,6 +12,7 @@ import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.tags.Tag;
+import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
@@ -209,6 +210,22 @@ public class NewsController {
                 .ok()
                 .header("Header", "an header!")
                 .body(newsDtoList);
+    }
+
+
+    @GetMapping(params="minor-bound")
+    public ResponseEntity<List<NewsDto>> getByPosVoteEqMaj(@RequestParam(value = "minor-bound") @Min(0) int minorBound){
+        log.info("getByPosVoteEqMaj in execution");
+
+        List<NewsDto> newsDtos = NewsMapper.INSTANCE.toNewsDtoList(
+                newsService.retrieveByPosVtEqMajor(minorBound));
+
+        log.info("getByPosVoteEqMaj executed successfully.");
+        return ResponseEntity
+                .ok()
+                .header("","")
+                .body(newsDtos);
+
     }
 }
 

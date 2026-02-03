@@ -5,6 +5,8 @@ import com.spacecowboy89.dc.newsmanagement.persistence.repository.UserRepository
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
+import java.time.LocalDateTime;
+import java.util.List;
 import java.util.Optional;
 
 @Component
@@ -27,5 +29,9 @@ public class UserDao {
 
     public Optional<Boolean> existByUserCode(String userCode){
         return Optional.of(userRepo.existsByUserCode(userCode));
+    }
+
+    public Optional<List<User>> findByDeletedAtIsNotNull(){
+        return userRepo.findByDeletedAtIsNotNull();
     }
 }

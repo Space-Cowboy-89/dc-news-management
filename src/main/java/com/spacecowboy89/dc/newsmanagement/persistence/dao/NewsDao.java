@@ -30,4 +30,7 @@ public class NewsDao {
         return newsRepo.findByBetween2PublicationDate(firstPublicationDate,secondPublicationDate);
     }
 
+    public Optional<List<News>> findByPositiveVtEqMaj (int minorBound){
+        return Optional.of(newsRepo.findByVoteEqMaj(minorBound));
+    }
 }

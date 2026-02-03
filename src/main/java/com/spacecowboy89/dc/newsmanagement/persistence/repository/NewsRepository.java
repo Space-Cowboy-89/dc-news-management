@@ -20,9 +20,14 @@ public interface NewsRepository extends JpaRepository<News,Long> {
             """, nativeQuery = true)
     public Optional<List<News>> findLast15News();
 
+    @Query(value = """
+            select *
+            from news
+            where positive_vote >=:minorBound
+            """, nativeQuery = true)
+    public List<News> findByVoteEqMaj(int minorBound);
+
     public Optional<News> findByNewsCode(String newsCode);
-
-
 
     @Query(value = """
             select *

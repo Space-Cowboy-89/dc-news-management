@@ -29,6 +29,18 @@ public class NewsService {
     }
 
 
+    public List<News> retrieveByPosVtEqMajor(int minorBound){
+        log.info("retrieveByPosVtEqMajor function in execution!");
+        List<News> newsL = newsDao.findByPositiveVtEqMaj(minorBound).get();
+        if(newsL.isEmpty())
+            throw new NoResFoundInDBException(
+                    "News with positive vote >="+minorBound+" not exist",
+                    LocalDateTime.now());
+
+        log.info("retrieveByPosVtEqMajor function executed successfully!");
+        return newsL;
+    }
+
     /**
      * Method return last fifteen news in db
      *

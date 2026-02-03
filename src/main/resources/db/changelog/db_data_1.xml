@@ -9,6 +9,9 @@
 
     <changeSet id="category_insert" author="space-cowboy-89">
         <insert tableName="Category">
+            <column name="id" type="bigint" autoIncrement="true">
+                <constraints primaryKey="1"/>
+            </column>
             <column name="name" value="pincopalla"/>
             <column name="category_code" value="pallapallapallapalla"/>
         </insert>

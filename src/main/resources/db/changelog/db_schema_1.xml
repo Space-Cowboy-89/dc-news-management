@@ -14,9 +14,15 @@
            - comment
            - category
            - image
+           - news
+           - preview
+           - journalist
     -->
+    
 
-    <changeSet id="creation_table_1" author="space-cowboy-89">
+    <changeSet id="creation_tables" author="space-cowboy-89">
+
+        <!-- category -->
         <createTable tableName="Category">
             <column name="id" type="BIGINT" autoIncrement="true">
                 <constraints primaryKey="true"/>
@@ -30,30 +36,22 @@
             <column name="created_at" defaultValueComputed="CURRENT_TIMESTAMP" type="datetime"/>
             <column name="modified_at" type="datetime"/>
             <column name="deleted_at" type="datetime"/>
-
+            
             <column name="category_id" type="BIGINT"/>
         </createTable>
 
-        <addForeignKeyConstraint baseColumnNames="category_id"
-                                 baseTableName="Category"
-                                 constraintName="fk_category"
-                                 referencedColumnNames="id"
-                                 referencedTableName="Category"/>
-    </changeSet>
-
-
-    <changeSet id="creation_table_2" author="space_cowboy_89">
+        <!-- comment -->
         <createTable tableName="comment">
             <column name="id" type="BIGINT" autoIncrement="true">
                 <constraints primaryKey="true"/>
             </column>
-            <column name="text" type="text">
+            <column name="text" type="varchar">
                 <constraints nullable="false"/>
             </column>
             <column name="comment_code" type="VARCHAR(20)">
                 <constraints nullable="false" unique="true"/>
             </column>
-            <column name="positive_code" type="long">
+            <column name="positive_vote" type="bigint">
                 <constraints nullable="false"/>
             </column>
             <column name="negative_vote" type="long">
@@ -72,41 +70,7 @@
             <column name="deleted_at" type="datetime"/>
         </createTable>
 
-        <addForeignKeyConstraint baseColumnNames="user_id"
-                                 baseTableName="comment"
-                                 constraintName="fk_comment__user"
-                                 referencedColumnNames="id"
-                                 referencedTableName="Category"/>
-
-        <addForeignKeyConstraint baseColumnNames="review_id"
-                                 baseTableName="comment"
-                                 constraintName="fk_comment__review"
-                                 referencedColumnNames="id"
-                                 referencedTableName="review"/>
-
-
-        <addForeignKeyConstraint baseColumnNames="news_id"
-                                 baseTableName="comment"
-                                 constraintName="fk_comment__news"
-                                 referencedColumnNames="id"
-                                 referencedTableName="news"/>
-
-        <addForeignKeyConstraint baseColumnNames="preview_id"
-                                 baseTableName="comment"
-                                 constraintName="fk_comment__preview"
-                                 referencedColumnNames="id"
-                                 referencedTableName="preview"/>
-
-
-        <addForeignKeyConstraint baseColumnNames="comment_id"
-                                 baseTableName="comment"
-                                 constraintName="fk_comment_comment"
-                                 referencedColumnNames="id"
-                                 referencedTableName="comment"/>
-    </changeSet>
-
-
-    <changeSet id="tables_creation_3" author="space_cowboy_89">
+        <!-- contest -->
         <createTable tableName="contest">
             <column name="id" type="BIGINT" autoIncrement="true">
                 <constraints primaryKey="true"/>
@@ -114,7 +78,7 @@
             <column name="name" type="varchar(30)">
                 <constraints nullable="false"/>
             </column>
-            <column name="desc" type="text">
+            <column name="desc" type="VARCHAR">
                 <constraints nullable="false"/>
             </column>
             <column name="contest_code" type="varchar(20)">
@@ -126,12 +90,7 @@
             <column name="deleted_at" type="datetime"/>
         </createTable>
 
-        <addForeignKeyConstraint baseColumnNames="image_id"
-                                 baseTableName="contest"
-                                 constraintName="fk_contest__image"
-                                 referencedColumnNames="id"
-                                 referencedTableName="image"/>
-
+        <!-- employee -->
         <createTable tableName="employee">
             <column name="id" type="BIGINT" autoIncrement="true">
                 <constraints primaryKey="true"/>
@@ -159,6 +118,42 @@
             <column name="deleted_at" type="datetime"/>
         </createTable>
 
+        <!-- preview-->
+        
+        <createTable tableName="preview">
+            <column name="id" type="BIGINT" autoIncrement="true">
+                <constraints primaryKey="true"/>
+            </column>
+            <column name="title" type="varchar(30)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="summary" type="text">
+                <constraints nullable="false"/>
+            </column>
+            <column name="publication_date" type="datetime">
+                <constraints nullable="false" />
+            </column>
+            <column name="category_id" type = "bigint">
+                <constraints nullable="false"/>
+            </column>
+            <column name="created_at" defaultValueComputed="CURRENT_TIMESTAMP" type="datetime">
+                <constraints nullable="false"/>
+            </column>
+            <column name="modified_at" type="datetime"/>
+            <column name="deleted_at" type="datetime"/>
+            <column name="preview_code" type="varchar(20)">
+                <constraints nullable="false" unique="true" />
+            </column>
+            <column name="positive_vote" type="BIGINT">
+                <constraints nullable="false"/>
+            </column>
+            <column name="negative_vote" type="BIGINT">
+                <constraints nullable="false"/>
+            </column>
+            <column name="journalist_code" type="varchar(100)"/>
+        </createTable>
+        
+        <!-- review -->
         <createTable tableName="review">
             <column name="id" type="BIGINT" autoIncrement="true">
                 <constraints primaryKey="true"/>
@@ -196,24 +191,7 @@
             </column>
         </createTable>
 
-        <addForeignKeyConstraint baseColumnNames="category_id"
-                                 baseTableName="review"
-                                 constraintName="fk_review__category"
-                                 referencedColumnNames="id"
-                                 referencedTableName="category"/>
-        <addForeignKeyConstraint baseColumnNames="image_id"
-                                 baseTableName="review"
-                                 constraintName="fk_review__image"
-                                 referencedColumnNames="id"
-                                 referencedTableName="image"/>
-        <addForeignKeyConstraint baseColumnNames="journalist_code"
-                                 baseTableName="review"
-                                 constraintName="fk_review__image"
-                                 referencedColumnNames="journalist_code"
-                                 referencedTableName="journalist"/>
-    </changeSet>
-
-    <changeSet id="creation_table_4" author="space-cowboy-89">
+        <!-- image -->
         <createTable tableName="image">
             <column name="id" type="BIGINT" autoIncrement="true">
                 <constraints primaryKey="true"/>
@@ -224,6 +202,7 @@
             <column name="image_code" type="varchar(25)">
                 <constraints nullable="false" unique="true"/>
             </column>
+            <column name="desc" type="varchar(25)"/>
             <column name="name" type="varchar(30)">
                 <constraints nullable="false" unique="true"/>
             </column>
@@ -231,7 +210,202 @@
             <column name="modified_at" type="datetime"/>
             <column name="deleted_at" type="datetime"/>
         </createTable>
+
+        <!-- news -->
+        <createTable tableName="news">
+            <column name="id" type="BIGINT" autoIncrement="true">
+                <constraints primaryKey="true"/>
+            </column>
+            <column name="news_code" type="VARCHAR(20)">
+                <constraints nullable="false" unique="true"/>
+            </column>
+            <column name="publication_date" type="datetime" defaultValueComputed="CURRENT_TIMESTAMP">
+                <constraints nullable="false"/>
+            </column>
+            <column name="positive_vote" type="BIGINT" defaultValueComputed="0">
+                <constraints nullable="false"/>
+            </column>
+            <column name="negative_vote" type="BIGINT" defaultValueComputed="0">
+                <constraints nullable="false"/>
+            </column>
+            <column name="category_id" type="BIGINT"/>
+            <column name="journalist_code" type="varchar(100)"/>
+            <column name="created_at" defaultValueComputed="CURRENT_TIMESTAMP" type="datetime"/>
+            <column name="modified_at" type="datetime"/>
+            <column name="deleted_at" type="datetime"/>
+            <column name="image_id"  type="bigint" />
+            <column name="title" type="varchar(20)">
+                <constraints checkConstraint="false"/>
+            </column>
+            <column name="summary" type="text">
+                <constraints nullable="false"/>
+            </column>
+            <column name="type" type="varchar(10)">
+                <constraints checkConstraint="false"/>
+            </column>
+        </createTable>
+
+        <!-- journalist -->
+
+        <createTable tableName="journalist">
+            <column name="journalist_code" type="varchar(100)">
+                <constraints nullable="false" primaryKey="true"/>
+            </column>
+            <column name="name" type = "varchar(100)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="surname" type="varchar(100)">
+                <constraints nullable="false" />
+            </column>
+            <column name="email" type="varchar(100)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="username" type="varchar(100)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="password" type ="varchar(100)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="created_at" defaultValueComputed="CURRENT_TIMESTAMP" type="datetime">
+                <constraints nullable="false"/>
+            </column>
+            <column name="modified_at" type="datetime"/>
+            <column name="deleted_at" type="datetime"/>
+        </createTable>
     </changeSet>
 
 
+    <changeSet id="add_foreign_key" author="space-cowboy-89">
+
+
+    <!-- category FK-->
+
+        <!-- FK to category-->
+        <addForeignKeyConstraint baseColumnNames="category_id"
+                                 baseTableName="Category"
+                                 constraintName="fk_category"
+                                 referencedColumnNames="id"
+                                 referencedTableName="Category"/>
+
+    <!-- comment FK -->
+
+        <!-- FK to category-->
+        <addForeignKeyConstraint baseColumnNames="user_id"
+                                 baseTableName="comment"
+                                 constraintName="fk_comment__user"
+                                 referencedColumnNames="id"
+                                 referencedTableName="Category"/>
+
+        <!-- FK to review-->
+
+        <addForeignKeyConstraint baseColumnNames="review_id"
+                                 baseTableName="comment"
+                                 constraintName="fk_comment__review"
+                                 referencedColumnNames="id"
+                                 referencedTableName="review"/>
+
+        <!-- FK to news-->
+
+        <addForeignKeyConstraint baseColumnNames="news_id"
+                                 baseTableName="comment"
+                                 constraintName="fk_comment__news"
+                                 referencedColumnNames="id"
+                                 referencedTableName="news"/>
+
+        <!-- FK to preview-->
+
+        <addForeignKeyConstraint baseColumnNames="preview_id"
+                                 baseTableName="comment"
+                                 constraintName="fk_comment__preview"
+                                 referencedColumnNames="id"
+                                 referencedTableName="preview"/>
+
+
+        <!-- FK to comment-->
+
+        <addForeignKeyConstraint baseColumnNames="comment_id"
+                                 baseTableName="comment"
+                                 constraintName="fk_comment_comment"
+                                 referencedColumnNames="id"
+                                 referencedTableName="comment"/>
+    <!-- contest FK-->
+
+        <!-- FK to image-->
+
+        <addForeignKeyConstraint baseColumnNames="image_id"
+                                 baseTableName="contest"
+                                 constraintName="fk_contest__image"
+                                 referencedColumnNames="id"
+                                 referencedTableName="image"/>
+
+    <!-- review FK-->
+
+        <!-- FK to category-->
+
+        <addForeignKeyConstraint baseColumnNames="category_id"
+                                 baseTableName="review"
+                                 constraintName="fk_review__category"
+                                 referencedColumnNames="id"
+                                 referencedTableName="category"/>
+
+        <!-- FK to image-->
+
+        <addForeignKeyConstraint baseColumnNames="image_id"
+                                 baseTableName="review"
+                                 constraintName="fk_review__image"
+                                 referencedColumnNames="id"
+                                 referencedTableName="image"/>
+
+        <!-- FK to journalist-->
+
+        <addForeignKeyConstraint baseColumnNames="journalist_code"
+                                 baseTableName="review"
+                                 constraintName="fk_review__journalist"
+                                 referencedColumnNames="journalist_code"
+                                 referencedTableName="journalist"/>
+    <!-- news FK-->
+
+        <!-- FK to journalist-->
+        <addForeignKeyConstraint baseColumnNames="journalist_code"
+                                 baseTableName="news"
+                                 constraintName="fk_news_journalist"
+                                 referencedColumnNames="journalist_code"
+                                 referencedTableName="journalist"/>
+
+        <!-- FK to image-->
+        <addForeignKeyConstraint baseColumnNames="image_id"
+                                 baseTableName="news"
+                                 constraintName="fk_news_image"
+                                 referencedColumnNames="id"
+                                 referencedTableName="image"/>
+
+        <!-- FK to category-->
+        <addForeignKeyConstraint baseColumnNames="category_id"
+                                 baseTableName="news"
+                                 constraintName="fk_news_category"
+                                 referencedColumnNames="id"
+                                 referencedTableName="category"/>
+
+    <!-- preview FK-->
+
+        <!-- FK to category-->
+
+        <addForeignKeyConstraint baseColumnNames="category_id"
+                                 baseTableName="preview"
+                                 constraintName="fk_preview_category"
+                                 referencedColumnNames="id"
+                                 referencedTableName="category"/>
+
+        <!-- FK to journalist -->
+
+        <addForeignKeyConstraint baseColumnNames="journalist_code"
+                                 baseTableName="preview"
+                                 constraintName="fk_preview_journalist"
+                                 referencedColumnNames="journalist_code"
+                                 referencedTableName="journalist"/>
+
+    </changeSet>
+
+
+   
 </databaseChangeLog>

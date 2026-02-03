@@ -25,6 +25,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.util.List;
+
 @RestController
 @RequestMapping("/user")
 @Slf4j
@@ -148,5 +150,17 @@ public class UserController {
                 .body(ifExist);
     }
 
+    @GetMapping("/usersDeleted")
+    public ResponseEntity<List<UserDto>> getUsersDeleted(){
+        log.info("getUsersDeleted endpoint called");
+
+        List<UserDto> userDtos = UserMapper.INSTANCE.toUserDtoList(userService.retrieveUserDeleted());
+
+        log.info("getUsersDeleted endpoint executed successfully.");
+        return ResponseEntity
+                .ok()
+                .header("","")
+                .body(userDtos);
+    }
 
 }
