@@ -240,9 +240,6 @@
             <column name="summary" type="text">
                 <constraints nullable="false"/>
             </column>
-            <column name="type" type="varchar(10)">
-                <constraints checkConstraint="false"/>
-            </column>
         </createTable>
 
         <!-- journalist -->
@@ -407,5 +404,16 @@
     </changeSet>
 
 
-   
+    <changeSet id="adding_check_constraint_1" author="space-cowboy-89">
+
+    <!-- check constraint in review-->
+    <sql>
+        ALTER TABLE review
+        ADD CONSTRAINT chk_review_vote
+        CHECK (vote >= 0) and (vote &lt; 11);
+
+    </sql>
+
+    </changeSet>
+
 </databaseChangeLog>

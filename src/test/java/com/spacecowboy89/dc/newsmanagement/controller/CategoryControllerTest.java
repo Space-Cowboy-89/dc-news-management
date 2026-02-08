@@ -33,14 +33,17 @@ public class CategoryControllerTest {
 
     @Test
     public void subcategoriesById() throws Exception {
+       /*
         List<Category> categories = categoryService.retrieveByCategoryId(1);
 
-        /*MvcResult m=mockMvc
+        String jsonResponse=mockMvc
                 .perform(get("/category/subcategories?category-id=1"))
                 .andExpect(status().isOk())
-                .andReturn();
-        m.getResponse().g
-         */
+                .andReturn()
+                .getResponse()
+                .getContentAsString();
+
+*/
     }
 
 

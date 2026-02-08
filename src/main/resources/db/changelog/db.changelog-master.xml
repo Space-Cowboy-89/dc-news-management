@@ -7,6 +7,8 @@
 
 
     <include file="db/changelog/db_schema_1.xml" relativeToChangelogFile="false"/>
+    <include file="db/changelog/db_schema_2.xml" relativeToChangelogFile="false"/>
+    <include file="db/changelog/db_schema_3.xml" relativeToChangelogFile="false"/>
     <include file="db/changelog/db_data_1.xml" relativeToChangelogFile="false"/>
 
 

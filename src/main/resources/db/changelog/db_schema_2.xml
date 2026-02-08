@@ -1,0 +1,168 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog
+        xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="
+          http://www.liquibase.org/xml/ns/dbchangelog
+          http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-4.17.xsd">
+
+    <!--Tabelle già create:
+       - review
+       - employee
+       - contest
+       - comment
+       - category
+       - image
+       - news
+       - preview
+       - journalist
+-->
+
+<!--tag
+    user
+    prize_article
+    image_category
+    -->
+    <changeSet id="creation_tables_2" author="space-cowboy-89">
+
+
+
+        <!-- tag -->
+        <createTable tableName="tag">
+            <column name="id" type="BIGINT" autoIncrement="true">
+                <constraints primaryKey="true"/>
+            </column>
+            <column name="name" type="varchar(25)">
+                <constraints nullable="false" unique="true"/>
+            </column>
+            <column name="tag_code" type="varchar(20)">
+                <constraints nullable="false" unique="true"/>
+            </column>
+            <column name="category_id" type="bigint"/>
+            <!-- category_id > 0- -->
+            <column name="created_at" defaultValueComputed="CURRENT_TIMESTAMP" type="datetime"/>
+            <column name="modified_at" type="datetime"/>
+            <column name="deleted_at" type="datetime"/>
+        </createTable>
+
+        <!--user-->
+        <createTable tableName="user">
+            <column name="id" type="BIGINT" autoIncrement="true">
+                <constraints primaryKey="true"/>
+            </column>
+            <column name="user_code" type ="varchar(20)">
+                <constraints nullable="false" unique="true"/>
+            </column>
+            <column name="name" type="varchar(20)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="surname" type="varchar(20)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="username" type ="varchar(20)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="password" type="varchar(20)">
+                <constraints nullable="false" />
+            </column>
+            <column name="email" type="varchar(20)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="created_at" defaultValueComputed="CURRENT_TIMESTAMP" type="datetime"/>
+            <column name="modified_at" type="datetime"/>
+            <column name="deleted_at" type="datetime"/>
+        </createTable>
+
+        <!-- prize_article-->
+        <createTable tableName="prize_article">
+            <column name="id" type="BIGINT" autoIncrement="true">
+                <constraints primaryKey="true"/>
+            </column>
+            <column name="name" type="varchar(30)">
+                <constraints nullable="false" unique="true"/>
+            </column>
+            <column name="desc" type="text">
+                <constraints nullable="false"/>
+            </column>
+            <column name="prize_article_code" type="varchar(20)">
+                <constraints nullable="false" unique="true"/>
+            </column>
+            <column name="created_at" defaultValueComputed="CURRENT_TIMESTAMP" type="datetime"/>
+            <column name="modified_at" type="datetime"/>
+            <column name="deleted_at" type="datetime"/>
+        </createTable>
+
+
+        <!-- image_category-->
+
+        <createTable tableName="image_category">
+            <column name="id" type="bigint unsigned">
+                <constraints primaryKey="true"/>
+            </column>
+            <column name="image_id" type="bigint unsigned">
+                <constraints nullable="false"/>
+            </column>
+            <column name="category_id" type="bigint unsigned">
+                <constraints nullable="false"/>
+            </column>
+            <column name="created_at" defaultValueComputed="CURRENT_TIMESTAMP" type="datetime"/>
+            <column name="modified_at" type="datetime"/>
+            <column name="deleted_at" type="datetime"/>
+        </createTable>
+    </changeSet>
+
+
+
+    <changeSet id="add_foreign_key" author="space-cowboy-89">
+
+    <!-- tag FK-->
+
+        <!-- FK to category-->
+        <addForeignKeyConstraint baseColumnNames="category_id"
+                                 baseTableName="tag"
+                                 constraintName="fk_category_tag_1"
+                                 referencedColumnNames="id"
+                                 referencedTableName="category"/>
+
+     <!-- image_category FK-->
+
+
+        <!-- FK to image-->
+        <addForeignKeyConstraint baseColumnNames="image_id"
+                                 baseTableName="image_category"
+                                 constraintName="fk_image_category_1"
+                                 referencedColumnNames="id"
+                                 referencedTableName="image"/>
+
+        <!-- FK to category-->
+
+        <addForeignKeyConstraint baseTableName="image_category"
+                                 baseColumnNames="category_id"
+                                 constraintName="fk_image_category_2"
+                                 referencedTableName="category"
+                                 referencedColumnNames="id"/>
+
+    </changeSet>
+
+
+
+
+    <!--review
+    tag
+    user
+    prize_article
+    -->
+
+    <!-- adding check constraint-->
+
+    <changeSet id="adding_check_constraint_2" author="space-cowboy-89">
+
+
+        <!-- check constraint in tag-->
+        <sql>
+            ALTER TABLE tag
+            ADD CONSTRAINT chk_tag_category_id
+            CHECK category_id > 0;
+        </sql>
+    </changeSet>
+</databaseChangeLog>

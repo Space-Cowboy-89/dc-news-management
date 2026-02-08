@@ -1,0 +1,248 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog
+        xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="
+          http://www.liquibase.org/xml/ns/dbchangelog
+          http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-4.17.xsd">
+
+
+    <!-- TODO controllare implementazioni tabelle-->
+
+    <!--
+        tables created :
+                     - news_tag
+                     - preview_tag
+                     - prize_article_contest
+                     - preview_tag
+                     - user_tag
+    -->
+    <changeSet id="tables_creation_3" author="space-cowboy-89">
+
+        <!-- news_tag-->
+        <createTable tableName="news_tag">
+            <column name="id" type = "bigint">
+                <constraints primaryKey="true" />
+            </column>
+            <column name="news_id" type="bigint">
+                <constraints nullable="false" />
+            </column>
+            <column name="tag_id" type="bigint">
+                <constraints nullable="false"/>
+            </column>
+            <column name="created_at" defaultValueComputed="CURRENT_TIMESTAMP" type="datetime">
+                <constraints nullable="false"/>
+            </column>
+            <column name="news_tag_code" type="varchar(30)">
+                <constraints nullable="false" unique="true"/>
+            </column>
+        </createTable>
+
+
+        <!-- preview_tag-->
+        <createTable tableName="preview_tag">
+            <column name="id" type = "bigint">
+                <constraints primaryKey="true" />
+            </column>
+            <column name="preview_id" type = "bigint">
+                <constraints nullable="false"/>
+            </column>
+            <column name="tag_id" type = "bigint">
+                <constraints  nullable="false" />
+            </column>
+            <column name="created_at" defaultValueComputed="CURRENT_TIMESTAMP" type="datetime">
+                <constraints nullable="false"/>
+            </column>
+            <column name="preview_tag_code" type = "varchar(20)">
+                <constraints nullable="false" unique="true"/>
+            </column>
+        </createTable>
+
+        <!-- prize_article_contest -->
+
+        <createTable tableName="prize_article_contest">
+            <column name="id" type="bigint">
+                <constraints primaryKey="true"/>
+            </column>
+            <column name="prize_article_id" type="bigint">
+                <constraints nullable="false"/>
+            </column>
+            <column name="contest_id" type ="bigint">
+                <constraints nullable="false"/>
+            </column>
+            <column name="prize_article_contest_code" type="varchar(20)">
+                <constraints nullable="false" unique="true"/>
+            </column>
+            <column name="created_at" defaultValueComputed="CURRENT_TIMESTAMP" type="datetime"/>
+            <column name="modified_at" type="datetime"/>
+            <column name="deleted_at" type="datetime"/>
+        </createTable>
+
+        <createTable tableName="review_tag">
+            <column name="id" type="bigint">
+                <constraints primaryKey="true" />
+            </column>
+            <column name="review_id" type="bigint">
+                <constraints nullable="false" />
+            </column>
+            <column name="tag_id" type="bigint">
+                <constraints nullable="false" />
+            </column>
+            <column name="review_tag_code" type="varchar(30)">
+                <constraints nullable="false" unique="true" />
+            </column>
+            <column name="created_at" defaultValueComputed="CURRENT_TIMESTAMP" type="datetime"/>
+        </createTable>
+
+
+        <!-- user_tag -->
+        <createTable tableName="user_tag">
+            <column name="id" type = "bigint">
+                <constraints primaryKey="true" />
+            </column>
+            <column name="user_id" type="bigint">
+                <constraints nullable="false"/>
+            </column>
+            <column name="tag_id" type="bigint">
+                <constraints nullable="false"/>
+            </column>
+            <column name="user_tag_code" type="varchar(20)">
+                <constraints nullable="false" unique="true"/>
+            </column>
+            <column name="created_at" defaultValueComputed="CURRENT_TIMESTAMP" type="datetime"/>
+            <column name="modified_at" type="datetime"/>
+            <column name="deleted_at" type="datetime"/>
+        </createTable>
+    </changeSet>
+
+
+
+    <changeSet id="pk_composed_creation_1" author="space-cowboy-89">
+        <!-- PK composed creation in news_tag -->
+            <!-- PK composed 1 -->
+            <addUniqueConstraint
+                    tableName="news_tag"
+                    columnNames="news_id,tag_id"
+                    constraintName="pk_composed_news_tag_1"/>
+
+
+        <!-- PK composed creation in preview_tag -->
+
+                <!-- PK composed 1 -->
+                <addUniqueConstraint
+                        tableName="preview_tag"
+                        columnNames="preview_id,tag_id"
+                        constraintName="pk_composed_preview_tag_1"/>
+
+
+        <!-- PK composed creation in prize_article_contest -->
+
+                <!-- PK composed 1 -->
+                <addUniqueConstraint
+                        tableName="prize_article_contest"
+                        columnNames="prize_article_id,contest_id"
+                        constraintName="pk_composed_prize_article_contest_1"/>
+
+
+        <!-- PK composed creation in prize_article_contest -->
+
+            <!-- PK composed 1 -->
+            <addUniqueConstraint
+                    tableName="review_tag"
+                    columnNames="review_id,tag_id"
+                    constraintName="pk_composed_review_tag_1"/>
+
+        <!-- PK composed creation in user_tag -->
+
+            <!-- PK composed 1 -->
+            <addUniqueConstraint
+                    tableName="user_tag"
+                    columnNames="user_id,tag_id"
+                    constraintName="pk_composed_user_tag_1"/>
+    </changeSet>
+
+
+    <changeSet id="fk_add_3" author="space-cowboy-89">
+
+        <!-- news_tag FK-->
+
+            <!-- FK to news-->
+            <addForeignKeyConstraint baseColumnNames="news_id"
+                                     baseTableName="news_tag"
+                                     constraintName="fk_news_news_tag_1"
+                                     referencedColumnNames="id"
+                                     referencedTableName="news"/>
+
+            <!-- FK to tag-->
+            <addForeignKeyConstraint baseColumnNames="tag_id"
+                                     baseTableName="news_tag"
+                                     constraintName="fk_tag_news_tag_2"
+                                     referencedColumnNames="id"
+                                     referencedTableName="tag"/>
+
+        <!-- preview_tag FK-->
+
+            <!-- FK to preview-->
+            <addForeignKeyConstraint baseColumnNames="preview_id"
+                                     baseTableName="preview_tag"
+                                     constraintName="fk_preview_preview_tag_1"
+                                     referencedColumnNames="id"
+                                     referencedTableName="preview"/>
+
+            <!-- FK to tag-->
+            <addForeignKeyConstraint baseColumnNames="tag_id"
+                                     baseTableName="preview_tag"
+                                     constraintName="fk_tag_preview_tag_2"
+                                     referencedColumnNames="id"
+                                     referencedTableName="tag"/>
+
+        <!-- prize_article_contest FK-->
+
+            <!-- FK to prize_article-->
+            <addForeignKeyConstraint baseColumnNames="prize_article_id"
+                                     baseTableName="prize_article_contest"
+                                     constraintName="fk_prize_article_prize_article_contest_1"
+                                     referencedColumnNames="id"
+                                     referencedTableName="prize_article"/>
+
+            <!-- FK to news-->
+            <addForeignKeyConstraint baseColumnNames="contest_id"
+                                     baseTableName="prize_article_contest"
+                                     constraintName="fk_contest_prize_article_contest_2"
+                                     referencedColumnNames="id"
+                                     referencedTableName="contest"/>
+
+
+        <!-- prize_review_tag FK-->
+
+            <!-- FK to review-->
+            <addForeignKeyConstraint baseColumnNames="review_id"
+                                     baseTableName="review_tag"
+                                     constraintName="fk_review_tag_1"
+                                     referencedColumnNames="id"
+                                     referencedTableName="review"/>
+
+            <!-- FK to news-->
+            <addForeignKeyConstraint baseColumnNames="tag_id"
+                                     baseTableName="review_tag"
+                                     constraintName="fk_review_tag_2"
+                                     referencedColumnNames="id"
+                                     referencedTableName="tag"/>
+
+        <!-- user_tag FK-->
+
+            <!-- FK to user-->
+            <addForeignKeyConstraint baseColumnNames="user_id"
+                                     baseTableName="user_tag"
+                                     constraintName="fk_user_user_tag"
+                                     referencedColumnNames="id"
+                                     referencedTableName="user"/>
+
+            <!-- FK to tag-->
+            <addForeignKeyConstraint baseColumnNames="tag_id"
+                                     baseTableName="user_tag"
+                                     constraintName="fk_tag_user_tag_2"
+                                     referencedColumnNames="id"
+                                     referencedTableName="tag"/>
+    </changeSet>
+</databaseChangeLog>

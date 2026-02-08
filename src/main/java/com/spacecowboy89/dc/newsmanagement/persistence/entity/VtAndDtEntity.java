@@ -41,4 +41,10 @@ public class VtAndDtEntity extends BaseEntity {
     @NotNull
     @Min(0)
     private long negativeVote = 0l;
+
+    public VtAndDtEntity(String title, String summary, LocalDateTime publicationDate) {
+        this.title = title;
+        this.summary = summary;
+        this.publicationDate = publicationDate;
+    }
 }

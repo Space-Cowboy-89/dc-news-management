@@ -27,5 +27,43 @@
         </insert>
     </changeSet>
 
+    <changeSet id="news_inserting" author="space-cowboy-89">
+        <insert tableName="news">
+            <column name="news_code" value ="abcdeabcdeabcdeabcde"/>
+            <column name="publication_date" value="1989-10-02T13:10:01"/>
+            <column name ="title" value ="dsdassada"/>
+            <column name="summary" value ="askmdlamdl"/>
+        </insert>
+
+        <insert tableName="news">
+            <column name="news_code" value ="qazxsqazxsqazxsqazxs"/>
+            <column name="publication_date" value="1989-10-02T13:10:01"/>
+            <column name ="title" value ="jfdskljsfl"/>
+            <column name="summary" value ="askmdlamdl"/>
+        </insert>
+
+        <insert tableName="news">
+            <column name="news_code" value ="tyuiotyuiotyuiotyuio"/>
+            <column name="publication_date" value="1989-10-02T13:10:01"/>
+            <column name ="title" value ="mklmml"/>
+            <column name="summary" value ="askmdlamdl"/>
+        </insert>
+
+        <insert tableName="news">
+            <column name="news_code" value ="ghjklghjklghjklghjkl"/>
+            <column name="publication_date" value="1989-10-02T13:10:01"/>
+            <column name ="title" value ="asxqweg"/>
+            <column name="summary" value ="askmdlamdl"/>
+        </insert>
+
+        <insert tableName="news">
+            <column name="news_code" value ="sdqawsdqawsdqawsdqaw"/>
+            <column name="publication_date" value="1989-10-02T13:10:01"/>
+            <column name ="title" value =",lò,ò,ò"/>
+            <column name="summary" value ="askmdlamdl"/>
+        </insert>
+
+    </changeSet>
+
 
 </databaseChangeLog>

@@ -8,4 +8,6 @@ public abstract class GeneralEnum {
     public enum FPartNews  {T, P};
 
     public static enum TypeEmployee {j,e};
+
+    private enum nType  {};
 }

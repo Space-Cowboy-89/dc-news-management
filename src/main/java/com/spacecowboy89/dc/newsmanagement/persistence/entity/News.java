@@ -19,6 +19,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+import java.time.LocalDateTime;
 import java.util.List;
 
 @Entity
@@ -61,4 +62,9 @@ public class News extends  VtAndDtEntity{
 
     @OneToMany(mappedBy = "news")
     private List<NewsTag> newsTagList;
+
+    public News(String newsCode,String title, String summary, LocalDateTime publicationDate) {
+        super(title, summary, publicationDate);
+        this.newsCode=newsCode;
+    }
 }
