@@ -17,6 +17,10 @@
                      - preview_tag
                      - user_tag
     -->
+
+
+    <!--    TABLES IMPLEMENTATION   -->
+
     <changeSet id="tables_creation_3" author="space-cowboy-89">
 
         <!-- news_tag-->
@@ -78,6 +82,8 @@
             <column name="deleted_at" type="datetime"/>
         </createTable>
 
+
+        <!-- review_tag-->
         <createTable tableName="review_tag">
             <column name="id" type="bigint">
                 <constraints primaryKey="true" />
@@ -88,37 +94,37 @@
             <column name="tag_id" type="bigint">
                 <constraints nullable="false" />
             </column>
+            <column name="created_at" defaultValueComputed="CURRENT_TIMESTAMP" type="datetime"/>
             <column name="review_tag_code" type="varchar(30)">
                 <constraints nullable="false" unique="true" />
             </column>
-            <column name="created_at" defaultValueComputed="CURRENT_TIMESTAMP" type="datetime"/>
         </createTable>
 
 
         <!-- user_tag -->
         <createTable tableName="user_tag">
-            <column name="id" type = "bigint">
-                <constraints primaryKey="true" />
-            </column>
             <column name="user_id" type="bigint">
                 <constraints nullable="false"/>
             </column>
             <column name="tag_id" type="bigint">
                 <constraints nullable="false"/>
             </column>
+            <column name="id" type = "bigint">
+                <constraints primaryKey="true" />
+            </column>
+            <column name="created_at" defaultValueComputed="CURRENT_TIMESTAMP" type="datetime"/>
             <column name="user_tag_code" type="varchar(20)">
                 <constraints nullable="false" unique="true"/>
             </column>
-            <column name="created_at" defaultValueComputed="CURRENT_TIMESTAMP" type="datetime"/>
             <column name="modified_at" type="datetime"/>
             <column name="deleted_at" type="datetime"/>
         </createTable>
     </changeSet>
 
 
-
+<!-- PK COMPOSED IMPLEMENTATION -->
     <changeSet id="pk_composed_creation_1" author="space-cowboy-89">
-        <!-- PK composed creation in news_tag -->
+        <!-- PK composed in news_tag -->
             <!-- PK composed 1 -->
             <addUniqueConstraint
                     tableName="news_tag"
@@ -126,7 +132,7 @@
                     constraintName="pk_composed_news_tag_1"/>
 
 
-        <!-- PK composed creation in preview_tag -->
+        <!-- PK composed in preview_tag -->
 
                 <!-- PK composed 1 -->
                 <addUniqueConstraint
@@ -135,7 +141,7 @@
                         constraintName="pk_composed_preview_tag_1"/>
 
 
-        <!-- PK composed creation in prize_article_contest -->
+        <!-- PK composed in prize_article_contest -->
 
                 <!-- PK composed 1 -->
                 <addUniqueConstraint
@@ -144,7 +150,7 @@
                         constraintName="pk_composed_prize_article_contest_1"/>
 
 
-        <!-- PK composed creation in prize_article_contest -->
+        <!-- PK composed in review_tag -->
 
             <!-- PK composed 1 -->
             <addUniqueConstraint
@@ -152,7 +158,7 @@
                     columnNames="review_id,tag_id"
                     constraintName="pk_composed_review_tag_1"/>
 
-        <!-- PK composed creation in user_tag -->
+        <!-- PK composed in user_tag -->
 
             <!-- PK composed 1 -->
             <addUniqueConstraint
@@ -161,6 +167,9 @@
                     constraintName="pk_composed_user_tag_1"/>
     </changeSet>
 
+
+
+    <!--    FK IMPLEMENTATION  -->
 
     <changeSet id="fk_add_3" author="space-cowboy-89">
 
@@ -213,7 +222,7 @@
                                      referencedTableName="contest"/>
 
 
-        <!-- prize_review_tag FK-->
+        <!-- review_tag FK-->
 
             <!-- FK to review-->
             <addForeignKeyConstraint baseColumnNames="review_id"
