@@ -22,10 +22,37 @@
     user
     prize_article
     image_category
+    employee
     -->
     <changeSet id="creation_tables_2" author="space-cowboy-89">
 
-
+        <!-- employee -->
+        <createTable tableName="employee">
+            <column name="id" type="BIGINT" autoIncrement="true">
+                <constraints primaryKey="true"/>
+            </column>
+            <column name="employee_code" type="varchar(20)">
+                <constraints nullable="false" unique="true"/>
+            </column>
+            <column name="name" type="varchar(20)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="surname" type="varchar(20)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="email" type="varchar(20)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="password" type="varchar(20)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="username" type="varchar(20)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="created_at" defaultValueComputed="CURRENT_TIMESTAMP" type="datetime"/>
+            <column name="modified_at" type="datetime"/>
+            <column name="deleted_at" type="datetime"/>
+        </createTable>
 
         <!-- tag -->
         <createTable tableName="tag">
