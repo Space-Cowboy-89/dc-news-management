@@ -172,24 +172,20 @@
     </changeSet>
 
 
-
-
-    <!--review
-    tag
-    user
-    prize_article
-    -->
-
     <!-- adding check constraint-->
 
     <changeSet id="adding_check_constraint_2" author="space-cowboy-89">
 
+        <!-- tag check constraint -->
+            <!--category_id chk -->
+            <sql>
+                ALTER TABLE tag
+                ADD CONSTRAINT chk_tag_category_id
+                CHECK category_id > 0;
+            </sql>
 
-        <!-- check constraint in tag-->
-        <sql>
-            ALTER TABLE tag
-            ADD CONSTRAINT chk_tag_category_id
-            CHECK category_id > 0;
-        </sql>
+
+
+
     </changeSet>
 </databaseChangeLog>

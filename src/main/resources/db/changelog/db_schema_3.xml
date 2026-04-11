@@ -7,7 +7,6 @@
           http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-4.17.xsd">
 
 
-    <!-- TODO controllare implementazioni tabelle-->
 
     <!--
         tables created :

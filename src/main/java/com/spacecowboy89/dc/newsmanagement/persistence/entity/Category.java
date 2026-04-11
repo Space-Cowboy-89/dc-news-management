@@ -54,4 +54,19 @@ public class Category extends BaseEntity {
 
     @OneToMany(mappedBy = "category")
     private List<News> newsList;
+
+
+    public Category(String name, String categoryCode) {
+        this.name = name;
+        this.categoryCode = categoryCode;
+    }
+
+    public static boolean secondEquals(Category category1, Category category2){
+        if(category1.getName().equals(category2.getName()) &&
+                category1.getCategoryCode().equals(category2.getCategoryCode()))
+            return true;
+
+        return false;
+    }
+
 }

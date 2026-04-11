@@ -7,19 +7,70 @@
           http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-4.17.xsd">
 
 
-    <!--Tabelle già create:
+    <!--
+            Tables implemented:
            - review
-           - contest
            - comment
            - category
-           - image
            - news
            - preview
            - journalist
+           - contest
+           - image
     -->
-    
+
+
 
     <changeSet id="creation_tables" author="space-cowboy-89">
+
+
+        <!-- contest -->
+        <createTable tableName="contest">
+            <column name="id" type="BIGINT" autoIncrement="true">
+                <constraints primaryKey="true"/>
+            </column>
+            <column name="name" type="varchar(30)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="desc" type="VARCHAR">
+                <constraints nullable="false"/>
+            </column>
+            <column name="contest_code" type="varchar(20)">
+                <constraints nullable="false" unique="true"/>
+            </column>
+            <column name="image_id" type="bigint"/>
+            <column name="created_at" defaultValueComputed="CURRENT_TIMESTAMP" type="datetime"/>
+            <column name="modified_at" type="datetime"/>
+            <column name="deleted_at" type="datetime"/>
+        </createTable>
+
+        <!-- journalist -->
+
+        <createTable tableName="journalist">
+            <column name="journalist_code" type="varchar(100)">
+                <constraints nullable="false" primaryKey="true"/>
+            </column>
+            <column name="name" type = "varchar(100)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="surname" type="varchar(100)">
+                <constraints nullable="false" />
+            </column>
+            <column name="email" type="varchar(100)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="username" type="varchar(100)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="password" type ="varchar(100)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="created_at" defaultValueComputed="CURRENT_TIMESTAMP" type="datetime">
+                <constraints nullable="false"/>
+            </column>
+            <column name="modified_at" type="datetime"/>
+            <column name="deleted_at" type="datetime"/>
+        </createTable>
 
         <!-- category -->
         <createTable tableName="Category">
@@ -69,25 +120,7 @@
             <column name="deleted_at" type="datetime"/>
         </createTable>
 
-        <!-- contest -->
-        <createTable tableName="contest">
-            <column name="id" type="BIGINT" autoIncrement="true">
-                <constraints primaryKey="true"/>
-            </column>
-            <column name="name" type="varchar(30)">
-                <constraints nullable="false"/>
-            </column>
-            <column name="desc" type="VARCHAR">
-                <constraints nullable="false"/>
-            </column>
-            <column name="contest_code" type="varchar(20)">
-                <constraints nullable="false" unique="true"/>
-            </column>
-            <column name="image_id" type="bigint"/>
-            <column name="created_at" defaultValueComputed="CURRENT_TIMESTAMP" type="datetime"/>
-            <column name="modified_at" type="datetime"/>
-            <column name="deleted_at" type="datetime"/>
-        </createTable>
+
 
 
 
@@ -164,25 +197,7 @@
             </column>
         </createTable>
 
-        <!-- image -->
-        <createTable tableName="image">
-            <column name="id" type="BIGINT" autoIncrement="true">
-                <constraints primaryKey="true"/>
-            </column>
-            <column name="content" type="BLOB">
-                <constraints nullable="false"/>
-            </column>
-            <column name="image_code" type="varchar(25)">
-                <constraints nullable="false" unique="true"/>
-            </column>
-            <column name="desc" type="varchar(25)"/>
-            <column name="name" type="varchar(30)">
-                <constraints nullable="false" unique="true"/>
-            </column>
-            <column name="created_at" defaultValueComputed="CURRENT_TIMESTAMP" type="datetime"/>
-            <column name="modified_at" type="datetime"/>
-            <column name="deleted_at" type="datetime"/>
-        </createTable>
+
 
         <!-- news -->
         <createTable tableName="news">
@@ -215,38 +230,40 @@
             </column>
         </createTable>
 
-        <!-- journalist -->
 
-        <createTable tableName="journalist">
-            <column name="journalist_code" type="varchar(100)">
-                <constraints nullable="false" primaryKey="true"/>
+        <!-- image -->
+        <createTable tableName="image">
+            <column name="id" type="BIGINT" autoIncrement="true">
+                <constraints primaryKey="true"/>
             </column>
-            <column name="name" type = "varchar(100)">
+            <column name="content" type="BLOB">
                 <constraints nullable="false"/>
             </column>
-            <column name="surname" type="varchar(100)">
-                <constraints nullable="false" />
+            <column name="image_code" type="varchar(25)">
+                <constraints nullable="false" unique="true"/>
             </column>
-            <column name="email" type="varchar(100)">
-                <constraints nullable="false"/>
+            <column name="desc" type="varchar(25)"/>
+            <column name="name" type="varchar(30)">
+                <constraints nullable="false" unique="true"/>
             </column>
-            <column name="username" type="varchar(100)">
-                <constraints nullable="false"/>
-            </column>
-            <column name="password" type ="varchar(100)">
-                <constraints nullable="false"/>
-            </column>
-            <column name="created_at" defaultValueComputed="CURRENT_TIMESTAMP" type="datetime">
-                <constraints nullable="false"/>
-            </column>
+            <column name="created_at" defaultValueComputed="CURRENT_TIMESTAMP" type="datetime"/>
             <column name="modified_at" type="datetime"/>
             <column name="deleted_at" type="datetime"/>
         </createTable>
     </changeSet>
 
 
-    <changeSet id="add_foreign_key" author="space-cowboy-89">
 
+    <changeSet id="add_foreign_key" author="space-cowboy-89">
+        <!-- contest FK-->
+
+        <!-- FK to image-->
+
+        <addForeignKeyConstraint baseColumnNames="image_id"
+                                 baseTableName="contest"
+                                 constraintName="fk_contest__image"
+                                 referencedColumnNames="id"
+                                 referencedTableName="image"/>
 
     <!-- category FK-->
 
@@ -298,15 +315,6 @@
                                  constraintName="fk_comment_comment"
                                  referencedColumnNames="id"
                                  referencedTableName="comment"/>
-    <!-- contest FK-->
-
-        <!-- FK to image-->
-
-        <addForeignKeyConstraint baseColumnNames="image_id"
-                                 baseTableName="contest"
-                                 constraintName="fk_contest__image"
-                                 referencedColumnNames="id"
-                                 referencedTableName="image"/>
 
     <!-- review FK-->
 
@@ -377,15 +385,51 @@
     </changeSet>
 
 
+    <!--Tabelle già create:
+             - review
+             - comment
+             - category
+             - news
+             - preview
+             - journalist
+             - contest
+             - image
+      -->
+
+
     <changeSet id="adding_check_constraint_1" author="space-cowboy-89">
 
-    <!-- check constraint in review-->
-    <sql>
-        ALTER TABLE review
-        ADD CONSTRAINT chk_review_vote
-        CHECK (vote >= 0) and (vote &lt; 11);
+        <!-- review check constraints -->
+            <!-- vote chk-->
+            <sql>
+                ALTER TABLE review
+                ADD CONSTRAINT chk_review_vote
+                CHECK (vote >= 0) and (vote &lt; 11);
+            </sql>
 
-    </sql>
+        <!-- comment check constraints-->
+            <!-- positive_vote chk-->
+            <sql>
+                ALTER TABLE comment
+                add constraint chk_comment_pos_vote
+                check positive_vote >=0
+            </sql>
+
+           <!-- negative_vote chk-->
+            <sql>
+                ALTER TABLE comment
+                add constraint chk_comment_negative_vote
+                check negative_vote >=0
+            </sql>
+
+            <!-- composed chk 1-->
+            <sql>
+                ALTER TABLE comment
+                add constraint chk_composed_1
+                check (((`comment_id` > 0) and (`news_id` = NULL) and (`review_id` = NULL) and (`preview_id` = NULL)) or ((`comment_id` = NULL) and (`news_id` > 0) and (`review_id` = NULL) and (`preview_id` = NULL)) or ((`comment_id` = NULL) and (`news_id` = NULL) and (`review_id` > 0) and (`preview_id` = NULL)) or ((`comment_id` = NULL) and (`news_id` = NULL) and (`review_id` = NULL) and (`preview_id` > 0)))
+            </sql>
+
+
 
     </changeSet>
 
