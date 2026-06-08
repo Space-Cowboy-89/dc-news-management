@@ -24,9 +24,6 @@ public class Journalist extends CredentialEntity{
     @Column(name = "journalist_code")
     private String journalistCode;
 
-
-
-
     // --------   Relations   --------
 
     @OneToMany(mappedBy = "journalist")
