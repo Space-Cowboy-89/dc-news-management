@@ -42,10 +42,6 @@ public class NewsControllerTest {
                 jsonResponse,
                 new TypeReference<NewsDto>() {}
         );
-
-        //assertThat(newsDtoActual).isEqualTo(newsDtoExcepted);
-
-
     }
 
 

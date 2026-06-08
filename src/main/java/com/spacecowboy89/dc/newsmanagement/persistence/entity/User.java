@@ -30,6 +30,10 @@ public class User extends CredentialEntity {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    public User(String name, String surname, String email,
+                String username, String password) {
+        super(name, surname, email, username, password);
+    }
 
     @Column(name = "user_code", nullable = false)
     @NotNull

@@ -33,6 +33,7 @@ public class Category extends BaseEntity {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+
     private String name;
 
     @Column(name = "category_code", nullable = false)

@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog
+        xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="
+          http://www.liquibase.org/xml/ns/dbchangelog
+          http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-4.17.xsd">
+
+
+    <changeSet id="user_insert" author="space-cowboy-89">
+        <insert tableName="User">
+            <column name="id" type="bigint" autoIncrement="true" value="1"/>
+            <column name="name" value="Mario"/>
+            <column name="surname" value="Rossi"/>
+            <column name="username" value="hello"/>
+            <column name="password" value="pass"/>
+            <column name="email" value="xzl,xz@zxcz.it"/>
+            <column name="usercode" value="ciaopciaopciaopciaop"/>
+        </insert>
+        <insert tableName="User">
+            <column name="id" type="bigint" autoIncrement="true" value="2"/>
+            <column name="name" value="Franco"/>
+            <column name="surname" value="Nerri"/>
+            <column name="username" value="heals"/>
+            <column name="password" value="pass"/>
+            <column name="email" value="xzlxxz@aaa.it"/>
+            <column name="usercode" value="manopmanopmanopmanop"/>
+        </insert>
+        <insert tableName="User">
+            <column name="id" type="bigint" autoIncrement="true" value="3"/>
+            <column name="name" value="Marco"/>
+            <column name="surname" value="Verdi"/>
+            <column name="username" value="dark"/>
+            <column name="password" value="pass"/>
+            <column name="email" value="xqqqqq@zxcz.it"/>
+            <column name="usercode" value="biondbiondbiondbiond"/>
+        </insert>
+        <insert tableName="User">
+            <column name="id" type="bigint" autoIncrement="true" value="4"/>
+            <column name="name" value="Paolo"/>
+            <column name="surname" value="Bianchi"/>
+            <column name="username" value="knight"/>
+            <column name="password" value="pass"/>
+            <column name="email" value="aszxcv@zxcz.it"/>
+            <column name="usercode" value="linealinealinealinea"/>
+        </insert>
+
+    </changeSet>
+
+</databaseChangeLog>
