@@ -30,7 +30,7 @@ import java.util.List;
 @NoArgsConstructor
 @Getter
 @Setter
-public class News extends  VtAndDtEntity{
+public class News extends VtAndDtEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -41,12 +41,12 @@ public class News extends  VtAndDtEntity{
     private String newsCode;
 
     @ManyToOne(fetch = FetchType.EAGER)
-    @JoinColumn(name = "journalist_code",nullable = false)
+    @JoinColumn(name = "journalist_code", nullable = false)
     @NotNull
     private Journalist journalist;
 
     @ManyToOne(fetch = FetchType.EAGER)
-    @JoinColumn(name = "category_id",nullable = false)
+    @JoinColumn(name = "category_id", nullable = false)
     @NotNull
     private Category category;
 
@@ -63,8 +63,13 @@ public class News extends  VtAndDtEntity{
     @OneToMany(mappedBy = "news")
     private List<NewsTag> newsTagList;
 
-    public News(String newsCode,String title, String summary, LocalDateTime publicationDate) {
+    public News(String newsCode, String title, String summary, LocalDateTime publicationDate) {
         super(title, summary, publicationDate);
-        this.newsCode=newsCode;
+        this.newsCode = newsCode;
+    }
+
+    public News(String newsCode, String title, String summary) {
+        super(title, summary);
+        this.newsCode = newsCode;
     }
 }

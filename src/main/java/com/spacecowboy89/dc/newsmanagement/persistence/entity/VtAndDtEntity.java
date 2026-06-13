@@ -47,4 +47,11 @@ public class VtAndDtEntity extends BaseEntity {
         this.summary = summary;
         this.publicationDate = publicationDate;
     }
+
+    public VtAndDtEntity(String title, String summary) {
+        this.title = title;
+        this.summary = summary;
+    }
+
+
 }

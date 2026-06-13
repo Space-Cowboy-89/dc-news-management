@@ -19,7 +19,7 @@ import lombok.Setter;
 import java.util.List;
 
 @Entity
-@Table(name = "user",
+@Table(name =  "\"user\"",
         uniqueConstraints = {@UniqueConstraint(columnNames = "user_code")})
 @AllArgsConstructor
 @NoArgsConstructor

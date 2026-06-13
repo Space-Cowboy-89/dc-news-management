@@ -1,4 +1,4 @@
-package com.spacecowboy89.dc.newsmanagement.controller;
+package com.spacecowboy89.dc.newsmanagement.controller.test;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.spacecowboy89.dc.newsmanagement.dto.UserDto;
