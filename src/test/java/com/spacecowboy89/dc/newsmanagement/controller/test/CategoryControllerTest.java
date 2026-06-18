@@ -1,9 +1,11 @@
 package com.spacecowboy89.dc.newsmanagement.controller.test;
 
+import com.spacecowboy89.dc.newsmanagement.controller.constant.CategoryCtrlConstants;
 import com.spacecowboy89.dc.newsmanagement.persistence.entity.Category;
 import com.spacecowboy89.dc.newsmanagement.service.CategoryService;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.ActiveProfiles;
@@ -26,11 +28,6 @@ public class CategoryControllerTest {
     @MockitoBean
     private final CategoryService categoryService;
 
-    private final String HARDWARE = "hardware";
-    private final String SOFTWARE = "software";
-    private final String ANDROID = "android";
-    private final int CATEGORYID = 1;
-
 
     @Autowired
     public CategoryControllerTest(MockMvc mockMvc, CategoryService categoryService) {
@@ -38,26 +35,18 @@ public class CategoryControllerTest {
         this.mockMvc = mockMvc;
     }
 
+
     @Test
-    public void getSubcategoriesByCategory200() throws Exception {
-
+    public void getByCategory(@Autowired @Qualifier("categories-instance") List<Category> categories) throws Exception {
         when(categoryService.retrieveByCategoryId(any(Integer.class)))
-                .thenReturn(this.getCategories());
+                .thenReturn(categories);
 
-        this.mockMvc.perform(get("/category/subcategories")
-                        .param("category-id",""+CATEGORYID))
+        this.mockMvc.perform(get("/category")
+                        .param("category-id", String.valueOf(1)))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.size()").value(3))
-                .andExpect(jsonPath("$[0].name").value(HARDWARE))
-                .andExpect(jsonPath("$[1].name").value(SOFTWARE))
-                .andExpect(jsonPath("$[2].name").value(ANDROID));
-    }
-
-    private List<Category> getCategories(){
-        List<Category> categories = List.of(
-                new Category(HARDWARE, "xxxzzzccc"),
-                new Category(SOFTWARE, "qqqwwwe"),
-                new Category(ANDROID, "sadjaio"));
-        return categories;
+                .andExpect(jsonPath("$[0].name").value(CategoryCtrlConstants.NAME_SAMPLE_1))
+                .andExpect(jsonPath("$[1].name").value(CategoryCtrlConstants.NAME_SAMPLE_2))
+                .andExpect(jsonPath("$[2].name").value(CategoryCtrlConstants.NAME_SAMPLE_3));
     }
 }

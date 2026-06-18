@@ -16,7 +16,6 @@ import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotNull;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpHeaders;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -63,16 +62,16 @@ public class CategoryController {
                     content = @Content(schema = @Schema(implementation = ErrorResponse.class)))
     })
 
-    @GetMapping("/subcategories")
-    public ResponseEntity<List<CategoryDto>> getSubcategoriesByCategory(@RequestParam(value = "category-id") @NotNull @Min(0) int categoryId) {
-        log.info("getSubcategoriesByCategory endpoint in execution!");
-        List<CategoryDto> categoryDtoList = CategoryMapper.INSTANCE.toCategoryDtoList(
+    @GetMapping(params = "category-id")
+    public ResponseEntity<List<CategoryDto>> getByCategoryId(@RequestParam("category-id") @NotNull @Min(0) int categoryId) {
+        log.info("getByCategoryId endpoint in execution!");
+        List<CategoryDto> response = CategoryMapper.INSTANCE.toCategoryDtoList(
                 categoryService.retrieveByCategoryId(categoryId));
 
-        log.info("getSubcategoriesByCategory endpoint executed successfully!");
+        log.info("getByCategoryId endpoint executed successfully!");
         return ResponseEntity
                 .ok()
                 .header("Header", "header")
-                .body(categoryDtoList);
+                .body(response);
     }
 }
