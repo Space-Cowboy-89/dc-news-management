@@ -29,7 +29,7 @@ public class NewsService {
     }
 
 
-    public List<News> retrieveByPosVtEqMajor(int minorBound){
+    public List<News> retByPosVtEqMaj(int minorBound){
         log.info("retrieveByPosVtEqMajor function in execution!");
         List<News> newsL = newsDao.findByPositiveVtEqMaj(minorBound).get();
         if(newsL.isEmpty())

@@ -4,6 +4,8 @@ public class NewsCtrlConstants {
     public final static String NEWSCODE_SAMPLE_1 = "newscode_sample_1";
     public final static String TITLE_SAMPLE_1 = "title_sample_1";
     public final static String SUMMARY_SAMPLE_1 = "summary_sample_1";
+    public final static String CATEGORY_CODE_SAMPLE_1 = "category_code_sample_1";
+    public final static String JOURNALIST_CODE_SAMPLE_1 = "journalist_code_sample_1";
 
     public final static String NEWSCODE_SAMPLE_2 = "newscode_sample_2";
     public final static String TITLE_SAMPLE_2 = "title_sample_2";

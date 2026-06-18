@@ -99,7 +99,7 @@ public class NewsController {
                     description = "Software internal error.",
                     content = @Content(schema = @Schema(implementation = ErrorResponse.class)))})
     @GetMapping(params = "news-code")
-    public ResponseEntity<NewsDto> getNewsByNewsCode(@RequestParam(value= "news-code") @NotBlank @Size(min = 20, max = 20) String newsCode) {
+    public ResponseEntity<NewsDto> getNewsByNewsCode(@RequestParam(value = "news-code") @NotBlank @Size(min = 20, max = 20) String newsCode) {
         log.info("getNewsByNewsCode endpoint in execution!");
 
         NewsDto newsDto = NewsMapper.INSTANCE.toNewsDto(newsService.retrieveByNewsCode(newsCode));
@@ -153,7 +153,7 @@ public class NewsController {
             @ApiResponse(responseCode = "400", description = ""),
             @ApiResponse(responseCode = "404", description = "last 15 news doesn't found!")
     })
-    @GetMapping(params="category-code")
+    @GetMapping(path = "/category-ccc")
     public ResponseEntity<List<NewsDto>> getNewsByCategory(@RequestParam("category-code") @NotBlank @Size(min = 20, max = 20) String categoryCode) {
         log.info("getNewsByCategory endpoint in execution!");
 
@@ -175,7 +175,7 @@ public class NewsController {
             @ApiResponse(responseCode = "400", description = ""),
             @ApiResponse(responseCode = "404", description = "last 15 news doesn't found!")
     })
-    @GetMapping(params = {"first-publication-date","second-publication-date"})
+    @GetMapping("btw2publicDate")
     public ResponseEntity<List<NewsDto>> between2PublicationDate(@RequestParam(value = "first-publication-date") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME) @NotNull LocalDateTime firstPublicationDate,
                                                                  @RequestParam(value = "second-publication-date") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME) @NotNull LocalDateTime secondPublicationDate) {
         log.info("between2PublicationDate endpoint in execution!");
@@ -198,7 +198,7 @@ public class NewsController {
             @ApiResponse(responseCode = "400", description = ""),
             @ApiResponse(responseCode = "404", description = "There aren't news of this journalist!")
     })
-    @GetMapping(params ="journalist-code")
+    @GetMapping(params = "journalist-code")
     public ResponseEntity<List<NewsDto>> getByJournalist(@RequestParam(value = "journalist-code") @NotBlank @Size(min = 20, max = 30) String journalistCode) {
         log.info("getByJournalist endpoint in execution!");
 
@@ -213,19 +213,18 @@ public class NewsController {
     }
 
 
-    @GetMapping(params="minor-bound")
-    public ResponseEntity<List<NewsDto>> getByPosVoteEqMaj(@RequestParam(value = "minor-bound") @Min(0) int minorBound){
+    @GetMapping(params = "minor-bound")
+    public ResponseEntity<List<NewsDto>> getPosVtEqMaj(@RequestParam(value = "minor-bound") @Min(0) int minorBound) {
         log.info("getByPosVoteEqMaj in execution");
 
         List<NewsDto> newsDtos = NewsMapper.INSTANCE.toNewsDtoList(
-                newsService.retrieveByPosVtEqMajor(minorBound));
+                newsService.retByPosVtEqMaj(minorBound));
 
         log.info("getByPosVoteEqMaj executed successfully.");
         return ResponseEntity
                 .ok()
-                .header("","")
+                .header("", "")
                 .body(newsDtos);
-
     }
 }
 

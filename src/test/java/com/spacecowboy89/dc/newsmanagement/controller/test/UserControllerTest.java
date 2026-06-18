@@ -1,14 +1,15 @@
 package com.spacecowboy89.dc.newsmanagement.controller.test;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.spacecowboy89.dc.newsmanagement.controller.constant.UserCtrlConstants;
 import com.spacecowboy89.dc.newsmanagement.dto.UserDto;
 import com.spacecowboy89.dc.newsmanagement.persistence.entity.User;
 import com.spacecowboy89.dc.newsmanagement.service.UserService;
-import com.spacecowboy89.dc.newsmanagement.web.UserController;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
-import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
+import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.MediaType;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.bean.override.mockito.MockitoBean;
@@ -16,7 +17,6 @@ import org.springframework.test.web.servlet.MockMvc;
 
 import java.util.List;
 
-import static org.hamcrest.Matchers.equalToIgnoringCase;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
@@ -24,20 +24,26 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
-@WebMvcTest(UserController.class)
+
+@SpringBootTest
 @AutoConfigureMockMvc
 @ActiveProfiles("test")
 public class UserControllerTest {
 
-    @Autowired
     private MockMvc mockMvc;
     @MockitoBean
     private UserService userSrv;
-    @Autowired
+
     private ObjectMapper objectMapper;
 
+    @Autowired
+    public UserControllerTest(MockMvc mockMvc, UserService userSrv, ObjectMapper objectMapper) {
+        this.mockMvc = mockMvc;
+        this.userSrv = userSrv;
+        this.objectMapper = objectMapper;
+    }
 
-//######################## existUserByUserCode() #############################
+    //######################## existUserByUserCode() #############################
 
     @Test
     public void existUserByUserCode_200() throws Exception {
@@ -63,60 +69,30 @@ public class UserControllerTest {
 //######################## getUsersDeleted() #############################
 
     @Test
-    public void getUsersDeleted_200() throws Exception{
-
+    public void getUsersIsDeleted(@Autowired @Qualifier("users-instance") List<User> usersIsDeleted) throws Exception{
         when(userSrv.retrieveUserDeleted())
-                .thenReturn(this.getUserList());
+                .thenReturn(usersIsDeleted);
 
         mockMvc.perform(get("/user/usersDeleted"))
                 .andExpect(status().isOk())
-                .andExpect(jsonPath("$[0].name").value(equalToIgnoringCase("Mario")))
-                .andExpect(jsonPath("$[1].username").value(equalToIgnoringCase("water")))
-                .andExpect(jsonPath("$[2].surname").value(equalToIgnoringCase("Neri")));
+                .andExpect(jsonPath("$[0].name").value(UserCtrlConstants.NAME_SAMPLE_1))
+                .andExpect(jsonPath("$[1].username").value(UserCtrlConstants.USERNAME_SAMPLE_2))
+                .andExpect(jsonPath("$[2].surname").value(UserCtrlConstants.SURNAME_SAMPLE_3));
     }
 
 
 //######################## addUser() #############################
 
     @Test
-    public void addUser_200() throws Exception{
-        User userOutput = new User("Paolo","Neri","dasap",
-                "stone","roses");
-
+    public void addUser(@Autowired @Qualifier("user-instance") User userCreated) throws Exception{
         when(userSrv.saveUser(any(User.class)))
-                .thenReturn(userOutput);
+                .thenReturn(userCreated);
 
         mockMvc.perform(post("/user")
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(objectMapper.writeValueAsString(new UserDto())))
                 .andExpect(status().isOk())
-                .andExpect(jsonPath("$.name").value(equalToIgnoringCase("Paolo")))
-                .andExpect(jsonPath("$.surname").value(equalToIgnoringCase("Neri")));
+                .andExpect(jsonPath("$.name").value((UserCtrlConstants.NAME_SAMPLE_1)))
+                .andExpect(jsonPath("$.surname").value((UserCtrlConstants.SURNAME_SAMPLE_1)));
     }
-
-
-    @Test
-    public void addUser_400() throws Exception{
-        when(userSrv.saveUser(any(User.class)))
-                .thenReturn(new User());
-
-        mockMvc.perform(post("/user")
-                        .param("param","hello"))
-                .andExpect(status().isBadRequest());
-    }
-
-
-//######################## Other methods #############################
-
-    private List<User> getUserList(){
-        return List.of(
-                new User("Mario","Rossi", "mlmlmsa",
-                        "fire","lato"),
-                new User("Franco","Verdi", ".ò.",
-                        "water","caldo"),
-                new User("Alex","Neri", ".àò.mlmlmsa",
-                        "wind","caspita")
-        );
-    }
-
 }

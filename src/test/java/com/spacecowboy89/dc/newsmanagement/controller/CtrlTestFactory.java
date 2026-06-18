@@ -1,7 +1,9 @@
 package com.spacecowboy89.dc.newsmanagement.controller;
 
 import com.spacecowboy89.dc.newsmanagement.controller.constant.NewsCtrlConstants;
+import com.spacecowboy89.dc.newsmanagement.controller.constant.UserCtrlConstants;
 import com.spacecowboy89.dc.newsmanagement.persistence.entity.News;
+import com.spacecowboy89.dc.newsmanagement.persistence.entity.User;
 import org.springframework.context.annotation.Bean;
 import org.springframework.stereotype.Component;
 
@@ -39,4 +41,50 @@ public class CtrlTestFactory {
         return newsList;
     }
 
+
+    @Bean("user-instance")
+    private User getUser() {
+        return  new User(
+                UserCtrlConstants.NAME_SAMPLE_1,
+                UserCtrlConstants.SURNAME_SAMPLE_1,
+                UserCtrlConstants.EMAIL_SAMPLE_1,
+                UserCtrlConstants.USERNAME_SAMPLE_1,
+                UserCtrlConstants.PASSWORD_SAMPLE_1
+        );
+    }
+
+
+    @Bean("users-instance")
+    private List<User> getUsers() {
+        List<User> users = new ArrayList<>();
+        users.add(
+                new User(
+                        UserCtrlConstants.NAME_SAMPLE_1,
+                        UserCtrlConstants.SURNAME_SAMPLE_1,
+                        UserCtrlConstants.EMAIL_SAMPLE_1,
+                        UserCtrlConstants.USERNAME_SAMPLE_1,
+                        UserCtrlConstants.PASSWORD_SAMPLE_1
+                        )
+        );
+
+        users.add(
+                new User(
+                        UserCtrlConstants.NAME_SAMPLE_2,
+                        UserCtrlConstants.SURNAME_SAMPLE_2,
+                        UserCtrlConstants.EMAIL_SAMPLE_2,
+                        UserCtrlConstants.USERNAME_SAMPLE_2,
+                        UserCtrlConstants.PASSWORD_SAMPLE_2)
+        );
+
+        users.add(
+                new User(
+                        UserCtrlConstants.NAME_SAMPLE_3,
+                        UserCtrlConstants.SURNAME_SAMPLE_3,
+                        UserCtrlConstants.EMAIL_SAMPLE_3,
+                        UserCtrlConstants.USERNAME_SAMPLE_3,
+                        UserCtrlConstants.PASSWORD_SAMPLE_3)
+        );
+
+        return users;
+    }
 }

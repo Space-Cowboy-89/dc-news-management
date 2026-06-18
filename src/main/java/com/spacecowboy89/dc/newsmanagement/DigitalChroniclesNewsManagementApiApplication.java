@@ -5,7 +5,6 @@ import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 
-//TODO completare swagger in UserController e NewsController
 
 @SpringBootApplication
 public class DigitalChroniclesNewsManagementApiApplication {

@@ -118,6 +118,8 @@ public class UserController {
     }
 
 
+    //TODO correggere
+
     @Operation(
             summary = "Exist an user by an user code. ",
             description = "Service try to find a user by user code!",

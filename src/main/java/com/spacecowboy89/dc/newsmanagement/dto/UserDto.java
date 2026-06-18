@@ -1,6 +1,7 @@
 package com.spacecowboy89.dc.newsmanagement.dto;
 
 import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -29,4 +30,10 @@ public class UserDto {
     @NotBlank
     @Size(max = 20)
     private String email;
+
+
+    public class UserDeletedDto{
+        @NotNull
+        private boolean isDeleted;
+    }
 }
