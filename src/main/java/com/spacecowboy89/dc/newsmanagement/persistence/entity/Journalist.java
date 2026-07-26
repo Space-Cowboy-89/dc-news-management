@@ -26,6 +26,12 @@ public class Journalist extends CredentialEntity{
 
     // --------   Relations   --------
 
+
+    public Journalist(String name, String surname, String email, String username, String password, String journalistCode) {
+        super(name, surname, email, username, password);
+        this.journalistCode = journalistCode;
+    }
+
     @OneToMany(mappedBy = "journalist")
     private List<Preview> previewList;
 

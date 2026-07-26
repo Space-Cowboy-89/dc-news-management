@@ -29,6 +29,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 public class NewsControllerTest {
     private final LocalDateTime NOWTM;
     private final LocalDateTime NOWTMPLUS5;
+    private final String CODE_20_CHARACT;
 
     private final MockMvc mockMvc;
     @MockitoBean
@@ -40,6 +41,7 @@ public class NewsControllerTest {
         this.newsService = newsService;
         this.NOWTM = LocalDateTime.now();
         this.NOWTMPLUS5 = this.NOWTM.plusDays(5L);
+        this.CODE_20_CHARACT= "xxxxxxxxxxxxxxxxxxxx";
     }
 
 
@@ -49,7 +51,7 @@ public class NewsControllerTest {
                 .thenReturn(news);
 
         ResultActions resultActions = mockMvc.perform(
-                        get("/news").param("news-code", NewsCtrlConstants.NEWSCODE_SAMPLE_1))
+                        get("/api/v1/news/{newsCode}",CODE_20_CHARACT))
                 .andExpect(status().isOk());
 
         this.checkSingleJsonResponse(resultActions);
@@ -60,7 +62,7 @@ public class NewsControllerTest {
         when(newsService.retrieveLast15News())
                 .thenReturn(newsList);
 
-        ResultActions resultActions = mockMvc.perform(get("/news/last-15-news"))
+        ResultActions resultActions = mockMvc.perform(get("/api/v1/news/last-15"))
                 .andExpect(status().isOk());
 
         this.checkJsonResponse(resultActions);
@@ -72,7 +74,7 @@ public class NewsControllerTest {
         when(newsService.retrieveLast15News()).
                 thenReturn(newsList);
 
-        ResultActions resultActions = mockMvc.perform(get("/news/last-15-main-Info-News"))
+        ResultActions resultActions = mockMvc.perform(get("/api/v1/news/last-15-main-Info"))
                 .andExpect(status().isOk());
 
         this.checkJsonResponse(resultActions);
@@ -84,11 +86,13 @@ public class NewsControllerTest {
                 .thenReturn(newsList);
 
         ResultActions resultActions = mockMvc.perform(
-                        get("/news/category-ccc").param("category-code", NewsCtrlConstants.CATEGORY_CODE_SAMPLE_1))
+                        get("/api/v1/news/category/{categoryCode}",CODE_20_CHARACT))
                 .andExpect(status().isOk());
 
         this.checkJsonResponse(resultActions);
     }
+
+
 
     @Test
     public void between2PublicationDate(@Autowired @Qualifier("news-list-instance") List<News> newsList) throws Exception {
@@ -96,7 +100,7 @@ public class NewsControllerTest {
                 .thenReturn(newsList);
 
         ResultActions resultActions = mockMvc.perform(
-                        get("/news/btw2publicDate")
+                        get("/api/v1/news/between2PublicationDate/{firstPublicationDate}/{secondPublicationDate}",this.NOWTM,this.NOWTM)
                                 .param("first-publication-date", NOWTM.toString())
                                 .param("second-publication-date", NOWTMPLUS5.toString()))
                 .andExpect(status().isOk());
@@ -110,8 +114,7 @@ public class NewsControllerTest {
                 .thenReturn(newsList);
 
         ResultActions resultActions =
-                mockMvc.perform(get("/news")
-                                .param("minor-bound", "5"))
+                mockMvc.perform(get("/api/v1/news/posVoteEqualMajor/{minorBound}","5"))
                         .andExpect(status().isOk());
 
         this.checkJsonResponse(resultActions);
@@ -124,8 +127,7 @@ public class NewsControllerTest {
                 .thenReturn(newsList);
 
         ResultActions resultActions =
-                mockMvc.perform(get("/news")
-                                .param("journalist-code", NewsCtrlConstants.JOURNALIST_CODE_SAMPLE_1))
+                mockMvc.perform(get("/api/v1/news/journalist/{journalistCode}", CODE_20_CHARACT))
                         .andExpect(status().isOk());
 
         this.checkJsonResponse(resultActions);

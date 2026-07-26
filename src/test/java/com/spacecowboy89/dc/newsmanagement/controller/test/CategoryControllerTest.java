@@ -41,8 +41,7 @@ public class CategoryControllerTest {
         when(categoryService.retrieveByCategoryId(any(Integer.class)))
                 .thenReturn(categories);
 
-        this.mockMvc.perform(get("/category")
-                        .param("category-id", String.valueOf(1)))
+        this.mockMvc.perform(get("/api/v1/categories/{categoryCode}", 1))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.size()").value(3))
                 .andExpect(jsonPath("$[0].name").value(CategoryCtrlConstants.NAME_SAMPLE_1))

@@ -18,15 +18,12 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
 @RestController
-@RequestMapping("/category")
+@RequestMapping("/api/v1/categories")
 @Validated
 @Slf4j
 @Tag(name = "category", description = "These endpoints work with category!")
@@ -41,29 +38,28 @@ public class CategoryController {
 
 
     @Operation(
-            summary = "Retrieve subcategory of a specific category!",
-            description = "Retrieve subcategory of a specific category by id.",
-            parameters = @Parameter(name = "categoryId", description = "category id of a category."))
+            summary = "Retrieve categories by a category_id.",
+            description = "Retrieve categories by a specific category_id.")
     @ApiResponses({
             @ApiResponse(
                     responseCode = "200",
-                    description = "Retrieve subcategories with success."),
+                    description = "Categories retrieved successfully."),
             @ApiResponse(
                     responseCode = "400",
-                    description = "Parameter not valid.",
+                    description = "Input not valid.",
                     content = @Content(schema = @Schema(implementation = ErrorResponse.class))),
             @ApiResponse(
                     responseCode = "404",
-                    description = "Subcategories not found",
+                    description = "Categories not found",
                     content = @Content(schema = @Schema(implementation = ErrorResponse.class))),
             @ApiResponse(
                     responseCode = "500",
-                    description = "software error!",
+                    description = "Internal server error!",
                     content = @Content(schema = @Schema(implementation = ErrorResponse.class)))
     })
 
-    @GetMapping(params = "category-id")
-    public ResponseEntity<List<CategoryDto>> getByCategoryId(@RequestParam("category-id") @NotNull @Min(0) int categoryId) {
+    @GetMapping("{categoryId}")
+    public ResponseEntity<List<CategoryDto>> getByCategoryId(@Parameter(description = "category id", example = "1") @PathVariable @NotNull @Min(0) int categoryId) {
         log.info("getByCategoryId endpoint in execution!");
         List<CategoryDto> response = CategoryMapper.INSTANCE.toCategoryDtoList(
                 categoryService.retrieveByCategoryId(categoryId));

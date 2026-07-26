@@ -36,7 +36,7 @@ public class Category extends BaseEntity {
 
     private String name;
 
-    @Column(name = "category_code", nullable = false)
+    @Column(name = "category_code", nullable = false, unique = true)
     @NotNull
     private String categoryCode;
 

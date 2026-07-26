@@ -1,6 +1,7 @@
 package com.spacecowboy89.dc.newsmanagement.service;
 
 import com.spacecowboy89.dc.newsmanagement.exception.NoResFoundInDBException;
+import com.spacecowboy89.dc.newsmanagement.persistence.dao.CategoryDao;
 import com.spacecowboy89.dc.newsmanagement.persistence.dao.JournalistDao;
 import com.spacecowboy89.dc.newsmanagement.persistence.dao.NewsDao;
 import com.spacecowboy89.dc.newsmanagement.persistence.entity.Category;
@@ -17,13 +18,13 @@ import java.util.List;
 @Slf4j
 public class NewsService {
     private final NewsDao newsDao;
-    private final CategoryService categoryService;
+    private final CategoryDao categoryDao;
     private final JournalistDao journalistDao;
 
 
     @Autowired
-    public NewsService(CategoryService categoryService,  NewsDao newsDao, JournalistDao journalistDao) {
-        this.categoryService = categoryService;
+    public NewsService(CategoryDao categoryDao,  NewsDao newsDao, JournalistDao journalistDao) {
+        this.categoryDao = categoryDao;
         this.journalistDao = journalistDao;
         this.newsDao = newsDao;
     }
@@ -77,7 +78,7 @@ public class NewsService {
     public List<News> retrieveByCategory(String categoryCode) {
         log.info("retrieveByCategory function in execution!");
 
-        Category category = categoryService.retrieveByCategoryCode(categoryCode);
+        Category category = categoryDao.findByCategoryCode(categoryCode).get();
         List<News> newsL=category.getNewsList();
         if(newsL.isEmpty())
             throw new NoResFoundInDBException(

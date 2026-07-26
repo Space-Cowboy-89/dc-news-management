@@ -73,7 +73,7 @@
         </createTable>
 
         <!-- category -->
-        <createTable tableName="Category">
+        <createTable tableName="category">
             <column name="id" type="BIGINT" autoIncrement="true">
                 <constraints primaryKey="true"/>
             </column>

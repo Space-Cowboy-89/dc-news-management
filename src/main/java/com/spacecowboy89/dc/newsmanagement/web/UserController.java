@@ -18,17 +18,12 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
 @RestController
-@RequestMapping("/user")
+@RequestMapping("/api/v1/users")
 @Slf4j
 @Validated
 @Tag(name = "User", description = "It offers services about user!")
@@ -44,29 +39,26 @@ public class UserController {
 
     @Operation(
             summary = "Retrieve user by an userCode!",
-            description = "It returns a user by a specific user code!",
-            parameters = @Parameter(
-                    name = "userCode",
-                    description = "An user code.")
+            description = "Retrieve user with a specific userCode!"
     )
     @ApiResponses({
             @ApiResponse(responseCode = "200",
                     description = "User retrieved successfully."),
             @ApiResponse(
                     responseCode = "400",
-                    description = "Input user code not valid.",
+                    description = "Input not valid.",
                     content = @Content(schema = @Schema(implementation = ErrorResponse.class))),
             @ApiResponse(
                     responseCode = "404",
-                    description = "User not present.",
+                    description = "User not found.",
                     content = @Content(schema = @Schema(implementation = ErrorResponse.class))),
             @ApiResponse(
                     responseCode = "500",
-                    description = "Internal software error.",
+                    description = "Internal server error.",
                     content = @Content(schema = @Schema(implementation = ErrorResponse.class)))
     })
-    @GetMapping()
-    public ResponseEntity<UserDto> getUserByUserCode(@RequestParam(value ="user-code") @NotBlank @Size(min = 20, max = 20) String userCode) {
+    @GetMapping("{userCode}")
+    public ResponseEntity<UserDto> getByUserCode(@Parameter(description = "user code", example = "xxxxxxxxxxxxxxxxxxxx") @PathVariable @NotBlank @Size(min = 20, max = 20) String userCode) {
         log.info("getUserByUserCode endpoint in execution!");
 
         UserDto userDto = UserMapper.INSTANCE.toUserDto(userService.retrieveUserByUserCode(userCode));
@@ -80,11 +72,8 @@ public class UserController {
 
 
     @Operation(
-            summary = "Add new user in the system.",
-            description = "It adds new user in the system.",
-            parameters = @Parameter(
-                    name = "userDto",
-                    description = "Parameter allows to insert a User from his values.")
+            summary = "Add a user in the application .",
+            description = "It adds new user in the application."
     )
     @ApiResponses({
             @ApiResponse(
@@ -92,11 +81,11 @@ public class UserController {
                     description = "add user successfully."),
             @ApiResponse(
                     responseCode = "400",
-                    description = "Dto parameter not valid.",
+                    description = "Input not valid.",
                     content = @Content(schema = @Schema(implementation = ErrorResponse.class))),
             @ApiResponse(
                     responseCode = "404",
-                    description = "Value not found.",
+                    description = "Input not found.",
                     content = @Content(schema = @Schema(implementation = ErrorResponse.class))),
             @ApiResponse(
                     responseCode = "500",
@@ -104,7 +93,7 @@ public class UserController {
                     content = @Content(schema = @Schema(implementation = ErrorResponse.class)))
     })
     @PostMapping()
-    public ResponseEntity<UserDto> addUser(@RequestBody UserDto userDto) {
+    public ResponseEntity<UserDto> add(@Parameter(description = "Dto for user creation.") @RequestBody UserDto userDto) {
         log.info("addUser endpoint in execution!");
 
         User user = userService.saveUser(UserMapper.INSTANCE.toUser(userDto));
@@ -118,33 +107,27 @@ public class UserController {
     }
 
 
-    //TODO correggere
-
     @Operation(
-            summary = "Exist an user by an user code. ",
-            description = "Service try to find a user by user code!",
-            parameters = @Parameter(name = "userCode", description = "It's specific user code of a user.")
+            summary = "Verify a user with a specific user code existence.",
+            description = "Verify a user with a specific user code existence."
     )
     @ApiResponses({
-            @ApiResponse(responseCode = "200", description = "User exists by user Code!"),
+            @ApiResponse(responseCode = "200", description = "User present in the application."),
             @ApiResponse(
-                    responseCode = "400",
-                    description = "Input not valid.",
+                    responseCode = "400", description = "Input not valid.",
                     content = @Content(schema = @Schema(implementation = ErrorResponse.class))),
             @ApiResponse(
-                    responseCode = "404",
-                    description = "Value not found.",
+                    responseCode = "404", description = "User not found.",
                     content = @Content(schema = @Schema(implementation = ErrorResponse.class))),
             @ApiResponse(
-                    responseCode = "500",
-                    description = "software internal error.",
+                    responseCode = "500", description = "Internal server error.",
                     content = @Content(schema = @Schema(implementation = ErrorResponse.class))
             )})
-    @GetMapping("/exists")
-    public ResponseEntity<Boolean> existUserByUserCode(@RequestParam(value = "user-code") @NotBlank @Size(min = 20, max = 20) String userCode) {
+    @GetMapping("/exists/{userCode}")
+    public ResponseEntity<Boolean> existByUserCode(@Parameter(description = "user code", example = "xxxxxxxxxxxxxxxxxxxx") @PathVariable @NotBlank @Size(min = 20, max = 20) String userCode) {
         log.info("existUserByUserCode endpoint in execution!");
 
-        boolean ifExist= userService.existUserByUserCode(userCode);
+        boolean ifExist = userService.existUserByUserCode(userCode);
         log.info("existUserByUserCode endpoint executed successfully!");
         return ResponseEntity
                 .ok()
@@ -152,8 +135,22 @@ public class UserController {
                 .body(ifExist);
     }
 
-    @GetMapping("/usersDeleted")
-    public ResponseEntity<List<UserDto>> getUsersDeleted(){
+
+    @Operation(
+            summary = "Retrieve all user in soft-delete.",
+            description = "Retrieve all user in soft-delete."
+    )
+    @ApiResponses({
+            @ApiResponse(responseCode = "200", description = "Resources retrieved successfully"),
+            @ApiResponse(responseCode = "400", description = "Input not valid.",
+                    content = @Content(schema = @Schema(implementation = ErrorResponse.class))),
+            @ApiResponse(responseCode = "404", description = "Users not found.",
+                    content = @Content(schema = @Schema(implementation = ErrorResponse.class))),
+            @ApiResponse(responseCode = "500", description = "Internal server error.",
+                    content = @Content(schema = @Schema(implementation = ErrorResponse.class))
+            )})
+    @GetMapping("/deleted")
+    public ResponseEntity<List<UserDto>> getUsersDeleted() {
         log.info("getUsersDeleted endpoint called");
 
         List<UserDto> userDtos = UserMapper.INSTANCE.toUserDtoList(userService.retrieveUserDeleted());
@@ -161,8 +158,7 @@ public class UserController {
         log.info("getUsersDeleted endpoint executed successfully.");
         return ResponseEntity
                 .ok()
-                .header("","")
+                .header("", "")
                 .body(userDtos);
     }
-
 }

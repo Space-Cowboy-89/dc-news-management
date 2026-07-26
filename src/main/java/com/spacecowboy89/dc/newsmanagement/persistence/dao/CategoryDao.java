@@ -24,4 +24,9 @@ public class CategoryDao {
     public Optional<List<Category>> findByCategoryId(int categoryId){
         return categoryRepo.findByCategoryId(categoryId);
     }
+
+
+    public Optional<Category> persist(Category category){
+        return Optional.of(categoryRepo.save(category));
+    }
 }

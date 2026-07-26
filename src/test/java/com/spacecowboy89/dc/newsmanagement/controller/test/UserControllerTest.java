@@ -29,6 +29,8 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @AutoConfigureMockMvc
 @ActiveProfiles("test")
 public class UserControllerTest {
+    private final String CODE_20_CHARACT;
+
 
     private MockMvc mockMvc;
     @MockitoBean
@@ -41,16 +43,16 @@ public class UserControllerTest {
         this.mockMvc = mockMvc;
         this.userSrv = userSrv;
         this.objectMapper = objectMapper;
+        this.CODE_20_CHARACT = "xxxxxxxxxxxxxxxxxxxx";
     }
 
     //######################## existUserByUserCode() #############################
 
     @Test
     public void existUserByUserCode_200() throws Exception {
-        when(userSrv.existUserByUserCode("ciaopciaopciaopciaop")).thenReturn(true);
+        when(userSrv.existUserByUserCode(CODE_20_CHARACT)).thenReturn(true);
 
-        mockMvc.perform(get("/user/exists")
-                .param("user-code", "ciaopciaopciaopciaop"))
+        mockMvc.perform(get("/api/v1/users/exists/{userCode}", CODE_20_CHARACT))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$").value(true));
     }
@@ -60,8 +62,7 @@ public class UserControllerTest {
     public void existUserByUserCode_400() throws Exception {
         when(userSrv.existUserByUserCode("ciaopciaopciaopciaop")).thenReturn(true);
 
-        mockMvc.perform(get("/user/exists")
-                        .param("user-code", "ciao"))
+        mockMvc.perform(get("/api/v1/users/exists/{userCode}", "xxx"))
                 .andExpect(status().isBadRequest());
     }
 
@@ -69,11 +70,11 @@ public class UserControllerTest {
 //######################## getUsersDeleted() #############################
 
     @Test
-    public void getUsersIsDeleted(@Autowired @Qualifier("users-instance") List<User> usersIsDeleted) throws Exception{
+    public void getUsersIsDeleted(@Autowired @Qualifier("users-instance") List<User> usersIsDeleted) throws Exception {
         when(userSrv.retrieveUserDeleted())
                 .thenReturn(usersIsDeleted);
 
-        mockMvc.perform(get("/user/usersDeleted"))
+        mockMvc.perform(get("/api/v1/users/deleted"))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$[0].name").value(UserCtrlConstants.NAME_SAMPLE_1))
                 .andExpect(jsonPath("$[1].username").value(UserCtrlConstants.USERNAME_SAMPLE_2))
@@ -84,13 +85,13 @@ public class UserControllerTest {
 //######################## addUser() #############################
 
     @Test
-    public void addUser(@Autowired @Qualifier("user-instance") User userCreated) throws Exception{
+    public void addUser(@Autowired @Qualifier("user-instance") User userCreated) throws Exception {
         when(userSrv.saveUser(any(User.class)))
                 .thenReturn(userCreated);
 
-        mockMvc.perform(post("/user")
-                .contentType(MediaType.APPLICATION_JSON)
-                .content(objectMapper.writeValueAsString(new UserDto())))
+        mockMvc.perform(post("/api/v1/users")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(objectMapper.writeValueAsString(new UserDto())))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.name").value((UserCtrlConstants.NAME_SAMPLE_1)))
                 .andExpect(jsonPath("$.surname").value((UserCtrlConstants.SURNAME_SAMPLE_1)));

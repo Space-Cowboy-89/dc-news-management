@@ -31,8 +31,9 @@ public class User extends CredentialEntity {
     private Long id;
 
     public User(String name, String surname, String email,
-                String username, String password) {
+                String username, String password, String userCode) {
         super(name, surname, email, username, password);
+        this.userCode = userCode;
     }
 
     @Column(name = "user_code", nullable = false)

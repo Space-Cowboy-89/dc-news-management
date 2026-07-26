@@ -21,16 +21,13 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.time.LocalDateTime;
 import java.util.List;
 
 @RestController
-@RequestMapping("/news")
+@RequestMapping("/api/v1/news")
 @Slf4j
 @Validated
 @Tag(name = "News", description = "These endpoints work with news!")
@@ -48,8 +45,7 @@ public class NewsController {
             description = "Retrieve main information of last 15 news.")
     @ApiResponses({
             @ApiResponse(
-                    responseCode = "200",
-                    description = "Retrieve main information of last 15 news succesfully."),
+                    responseCode = "200", description = "News retrieved successfully."),
             @ApiResponse(
                     responseCode = "400",
                     description = "Input not valid",
@@ -60,10 +56,10 @@ public class NewsController {
                     content = @Content(schema = @Schema(implementation = ErrorResponse.class))),
             @ApiResponse(
                     responseCode = "500",
-                    description = "Software internal error.",
+                    description = "Internal server error.",
                     content = @Content(schema = @Schema(implementation = ErrorResponse.class)))})
-    @GetMapping(value = "/last-15-main-Info-News")
-    public ResponseEntity<List<NewsInfoDto>> getLastMainInfoNews() {
+    @GetMapping(value = "/last-15-main-Info")
+    public ResponseEntity<List<NewsInfoDto>> getLast15MainInfo() {
         log.info("lastMainInfoNews endpoint in execution!");
 
         List<NewsInfoDto> newsInfoDtoList = NewsMapper.INSTANCE.toNewsInfoDtoList(
@@ -78,28 +74,26 @@ public class NewsController {
 
 
     @Operation(
-            summary = "It Retrieves a specific news.",
-            description = "It Retrieves news by a specific newsCode.",
-            parameters = @Parameter(name = "newsCode", description = "It's a univoque code value of a news.")
-    )
+            summary = "Retrieve news by news code..",
+            description = "Retrieve news by news code.")
     @ApiResponses({
             @ApiResponse(
                     responseCode = "200",
-                    description = "News retrieved with success."),
+                    description = "News retrieved successfully."),
             @ApiResponse(
                     responseCode = "400",
                     description = "Inputs are not valid.",
                     content = @Content(schema = @Schema(implementation = ErrorResponse.class))),
             @ApiResponse(
                     responseCode = "404",
-                    description = " News doesn't found.",
+                    description = " News not found.",
                     content = @Content(schema = @Schema(implementation = ErrorResponse.class))),
             @ApiResponse(
                     responseCode = "500",
-                    description = "Software internal error.",
+                    description = "Internal Server error.",
                     content = @Content(schema = @Schema(implementation = ErrorResponse.class)))})
-    @GetMapping(params = "news-code")
-    public ResponseEntity<NewsDto> getNewsByNewsCode(@RequestParam(value = "news-code") @NotBlank @Size(min = 20, max = 20) String newsCode) {
+    @GetMapping("{newsCode}")
+    public ResponseEntity<NewsDto> getByNewsCode(@Parameter(description = "news code", example = "xxx") @PathVariable @NotBlank @Size(min = 20, max = 20) String newsCode) {
         log.info("getNewsByNewsCode endpoint in execution!");
 
         NewsDto newsDto = NewsMapper.INSTANCE.toNewsDto(newsService.retrieveByNewsCode(newsCode));
@@ -113,27 +107,27 @@ public class NewsController {
 
 
     @Operation(
-            summary = "Retrevies last 15 news.",
-            description = "Retrevies last 15 news.")
+            summary = "Retrieve last 15 news.",
+            description = "Retrieve last 15 news.")
     @ApiResponses({
             @ApiResponse(
                     responseCode = "200",
-                    description = "Retrieve last 15 news successfuly"),
+                    description = "News retrieved successfully."),
             @ApiResponse(
                     responseCode = "400",
-                    description = "Something went wrong.",
+                    description = "Input are not valid",
                     content = @Content(schema = @Schema(implementation = ErrorResponse.class))),
             @ApiResponse(
                     responseCode = "404",
-                    description = "last 15 news doesn't found!",
+                    description = "News not found!",
                     content = @Content(schema = @Schema(implementation = ErrorResponse.class))),
             @ApiResponse(
                     responseCode = "500",
-                    description = "Software internal error!",
+                    description = "Internal server error!",
                     content = @Content(schema = @Schema(implementation = ErrorResponse.class)))
     })
-    @GetMapping("/last-15-news")
-    public ResponseEntity<List<NewsDto>> getLast15News() {
+    @GetMapping("/last-15")
+    public ResponseEntity<List<NewsDto>> getLast15() {
         log.info("getLast15News endpoint in execution!");
         List<NewsDto> newsDtoList = NewsMapper.INSTANCE.toNewsDtoList(newsService.retrieveLast15News());
 
@@ -146,15 +140,18 @@ public class NewsController {
 
 
     @Operation(
-            summary = "Retrevies news by categorylast 15 news.",
-            description = "Retrevies news by categorylast 15 news.")
+            summary = "Retrieve news by category.",
+            description = "Retrieve news by category.")
     @ApiResponses({
-            @ApiResponse(responseCode = "200", description = "Retrieve last 15 news successfuly"),
-            @ApiResponse(responseCode = "400", description = ""),
-            @ApiResponse(responseCode = "404", description = "last 15 news doesn't found!")
+            @ApiResponse(responseCode = "200", description = "News retrieved successfully."),
+            @ApiResponse(responseCode = "400", description = "Input not valid."),
+            @ApiResponse(responseCode = "404", description = "News not found."),
+            @ApiResponse(responseCode = "500", description = "Internal server error!")
     })
-    @GetMapping(path = "/category-ccc")
-    public ResponseEntity<List<NewsDto>> getNewsByCategory(@RequestParam("category-code") @NotBlank @Size(min = 20, max = 20) String categoryCode) {
+    @GetMapping("/category/{categoryCode}")
+    public ResponseEntity<List<NewsDto>> getByCategory(
+            @Parameter(description = "category_code", example = "xxx")
+            @PathVariable @NotBlank @Size(min = 20, max = 20) String categoryCode) {
         log.info("getNewsByCategory endpoint in execution!");
 
         List<NewsDto> newsDtoList = NewsMapper.INSTANCE.toNewsDtoList(newsService.retrieveByCategory(categoryCode));
@@ -168,16 +165,18 @@ public class NewsController {
 
 
     @Operation(
-            summary = "Retrevies news between two date!.",
-            description = "Retrevies news between two date!")
+            summary = "Retrieve news pubblicated between two publication date.",
+            description = "Retrieve news pubblicated between two publication date.")
     @ApiResponses({
-            @ApiResponse(responseCode = "200", description = "Retrieve news between two date with success!"),
-            @ApiResponse(responseCode = "400", description = ""),
-            @ApiResponse(responseCode = "404", description = "last 15 news doesn't found!")
+            @ApiResponse(responseCode = "200", description = "News retrieved successfully."),
+            @ApiResponse(responseCode = "400", description = "Input not valid."),
+            @ApiResponse(responseCode = "404", description = "News not found."),
+            @ApiResponse(responseCode = "500", description = "Internal server error.")
     })
-    @GetMapping("btw2publicDate")
-    public ResponseEntity<List<NewsDto>> between2PublicationDate(@RequestParam(value = "first-publication-date") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME) @NotNull LocalDateTime firstPublicationDate,
-                                                                 @RequestParam(value = "second-publication-date") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME) @NotNull LocalDateTime secondPublicationDate) {
+    @GetMapping("/between2PublicationDate/{firstPublicationDate}/{secondPublicationDate}")
+    public ResponseEntity<List<NewsDto>> between2PublicationDate(
+            @Parameter(description = "lower limit date", example = "2025-10-14 08:48:23.000") @PathVariable @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME) @NotNull LocalDateTime firstPublicationDate,
+            @Parameter(description = "upper limit date.", example = "2025-10-14 08:48:23.000") @PathVariable @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME) @NotNull LocalDateTime secondPublicationDate) {
         log.info("between2PublicationDate endpoint in execution!");
 
         List<NewsDto> newsDtoList = NewsMapper.INSTANCE.toNewsDtoList(newsService.retrieveByBeetwen2PublicationDate(firstPublicationDate, secondPublicationDate));
@@ -191,15 +190,19 @@ public class NewsController {
 
 
     @Operation(
-            summary = "Retrevies news by a journalist!.",
-            description = "Retrevies news by a journalist. He's rappresented by journalist_code!")
+            summary = "Retrieve news written by a journalist.",
+            description = "Retrieve news written by a journalist.")
     @ApiResponses({
-            @ApiResponse(responseCode = "200", description = "Retrieve news by a journalist with success!"),
-            @ApiResponse(responseCode = "400", description = ""),
-            @ApiResponse(responseCode = "404", description = "There aren't news of this journalist!")
+            @ApiResponse(responseCode = "200", description = "News retrieved successfully!"),
+            @ApiResponse(responseCode = "400", description = "Input not valid."),
+            @ApiResponse(responseCode = "404", description = "News not found."),
+            @ApiResponse(responseCode = "500", description = "Internal server error.")
+
     })
-    @GetMapping(params = "journalist-code")
-    public ResponseEntity<List<NewsDto>> getByJournalist(@RequestParam(value = "journalist-code") @NotBlank @Size(min = 20, max = 30) String journalistCode) {
+    @GetMapping({"journalist/{journalistCode}"})
+    public ResponseEntity<List<NewsDto>> getByJournalist(
+            @Parameter(description = "journalist code", example = "xxxxxxxxxxxxxxxxxxxx")
+            @PathVariable @NotBlank @Size(min = 20, max = 30) String journalistCode) {
         log.info("getByJournalist endpoint in execution!");
 
         List<NewsDto> newsDtoList = NewsMapper.INSTANCE.toNewsDtoList(
@@ -213,8 +216,19 @@ public class NewsController {
     }
 
 
-    @GetMapping(params = "minor-bound")
-    public ResponseEntity<List<NewsDto>> getPosVtEqMaj(@RequestParam(value = "minor-bound") @Min(0) int minorBound) {
+    @Operation(
+            summary = "Retrieve news with a positive vote greater than a number",
+            description = "Retrieve news with a positive vote greater than a number.")
+    @ApiResponses({
+            @ApiResponse(responseCode = "200", description = "News retrieved successfully."),
+            @ApiResponse(responseCode = "400", description = "Input not valid."),
+            @ApiResponse(responseCode = "404", description = "News not found."),
+            @ApiResponse(responseCode = "500", description = "Internal server error.")
+
+    })
+    @GetMapping("/posVoteEqualMajor/{minorBound}")
+    public ResponseEntity<List<NewsDto>> getPosVtEqMaj(
+            @Parameter(description = "minor bound", example = "15") @PathVariable @Min(0) int minorBound) {
         log.info("getByPosVoteEqMaj in execution");
 
         List<NewsDto> newsDtos = NewsMapper.INSTANCE.toNewsDtoList(
@@ -225,6 +239,22 @@ public class NewsController {
                 .ok()
                 .header("", "")
                 .body(newsDtos);
+    }
+
+
+    @Operation(
+            summary = "Retrieve news with a specific tag.",
+            description = "Retrieve news with a specific tag.")
+    @ApiResponses({
+            @ApiResponse(responseCode = "200", description = "News retrieved successfully."),
+            @ApiResponse(responseCode = "400", description = "Input not valid."),
+            @ApiResponse(responseCode = "404", description = "News not found."),
+            @ApiResponse(responseCode = "500", description = "Internal server error.")
+
+    })
+    @GetMapping("/tag/{tagId}")
+    public ResponseEntity<List<NewsDto>> getByTag(@Parameter(description = "tag id", example = "1") @PathVariable @Min(1) int tagId){
+        return null;
     }
 }
 

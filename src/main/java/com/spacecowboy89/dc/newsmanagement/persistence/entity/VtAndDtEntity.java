@@ -19,7 +19,7 @@ import java.time.LocalDateTime;
 @NoArgsConstructor
 public class VtAndDtEntity extends BaseEntity {
 
-    @Size(min = 30, max = 30)
+    @Size(max = 30)
     @Column(nullable = false)
     @NotNull
     private String title;

@@ -33,4 +33,8 @@ public class NewsDao {
     public Optional<List<News>> findByPositiveVtEqMaj (int minorBound){
         return Optional.of(newsRepo.findByVoteEqMaj(minorBound));
     }
+
+    public Optional<News> persist(News news){
+        return Optional.ofNullable(newsRepo.save(news));
+    }
 }
