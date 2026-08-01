@@ -1,7 +1,7 @@
-package com.spacecowboy89.dc.newsmanagement.controller.test;
+package com.spacecowboy89.dc.newsmanagement.unittest.controller;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.spacecowboy89.dc.newsmanagement.controller.constant.UserCtrlConstants;
+import com.spacecowboy89.dc.newsmanagement.utility.constant.UserCtrlConstants;
 import com.spacecowboy89.dc.newsmanagement.dto.UserDto;
 import com.spacecowboy89.dc.newsmanagement.persistence.entity.User;
 import com.spacecowboy89.dc.newsmanagement.service.UserService;

@@ -1,4 +1,4 @@
-package com.spacecowboy89.dc.newsmanagement.controller.constant;
+package com.spacecowboy89.dc.newsmanagement.utility.constant;
 
 public class CategoryCtrlConstants {
     public final static String NAME_SAMPLE_1 = "name_sample_1";

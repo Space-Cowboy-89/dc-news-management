@@ -1,4 +1,4 @@
-package com.spacecowboy89.dc.newsmanagement.controller.constant;
+package com.spacecowboy89.dc.newsmanagement.utility.constant;
 
 import java.time.LocalDateTime;
 

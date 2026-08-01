@@ -37,4 +37,8 @@ public class NewsDao {
     public Optional<News> persist(News news){
         return Optional.ofNullable(newsRepo.save(news));
     }
+
+    public Optional<List<News>> persistAll(List<News> newsList){
+        return Optional.ofNullable(newsRepo.saveAll(newsList));
+    }
 }

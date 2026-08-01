@@ -1,16 +1,15 @@
-package com.spacecowboy89.dc.newsmanagement.controller.factory;
+package com.spacecowboy89.dc.newsmanagement.utility.factory;
 
-import com.spacecowboy89.dc.newsmanagement.controller.constant.CategoryCtrlConstants;
-import com.spacecowboy89.dc.newsmanagement.controller.constant.JournalistCtrlConstants;
-import com.spacecowboy89.dc.newsmanagement.controller.constant.NewsCtrlConstants;
-import com.spacecowboy89.dc.newsmanagement.controller.constant.UserCtrlConstants;
+import com.spacecowboy89.dc.newsmanagement.utility.constant.CategoryCtrlConstants;
+import com.spacecowboy89.dc.newsmanagement.utility.constant.JournalistCtrlConstants;
+import com.spacecowboy89.dc.newsmanagement.utility.constant.NewsCtrlConstants;
+import com.spacecowboy89.dc.newsmanagement.utility.constant.UserCtrlConstants;
 import com.spacecowboy89.dc.newsmanagement.persistence.entity.Category;
 import com.spacecowboy89.dc.newsmanagement.persistence.entity.Journalist;
 import com.spacecowboy89.dc.newsmanagement.persistence.entity.News;
 import com.spacecowboy89.dc.newsmanagement.persistence.entity.User;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.stereotype.Component;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -23,6 +22,7 @@ public class CtrlTestFactory {
         return new News(NewsCtrlConstants.NEWSCODE_SAMPLE_1,
                 NewsCtrlConstants.TITLE_SAMPLE_1,
                 NewsCtrlConstants.SUMMARY_SAMPLE_1);
+
     }
 
     @Bean("news-list-instance")
@@ -134,7 +134,6 @@ public class CtrlTestFactory {
     }
 
 
-
     @Bean("journalist-instance")
     public Journalist getJournalist() {
         return new Journalist(
@@ -146,5 +145,4 @@ public class CtrlTestFactory {
                 JournalistCtrlConstants.JOURNALIST_CODE_SAMPLE_1
         );
     }
-
 }

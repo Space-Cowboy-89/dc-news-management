@@ -1,7 +1,7 @@
 package com.spacecowboy89.dc.newsmanagement.integration.dao;
 
 
-import com.spacecowboy89.dc.newsmanagement.controller.factory.CtrlTestFactory;
+import com.spacecowboy89.dc.newsmanagement.utility.factory.CtrlTestFactory;
 import com.spacecowboy89.dc.newsmanagement.persistence.dao.UserDao;
 import com.spacecowboy89.dc.newsmanagement.persistence.entity.User;
 import org.junit.jupiter.api.Test;
@@ -35,6 +35,8 @@ public class UserDaoTest {
         assert userPersisted.getName() == userFinded.getName();
         assert userPersisted.getSurname() == userFinded.getSurname();
         assert userPersisted.getEmail() == userFinded.getEmail();
+
+        user.setId(null);
     }
 
     @Test
@@ -46,6 +48,8 @@ public class UserDaoTest {
         assert userPersisted.getName() == userFinded.getName();
         assert userPersisted.getSurname() == userFinded.getSurname();
         assert userPersisted.getEmail() == userFinded.getEmail();
+
+        user.setId(null);
     }
 
     @Test
@@ -55,6 +59,8 @@ public class UserDaoTest {
         boolean isExists = userDao.existByUserCode(user.getUserCode()).get();
 
         assert isExists == true;
+
+        user.setId(null);
     }
 
     @Test
@@ -68,6 +74,7 @@ public class UserDaoTest {
         assert userPersisted.getName() == userFinded.getName();
         assert userPersisted.getSurname() == userFinded.getSurname();
 
+        userParam.setId(null);
     }
 
 

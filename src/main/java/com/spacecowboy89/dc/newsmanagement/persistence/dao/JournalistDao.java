@@ -20,4 +20,8 @@ public class JournalistDao {
     public Optional<Journalist> findById(String journalistCode){
         return  journalistRepo.findById(journalistCode);
     }
+
+    public Optional<Journalist> persist(Journalist journalist){
+        return Optional.ofNullable(journalistRepo.save(journalist));
+    }
 }

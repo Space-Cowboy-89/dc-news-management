@@ -1,7 +1,7 @@
-package com.spacecowboy89.dc.newsmanagement.controller.test;
+package com.spacecowboy89.dc.newsmanagement.unittest.controller;
 
 
-import com.spacecowboy89.dc.newsmanagement.controller.constant.NewsCtrlConstants;
+import com.spacecowboy89.dc.newsmanagement.utility.constant.NewsCtrlConstants;
 import com.spacecowboy89.dc.newsmanagement.persistence.entity.News;
 import com.spacecowboy89.dc.newsmanagement.service.NewsService;
 import org.junit.jupiter.api.Test;
