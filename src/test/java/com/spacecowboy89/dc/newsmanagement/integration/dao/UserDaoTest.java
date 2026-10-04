@@ -28,6 +28,15 @@ public class UserDaoTest {
 
     @Test
     public void persistTest(@Autowired @Qualifier("user-instance") User user) {
+        this.persistAndFindByIdTest(user);
+    }
+
+    @Test
+    public void findByIdTest(@Autowired @Qualifier("user-instance") User user) {
+        this.persistAndFindByIdTest(user);
+    }
+
+    private void persistAndFindByIdTest(User user) {
         User userPersisted = userDao.persistUser(user).get();
 
         User userFinded = userDao.findUserByUserCode(userPersisted.getUserCode()).get();
@@ -62,6 +71,7 @@ public class UserDaoTest {
 
         user.setId(null);
     }
+
 
     @Test
     public void findByDeletedAtIsNotNullTest(@Autowired @Qualifier("user-instance") User userParam) {

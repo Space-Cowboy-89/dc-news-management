@@ -34,4 +34,8 @@ public class UserDao {
     public Optional<List<User>> findByDeletedAtIsNotNull(){
         return userRepo.findByDeletedAtIsNotNull();
     }
+
+    public Optional<User> findById(Long id){
+        return userRepo.findById(id);
+    }
 }

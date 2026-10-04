@@ -12,6 +12,7 @@ import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.tags.Tag;
+import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Size;
 import lombok.extern.slf4j.Slf4j;
@@ -57,7 +58,7 @@ public class UserController {
                     description = "Internal server error.",
                     content = @Content(schema = @Schema(implementation = ErrorResponse.class)))
     })
-    @GetMapping("{userCode}")
+    @GetMapping("userCode/{userCode}")
     public ResponseEntity<UserDto> getByUserCode(@Parameter(description = "user code", example = "xxxxxxxxxxxxxxxxxxxx") @PathVariable @NotBlank @Size(min = 20, max = 20) String userCode) {
         log.info("getUserByUserCode endpoint in execution!");
 
@@ -160,5 +161,34 @@ public class UserController {
                 .ok()
                 .header("", "")
                 .body(userDtos);
+    }
+
+
+    @Operation(
+            summary = "Retrieve user by id.",
+            description = "Retrieve user by id."
+    )
+    @ApiResponses({
+            @ApiResponse(responseCode = "200", description = "Resource retrieved successfully"),
+            @ApiResponse(responseCode = "400", description = "the request is malformed.",
+                    content = @Content(schema = @Schema(implementation = ErrorResponse.class))),
+            @ApiResponse(responseCode = "404", description = "Users not found.",
+                    content = @Content(schema = @Schema(implementation = ErrorResponse.class))),
+            @ApiResponse(responseCode = "422", description = "Input not valid.",
+                    content = @Content(schema = @Schema(implementation = ErrorResponse.class))),
+            @ApiResponse(responseCode = "500", description = "Internal server error.",
+                    content = @Content(schema = @Schema(implementation = ErrorResponse.class))
+            )})
+    @GetMapping("/{id}")
+    public ResponseEntity<UserDto> getById(@Parameter(description = "user id", example = "5") @PathVariable @Min(1) long id) {
+        log.info("getById endpoint called");
+
+        UserDto userReturned = UserMapper.INSTANCE.toUserDto(userService.retrieveById(id));
+
+        log.info("getById endpoint executed successfully.");
+        return ResponseEntity
+                .ok()
+                .header("", "")
+                .body(userReturned);
     }
 }

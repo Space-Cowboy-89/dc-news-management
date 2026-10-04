@@ -46,6 +46,18 @@ public class UserControllerTest {
         this.CODE_20_CHARACT = "xxxxxxxxxxxxxxxxxxxx";
     }
 
+    //######################## getById() #############################
+
+    @Test
+    public void getByIdTest(@Autowired @Qualifier ("user-instance") User userRetrieved) throws Exception {
+        when(userSrv.retrieveById(2l)).thenReturn(userRetrieved);
+
+        mockMvc.perform(get("/api/v1/users/{id}", 2l))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.name").value((UserCtrlConstants.NAME_SAMPLE_1)))
+                .andExpect(jsonPath("$.surname").value((UserCtrlConstants.SURNAME_SAMPLE_1)));
+    }
+
     //######################## existUserByUserCode() #############################
 
     @Test

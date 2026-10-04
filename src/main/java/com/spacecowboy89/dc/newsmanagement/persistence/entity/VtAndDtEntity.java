@@ -48,9 +48,11 @@ public class VtAndDtEntity extends BaseEntity {
         this.publicationDate = publicationDate;
     }
 
-    public VtAndDtEntity(String title, String summary) {
+    public VtAndDtEntity(String title, String summary, int positiveVote,int negativeVote) {
         this.title = title;
         this.summary = summary;
+        this.positiveVote = positiveVote;
+        this.negativeVote= negativeVote;
     }
 
 

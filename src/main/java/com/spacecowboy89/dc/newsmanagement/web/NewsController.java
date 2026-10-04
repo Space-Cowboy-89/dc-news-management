@@ -240,21 +240,5 @@ public class NewsController {
                 .header("", "")
                 .body(newsDtos);
     }
-
-
-    @Operation(
-            summary = "Retrieve news with a specific tag.",
-            description = "Retrieve news with a specific tag.")
-    @ApiResponses({
-            @ApiResponse(responseCode = "200", description = "News retrieved successfully."),
-            @ApiResponse(responseCode = "400", description = "Input not valid."),
-            @ApiResponse(responseCode = "404", description = "News not found."),
-            @ApiResponse(responseCode = "500", description = "Internal server error.")
-
-    })
-    @GetMapping("/tag/{tagId}")
-    public ResponseEntity<List<NewsDto>> getByTag(@Parameter(description = "tag id", example = "1") @PathVariable @Min(1) int tagId){
-        return null;
-    }
 }
 

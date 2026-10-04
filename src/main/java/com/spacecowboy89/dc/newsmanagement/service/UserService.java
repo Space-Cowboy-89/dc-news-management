@@ -11,6 +11,7 @@ import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.Optional;
 
 @Service
 @Slf4j
@@ -74,5 +75,19 @@ public class UserService {
 
         log.info("retrieveUserDeleted function executed successfully.");
         return users;
+    }
+
+    public User retrieveById(Long id){
+        log.info("retrieveById function in execution.");
+
+        User userRetrieved = userDao.findById(id)
+                .orElseThrow(
+                        ()-> new NoResFoundInDBException(
+                                "User with id \""+id+"\" not present.",
+                                LocalDateTime.now())
+                );
+
+        log.info("retrieveById function executed successfully.");
+        return userRetrieved;
     }
 }

@@ -68,8 +68,9 @@ public class News extends VtAndDtEntity {
         this.newsCode = newsCode;
     }
 
-    public News(String newsCode, String title, String summary) {
-        super(title, summary);
+    public News(String newsCode, String title, String summary,
+                int positiveVote,int negativeVote) {
+        super(title, summary,positiveVote,negativeVote);
         this.newsCode = newsCode;
     }
 }
